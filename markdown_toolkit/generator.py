@@ -118,3 +118,13 @@ class MarkdownBuilder:
         """Add horizontal bar to document."""
         with Padding(self):
             self.buffer.append("#")
+
+    def warning(self, message: str):
+        """Add warning block to document."""
+        with Padding(self):
+            self.buffer.append(f"> **WARNING**: _{message}_")
+
+    def info(self, message: str):
+        """Add info block to document."""
+        with Padding(self):
+            self.buffer.append(f"> **INFO**: _{message}_")

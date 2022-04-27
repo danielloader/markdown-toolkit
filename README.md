@@ -1,4 +1,7 @@
 # Markdown Toolkit
+> **INFO**: _This readme is dynamically generated via `generate_readme.py`._
+
+
 A python library for creating markdown.
 
 
