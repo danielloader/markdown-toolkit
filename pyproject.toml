@@ -2,6 +2,14 @@
 name = "markdown-toolkit"
 version = "0.1.0"
 description = "Utility package for programmatically creating markdown documents"
+license = "MIT"
+readme = "README.md"
+keywords = ["markdown"]
+homepage = "https://github.com/danielloader/markdown-toolkit/"
+repository = "https://github.com/danielloader/markdown-toolkit/"
+include = [
+    "LICENSE",
+]
 authors = ["Daniel Loader <hello@danielloader.uk>"]
 
 [tool.poetry.dependencies]
