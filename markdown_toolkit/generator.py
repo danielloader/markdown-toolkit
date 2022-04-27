@@ -1,5 +1,14 @@
 from __future__ import annotations
 
+from textwrap import dedent
+
+
+def from_file(path, start=None, end=None):
+    with open(path, "r", encoding="UTF-8") as file:
+        lines = file.readlines()
+    lines_needed = lines[start:end]
+    return "".join(lines_needed)
+
 
 class Padding:
     """Add newlines around objects."""
@@ -17,6 +26,20 @@ class Padding:
         for _ in range(self.suf):
             self.document.newline()
 
+
+class DynamicList:
+    """Adds dynamic list you can add to, finalised on exiting block."""
+    def __init__(self, document: MarkdownBuilder, ordered=False):
+        self.document = document
+        self.ordered = ordered
+        self.list = []
+
+    def __enter__(self):
+        return self.list
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        if self.document.list:
+            self.document.list(self.list, ordered=self.ordered)
 
 class Heading:
     """Add nested Heading to document."""
@@ -64,7 +87,7 @@ class MarkdownBuilder:
     def paragraph(self, text: str):
         """Add pargraph to document."""
         with Padding(self):
-            self.text(text)
+            self.text(dedent(text))
 
     def image(self, title: str, uri: str):
         """Add an image to the document."""
@@ -78,8 +101,20 @@ class MarkdownBuilder:
         self.buffer.append(link)
 
     def list(self, items, ordered=False):
-        # with Padding(self):
+        """Add lists to document."""
         list_seperator = "1." if ordered else "*"
         list_items = [f"{list_seperator} {item}" for item in items]
-        self.buffer.extend(list_items)
+        with Padding(self):
+            self.buffer.extend(list_items)
 
+    def code(self, code, language=""):
+        """Add codeblock to document."""
+        with Padding(self, pre=1, suf=1):
+            self.buffer.append(f"```{language}")
+            self.buffer.append(dedent(code))
+            self.buffer.append("```")
+
+    def horizontal_bar(self):
+        """Add horizontal bar to document."""
+        with Padding(self):
+            self.buffer.append("#")
