@@ -1,8 +1,14 @@
-from markdown_toolkit import MarkdownBuilder
-from markdown_toolkit.helpers import module_block
+import requests
+import json
+from markdown_toolkit import MarkdownInjector, MarkdownBuilder
 
-with MarkdownBuilder() as doc:
-    module_block(doc, "example_module")
 
-with open("document.md", "w", encoding="UTF-8") as file:
-    doc.write(file)
+with MarkdownInjector(path="TEST.md", anchor="#example") as block, MarkdownBuilder() as doc:
+    url = "https://random-data-api.com/api/users/random_user"
+    random_user = json.dumps(
+        requests.get(url).json(),
+        indent=2
+    )
+    doc.info(f"Retrieved from {url}.")
+    doc.code(source=random_user, language="json")
+    doc.write(block)

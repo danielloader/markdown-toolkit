@@ -3,7 +3,7 @@ from __future__ import annotations
 import importlib
 from typing import Optional, List, Callable, Any, get_type_hints
 from inspect import isclass, isfunction
-from .generator import Heading, MarkdownBuilder
+from .generator import MarkdownBuilder
 
 
 def _atribute_labeller(object: Callable, attribute_name: str, attribute_value: Any) -> str:
