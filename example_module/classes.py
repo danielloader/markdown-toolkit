@@ -1,11 +1,21 @@
 """Classes module."""
+from typing import Callable
 
 
 class ExampleClass:
     """String casting utility class."""
-    TOPLEVEL_VALUE: int = 1
+
     ATTRIBUTE_DICT: dict = {"example": "value"}
-    
+    TOPLEVEL_VALUE: int = 1
+
+    def no_returns(self, x: Callable):
+        """Function with no returns, runs locally.
+
+        Args:
+            x (Callable): Any callable that takes a single integer value.
+        """
+        x(1)
+
     @staticmethod
     def to_int(string: str) -> int:
         """Convert string to integer.

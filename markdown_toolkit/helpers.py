@@ -1,18 +1,14 @@
 """Helper functions."""
 from __future__ import annotations
+
 import importlib
-from typing import Optional, List, Callable, Any, get_type_hints
-from inspect import isclass, isfunction
+import inspect
+
+from docstring_parser import parse
+
 from .generator import MarkdownBuilder
 
-import inspect
-import importlib
 
-
-
-
-
-from docstring_parser import parse 
 class ClassDocBlock:
     def __init__(self, doc: MarkdownBuilder, module: str, name: str):
 
@@ -53,13 +49,13 @@ class ClassDocBlock:
             self.doc.horizontal_bar()
 
     def _render_attribute(self, obj, attr, parsed):
-        print(parsed.__dict__)
         return f"**{attr}** _{getattr(obj, attr).__class__.__name__}_ `{getattr(obj, attr)}`"
 
     def render_class(self, obj):
         doc = self.doc
         attributes = []
         methods = []
+        doc.text.paragraph(inspect.getdoc(obj))
         for attr in [a for a in dir(obj) if not a.startswith("__")]:
             doc_string = inspect.getdoc(getattr(obj, attr))
             if doc_string:
@@ -76,4 +72,3 @@ class ClassDocBlock:
         if methods:
             for method in methods:
                 self._render_method(*method)
-            

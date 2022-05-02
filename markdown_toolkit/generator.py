@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from textwrap import dedent
+import logging
 import re
 from contextlib import contextmanager
-import logging
+from textwrap import dedent
 
 logger = logging.Logger(__name__)
 
@@ -74,7 +74,7 @@ class MarkdownList:
 
         def add(self, item: str):
             self.buffer.append(f"* {item}")
-        
+
         def __enter__(self):
             return self
 

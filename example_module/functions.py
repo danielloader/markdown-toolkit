@@ -4,8 +4,8 @@ from typing import Union
 
 
 def add(
-        first_number: Union[int, float],
-        second_number: Union[int, float]) -> Union[int, float]:
+    first_number: Union[int, float], second_number: Union[int, float]
+) -> Union[int, float]:
     """Addition of numbers.
 
     Args:
@@ -19,8 +19,8 @@ def add(
 
 
 def subtract(
-        first_number: Union[int, float],
-        second_number: Union[int, float]) -> Union[int, float]:
+    first_number: Union[int, float], second_number: Union[int, float]
+) -> Union[int, float]:
     """Subtraction of numbers.
 
     Args:

@@ -6,9 +6,4 @@ from .functions import add, subtract
 
 MODULE_CONSTANT: str = "foo"
 
-__all__ = [
-    "ExampleClass",
-    "add",
-    "subtract",
-    "MODULE_CONSTANT"
-]
+__all__ = ["ExampleClass", "add", "subtract", "MODULE_CONSTANT"]
