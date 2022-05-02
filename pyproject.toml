@@ -15,6 +15,9 @@ authors = ["Daniel Loader <hello@danielloader.uk>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.18.1"
+
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 
