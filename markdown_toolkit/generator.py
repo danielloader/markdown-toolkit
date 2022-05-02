@@ -4,6 +4,7 @@ from textwrap import dedent
 import re
 from contextlib import contextmanager
 import logging
+
 logger = logging.Logger(__name__)
 
 
@@ -21,11 +22,12 @@ class MarkdownInjector:
         matching_line_numbers = []
         for idx, line in enumerate(self.file_buffer):
             if line.startswith("<!--"):
-                if re.match(rf'^<!--.*(markdown-toolkit):({anchor}*).*-->$', line):
+                if re.match(rf"^<!--.*(markdown-toolkit):({anchor}*).*-->$", line):
                     matching_line_numbers.append(idx)
         if len(matching_line_numbers) != 2:
             raise ValueError(
-                "More than two anchors of the same id found in source document")
+                "More than two anchors of the same id found in source document"
+            )
         self.start = min(matching_line_numbers) + 1
         self.end = max(matching_line_numbers)
 
@@ -33,7 +35,6 @@ class MarkdownInjector:
         print(lines)
         self.new_document = self.partial[0] + lines + self.partial[1]
         print(self.new_document)
-
 
     @property
     def start_line(self):
@@ -48,8 +49,7 @@ class MarkdownInjector:
             self.file_buffer: list[str] = file.readlines()
             print(self.file_buffer)
         self.find_anchors(self.anchor)
-        self.partial = (
-            self.file_buffer[:self.start], self.file_buffer[self.end:])
+        self.partial = (self.file_buffer[: self.start], self.file_buffer[self.end :])
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
@@ -66,7 +66,30 @@ def from_file(path, start=None, end=None):
     return "".join(lines_needed)
 
 
+class MarkdownList:
+    class UnorderedList:
+        def __init__(self, document: MarkdownBuilder):
+            self.buffer = []
+            self.doc = document
 
+        def add(self, item: str):
+            self.buffer.append(f"* {item}")
+        
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc_value, exc_traceback):
+            if self.buffer:
+                with self.doc.padding():
+                    for item in self.buffer:
+                        self.doc._buffer.append(item)
+                        self.doc.newline()
+
+    def __init__(self, document: MarkdownBuilder):
+        self.doc = document
+
+    def unordered_list(self):
+        return self.UnorderedList(self.doc)
 
 
 class MarkdownText:
@@ -89,16 +112,16 @@ class MarkdownText:
 
     def important(self, text: str):
         self.doc._buffer.append(f"***{text}***")
-    
-    def strikethrough(self, text:str):
+
+    def strikethrough(self, text: str):
         self.doc._buffer.append(f"~~{text}~~")
 
     def quote(self, text: str):
-        self.doc._buffer.append(f"> {text}")    
+        self.doc._buffer.append(f"> {text}")
 
     def paragraph(self, text: str, padding: int = 1):
         with self.doc.padding(after=padding):
-            self.raw(dedent(text))
+            self.raw(dedent(str(text)))
             self.doc.newline()
 
 
@@ -129,7 +152,7 @@ class MarkdownBuilder:
         self._buffer.append(self._newline_character)
 
     @contextmanager
-    def padding(self, before:int=0, after:int=1):
+    def padding(self, before: int = 0, after: int = 1):
         for _ in range(before):
             self.newline()
         yield
@@ -140,7 +163,10 @@ class MarkdownBuilder:
     def heading(self, text):
         self._heading_level = self._heading_level + 1
         if self._heading_level > 6:
-            logger.warning("Header depth (%s) greater than 6 - This can render incorrectly.", self._heading_level)
+            logger.warning(
+                "Header depth (%s) greater than 6 - This can render incorrectly.",
+                self._heading_level,
+            )
         self.text.heading(text, self._heading_level)
         yield
         self._heading_level = self._heading_level - 1
@@ -161,14 +187,16 @@ class MarkdownBuilder:
         link = f"[{title}]({uri})"
         self._buffer.append(link)
 
-    def list(self, items, ordered=False):
-        """Add lists to document."""
-        list_seperator = "1." if ordered else "*"
-        list_items = [f"{list_seperator} {item}" for item in items]
-        with self.padding(after = 1):
-            self._buffer.extend(list_items)
+    @property
+    def list(self):
+        return MarkdownList(self)
+        # """Add lists to document."""
+        # list_seperator = "1." if ordered else "*"
+        # list_items = [f"{list_seperator} {item}" for item in items]
+        # with self.padding(after = 1):
+        #     self._buffer.extend(list_items)
 
-    def code(self, source:str, language=""):
+    def code(self, source: str, language=""):
         """Add codeblock to document."""
         with self.padding(before=1, after=1):
             self._buffer.append(f"```{language}")
@@ -179,15 +207,15 @@ class MarkdownBuilder:
 
     def horizontal_bar(self):
         """Add horizontal bar to document."""
-        with self.padding(after = 2):
+        with self.padding(after=2):
             self._buffer.append("#")
 
     def warning(self, message: str):
         """Add warning block to document."""
-        with self.padding(after = 2):
+        with self.padding(after=2):
             self._buffer.append(f"> **WARNING**: _{message}_")
 
     def info(self, message: str):
         """Add info block to document."""
-        with self.padding(after = 2):
+        with self.padding(after=2):
             self._buffer.append(f"> **INFO**: _{message}_")

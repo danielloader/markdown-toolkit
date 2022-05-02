@@ -5,70 +5,75 @@ from typing import Optional, List, Callable, Any, get_type_hints
 from inspect import isclass, isfunction
 from .generator import MarkdownBuilder
 
-
-def _atribute_labeller(object: Callable, attribute_name: str, attribute_value: Any) -> str:
-    parts = []
-    parts.append(f"**{attribute_name}**:")
-    if get_type_hints(object).get(attribute_name):
-        parts.append(f"_{get_type_hints(object).get(attribute_name)}_")
-    parts.append(f"`{str(attribute_value)}`")
-    return " ".join(parts)
+import inspect
+import importlib
 
 
-def _module_callable_builder(document: MarkdownBuilder, module_callable: Callable):
-    """Return docstring on Class or Function provided.
-
-    Args:
-        document (MarkdownBuilder): Root document to append.
-        module_callable (Callable): Callable to inspect for __doc__.
-    """
-    if isclass(module_callable):
-        with Heading(document, f"__Class__: `{module_callable.__name__}`"):
-            document.code(module_callable.__doc__)
-            attribute_list = []
-            callable_list = []
-            for attr in [a for a in dir(module_callable) if not a.startswith('__')]:
-                item = getattr(module_callable, attr)
-                if callable(item):
-                    callable_list.append(item)
-                else:
-                    attribute_list.append(_atribute_labeller(module_callable, attr, item))
-            with Heading(document, "_Attributes_:"):
-                document.list(attribute_list)
-            for item in callable_list:
-                with Heading(document, f"_Method_: `{attr}`"):
-                    document.code(item.__doc__.strip())
-    if isfunction(module_callable):
-        with Heading(document, f"__Function__: `{module_callable.__name__}`"):
-            document.code(module_callable.__doc__.strip())
-    document.horizontal_bar()
 
 
-def module_block(
-    document: MarkdownBuilder,
-    module: str,
-) -> List[Optional[str]]:
-    """Generate markdown representation of a python module.
 
-    Args:
-        module (str): Literal string representation of the module path.
+from docstring_parser import parse 
+class ClassDocBlock:
+    def __init__(self, doc: MarkdownBuilder, module: str, name: str):
 
-    Returns:
-        List[Optional[str]]: List of strings to concatenate into markdown.
-    """
-    imported_module = importlib.import_module(module)
-    module_attributes = []
-    module_callables = []
-    with Heading(document, imported_module.__name__):
-        document.paragraph(imported_module.__doc__)
-        for callable_name in imported_module.__all__:
-            module_object = getattr(imported_module, callable_name)
-            if callable(module_object):
-                module_callables.append(module_object)
-            else:
-                module_attributes.append(_atribute_labeller(imported_module, callable_name, module_object))
-        with Heading(document, "Module Attributes"):
-            document.list(module_attributes)
-        with Heading(document, "Module Callables"):
-            for module_callable in module_callables:
-                _module_callable_builder(document, module_callable)
+        self.doc = doc
+        self.class_ = self._get_class(module, name)
+        with self.doc.heading(name):
+            self.render_class(self.class_)
+
+    @staticmethod
+    def _get_class(module, name):
+        module = importlib.import_module(module)
+        return getattr(module, name)
+
+    def _render_method(self, obj, attr, parsed):
+        doc = self.doc
+        with doc.heading(f"Method: `{attr}`"):
+            spec = str(inspect.signature(getattr(obj, attr)))
+            doc.text.paragraph(f"**Signature**: `{spec}`")
+            if parsed:
+                if parsed.short_description:
+                    doc.text.paragraph(parsed.short_description)
+                if parsed.long_description:
+                    doc.text.paragraph(parsed.long_description)
+                with doc.heading("Arguments"):
+                    with doc.list.unordered_list() as params:
+                        for param in parsed.params:
+                            params.add(
+                                f"`{param.arg_name}` _{param.type_name}_ - {param.description}"
+                            )
+                with doc.heading("Returns"):
+                    with doc.list.unordered_list() as returns:
+                        for ret in parsed.many_returns:
+                            returns.add(f"_{ret.type_name}_ - {ret.description}")
+                        if len(returns.buffer) == 0:
+                            returns.add("None")
+
+                    # doc.code(doc_string)
+            self.doc.horizontal_bar()
+
+    def _render_attribute(self, obj, attr, parsed):
+        print(parsed.__dict__)
+        return f"**{attr}** _{getattr(obj, attr).__class__.__name__}_ `{getattr(obj, attr)}`"
+
+    def render_class(self, obj):
+        doc = self.doc
+        attributes = []
+        methods = []
+        for attr in [a for a in dir(obj) if not a.startswith("__")]:
+            doc_string = inspect.getdoc(getattr(obj, attr))
+            if doc_string:
+                parsed = parse(doc_string)
+            if callable(getattr(obj, attr)):
+                methods.append((obj, attr, parsed))
+            if not callable(getattr(obj, attr)):
+                attributes.append((obj, attr, parsed))
+        if attributes:
+            with doc.heading("Attributes"):
+                with doc.list.unordered_list() as attrs:
+                    for attribute in attributes:
+                        attrs.add(self._render_attribute(*attribute))
+        if methods:
+            for method in methods:
+                self._render_method(*method)
+            
