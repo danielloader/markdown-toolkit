@@ -1,0 +1,34 @@
+env:
+  POETRY_VERSION: "1.2.0b1"
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+
+on: push
+
+jobs:
+  test-x64:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.7', '3.8', '3.9', '3.10', 'pypy-3.7', 'pypy-3.8', 'pypy-3.9' ]
+    name: Python ${{ matrix.python-version }} Test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry==${POETRY_VERSION}
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+          cache: poetry
+      - run: poetry install
+      - run: poetry run pytest
+  test-arm:
+    runs-on: ARM64
+    name: Python ARM64 Test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry==${POETRY_VERSION}
+      - run: poetry install
+      - run: poetry run pytest
