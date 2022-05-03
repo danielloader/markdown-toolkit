@@ -6,10 +6,10 @@ class ExampleClass:
     """String casting utility class."""
 
     ATTRIBUTE_DICT: dict = {"example": "value"}
-    TOPLEVEL_VALUE: int = 1
+    TOPLEVEL_VALUE:int = 1
 
     def no_returns(self, x: Callable):
-        """Function with no returns, runs locally.
+        """Function with no returns, runs entirely in local scope.
 
         Args:
             x (Callable): Any callable that takes a single integer value.
