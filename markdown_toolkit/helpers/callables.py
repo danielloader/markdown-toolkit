@@ -11,6 +11,7 @@ from ..generator import MarkdownBuilder
 
 class ClassDocBlock:
     """Class documentation helper"""
+
     def __init__(self, doc: MarkdownBuilder, module: str, name: str):
         self.doc = doc
         self.class_ = self._get_class(module, name)
@@ -41,7 +42,9 @@ class ClassDocBlock:
                                 f"`{param.arg_name}` _({param.type_name})_ - {param.description}"
                             )
                 with doc.heading("Returns"):
-                    with doc.list.unordered_list("_(None)_ - Implicit return.") as returns:
+                    with doc.list.unordered_list(
+                        "_(None)_ - Implicit return."
+                    ) as returns:
                         for ret in parsed.many_returns:
                             returns.append(f"_({ret.type_name})_ - {ret.description}")
 
@@ -49,7 +52,7 @@ class ClassDocBlock:
         with self.doc.list.unordered_list() as attrs:
             attrs.append(f"**{attr}**")
             with self.doc.list.unordered_list() as at:
-                at.append(f"_Type_: `{getattr(obj, attr).__class__.__name__}`") 
+                at.append(f"_Type_: `{getattr(obj, attr).__class__.__name__}`")
                 at.append(f"_Default_: `{getattr(obj, attr)}`")
 
     def render_class(self, name, obj):
@@ -64,7 +67,7 @@ class ClassDocBlock:
                 if not callable(getattr(obj, attr)):
                     attributes.append((obj, attr))
             if attributes:
-                with doc.heading("Attributes"):                
+                with doc.heading("Attributes"):
                     for attribute in attributes:
                         self._render_attribute(*attribute)
             if methods:

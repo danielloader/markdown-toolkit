@@ -3,8 +3,8 @@ from __future__ import annotations
 import logging
 import re
 from contextlib import contextmanager
-from typing import Optional, Iterable
 from textwrap import dedent
+from typing import Optional
 
 logger = logging.Logger(__name__)
 
@@ -91,12 +91,14 @@ class MarkdownList:
                 self.doc.document_indent_level = self.doc.list_indent_level + 4
             else:
                 self.doc.top_level = False
-            
+
             return self
 
         def __exit__(self, exc_type, exc_value, exc_traceback):
             if self.list_size == 0:
-                self.doc.append(f"{' '*self.doc.list_indent_level}* {str(self.default)}")
+                self.doc.append(
+                    f"{' '*self.doc.indentation_level}* {str(self.default)}"
+                )
                 self.doc.newline()
             self.doc.list_indent_level = self.doc.list_indent_level - 4
             self.doc.document_indent_level = self.doc.list_indent_level - 4 
@@ -128,37 +130,88 @@ class MarkdownList:
         """
         return self.List(self.doc, delim="1.", default=default)
 
+
 class MarkdownText:
+    """Markdown Text methods."""
+
     def __init__(self, document: MarkdownBuilder):
         self.doc = document
 
-    def _indent(self, value: str):
-        return self.doc.document_indent_level * ' ' + value
-
     def heading(self, text: str, level: int):
+        """Add heading to document.
+
+        Args:
+            text (str): Heading title.
+            level (int): Heading level (Max 6)
+        """
         header_prefix = "".join(["#" for _ in range(level)])
         with self.doc.padding(after=2):
-            self.doc._buffer.append(f"{header_prefix} {text}")
+            self.doc.append(f"{header_prefix} {text}")
 
     def raw(self, text: str):
-        self.doc._buffer.append(self._indent(text))
+        """Add raw text to document.
+
+        This is an escape hatch for directly adding strings into the document
+        with no padding or whitespace.
+
+        Args:
+            text (str): String to add.
+        """
+        self.doc.append(text)
 
     def italic(self, text: str):
-        self.doc._buffer.append(self._indent(f"_{text}_"))
+        """Adds italic text to the document.
+
+        Args:
+            text (str): String to add.
+        """
+        self.doc.append(f"_{text}_")
 
     def bold(self, text: str):
-        self.doc._buffer.append(self._indent(f"__{text}__"))
+        """Adds bold text to the document.
+
+        Args:
+            text (str): String to add.
+        """
+        self.doc.append(f"__{text}__")
 
     def important(self, text: str):
-        self.doc._buffer.append(self._indent(f"***{text}***"))
+        """Adds double emphasised text to the document.
+
+        Wraps text strings in bold and italics.
+
+        Args:
+            text (str): String to add.
+        """
+        self.doc.append(f"***{text}***")
 
     def strikethrough(self, text: str):
-        self.doc._buffer.append(self._indent(f"~~{text}~~"))
+        """Adds struckthrough text to the document.
+
+        Args:
+            text (str): String to add.
+        """
+        self.doc.append(f"~~{text}~~")
 
     def quote(self, text: str):
-        self.doc._buffer.append(self._indent(f"> {text}"))
+        """Adds blockquoted text to the document.
+
+        Args:
+            text (str): String to add.
+        """
+        self.doc.append(f"> {text}")
 
     def paragraph(self, text: str, padding: int = 1):
+        """Adds a paragraph to the document.
+
+        This is a helper method to take raw text and wrap it in padding
+        to make it a paragraph in markdown.
+
+        Args:
+            text (str): String to add.
+            padding (int): Configurable padding to add to the paragraph. Default to 1 line.
+
+        """
         with self.doc.padding(after=padding):
             self.raw(dedent(str(text)))
             self.doc.newline()
@@ -175,7 +228,6 @@ class MarkdownBuilder:
         self.document_indent_level: int = 0
         self.top_level: bool = True
         self.print_on_exit: bool = False
-
 
     def __enter__(self):
         return self
