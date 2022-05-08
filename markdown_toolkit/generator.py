@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import re
 from contextlib import contextmanager
-from typing import Optional
+from typing import Optional, Iterable
 from textwrap import dedent
 
 logger = logging.Logger(__name__)
@@ -77,13 +77,18 @@ class MarkdownList:
             self.delim = delim
 
         def append(self, item: str):
-            self.doc.append(f"{' '*self.doc.indentation_level}{self.delim} {item}")
+            self.doc.append(f"{' '*self.doc.list_indent_level}{self.delim} {item}")
             self.doc.newline()
             self.list_size += 1
 
+        def extend(self, items: Iterable[str]):
+            for item in items:
+                self.append(item)
+
         def __enter__(self):
             if self.doc.top_level is False:
-                self.doc.indentation_level = self.doc.indentation_level + 4
+                self.doc.list_indent_level = self.doc.list_indent_level + 4
+                self.doc.document_indent_level = self.doc.list_indent_level + 4
             else:
                 self.doc.top_level = False
             
@@ -91,9 +96,10 @@ class MarkdownList:
 
         def __exit__(self, exc_type, exc_value, exc_traceback):
             if self.list_size == 0:
-                self.doc.append(f"{' '*self.doc.indentation_level}* {str(self.default)}")
+                self.doc.append(f"{' '*self.doc.list_indent_level}* {str(self.default)}")
                 self.doc.newline()
-            self.doc.indentation_level = self.doc.indentation_level - 4
+            self.doc.list_indent_level = self.doc.list_indent_level - 4
+            self.doc.document_indent_level = self.doc.list_indent_level - 4 
 
             # self.doc.top_level=True
 
@@ -127,7 +133,7 @@ class MarkdownText:
         self.doc = document
 
     def _indent(self, value: str):
-        return self.doc.indentation_level * ' ' + value
+        return self.doc.document_indent_level * ' ' + value
 
     def heading(self, text: str, level: int):
         header_prefix = "".join(["#" for _ in range(level)])
@@ -165,7 +171,8 @@ class MarkdownBuilder:
         self._newline_character: str = newline_character
         self._buffer: list[str] = []
         self.heading_level: int = enclosing_header
-        self.indentation_level: int = 0
+        self.list_indent_level: int = 0
+        self.document_indent_level: int = 0
         self.top_level: bool = True
         self.print_on_exit: bool = False
 
