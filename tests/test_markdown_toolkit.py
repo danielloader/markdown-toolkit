@@ -1,8 +1,8 @@
-from markdown_toolkit.document import MarkdownDocument, bold
+from markdown_toolkit import MarkdownDocument, bold
 
 
 def test_document_render():
-    with open("tests/test_document_render.md", "r") as file:
+    with open("tests/test_document_render.md", "r", encoding="UTF-8") as file:
         doc = MarkdownDocument()
         with doc.heading("Title"):
             with doc.list:

@@ -1,56 +1,33 @@
+"""Markdown Toolkit main classes."""
 from __future__ import annotations
 from collections import defaultdict
 from typing import Optional, Union
+from inspect import cleandoc
 from contextlib import contextmanager
 from pathlib import Path
 import re
 
-
-def bold(text: str) -> str:
-    """Bold wrapper."""
-    return f"**{text}**"
-
-
-def italic(text: str) -> str:
-    """Bold wrapper."""
-    return f"_{text}_"
-
-
-def strikethrough(text: str) -> str:
-    """Strikethrough wrapper."""
-    return f"~~{text}~~"
-
-
-def header(level, heading: str) -> str:
-    """Heading wrapper."""
-    return f"{'#'*level} {heading}"
-
-
-def image(uri: str, title: Optional[str] = None):
-    """Add an image to the document."""
-    return f"![{title or uri}]({uri})"
-
-
-def link(self, uri: str, title: Optional[str] = None):
-    """Add an link to the document."""
-    return f"[{title or uri}]({uri})"
-
+from .utils import header
 
 class DocumentInjector:
+    """Class for injected text into Markdown Documents."""
     class Inject:
+        """Inject text between start and end lines."""
         def __init__(self, file_buffer, start, end):
-            self.file_buffer:list = file_buffer
+            self.file_buffer: list = file_buffer
             self.start = start
             self.end = end
-        
-        def read(self):
-            return "".join(self.file_buffer[self.start: self.end-1])
 
-        def write(self, text):
-            del self.file_buffer[self.start: self.end-1]
+        def read(self) -> str:
+            """Return text between anchors."""
+            return "".join(self.file_buffer[self.start : self.end - 1])
+
+        def write(self, text: str):
+            """Replace text between anchors."""
+            del self.file_buffer[self.start : self.end - 1]
             self.file_buffer.insert(self.start, text)
 
-    def __init__(self, path: Union[Path,str]):
+    def __init__(self, path: Union[Path, str]):
         self.path = Path(path)
         with open(self.path, "r", encoding="UTF-8") as file:
             self.file_buffer: list[str] = file.readlines()
@@ -68,30 +45,65 @@ class DocumentInjector:
                 start = re.match(r"^<!--.*markdown-toolkit:start:(.*).*-->$", line)
                 end = re.match(r"^<!--.*markdown-toolkit:end:(.*).*-->$", line)
                 if start:
-                    id = start.groups()[0].strip()
-                    if "start" in tags[id]:
+                    anchor = start.groups()[0].strip()
+                    if "start" in tags[anchor]:
                         raise ValueError()
-                    tags[id]["start"] = idx+1
+                    tags[anchor]["start"] = idx + 1
                 if end:
-                    id = end.groups()[0].strip()
-                    if "end" in tags[id]:
+                    anchor = end.groups()[0].strip()
+                    if "end" in tags[anchor]:
                         raise ValueError()
-                    tags[id]["end"] = idx+1
-        
+                    tags[anchor]["end"] = idx + 1
+
         ranges = []
         for lines in tags.values():
             ranges.append(set(range(lines["start"], lines["end"])))
-        overlaps= set.intersection(*ranges)
+        overlaps = set.intersection(*ranges)
         if overlaps:
             raise IndexError("Overlapping anchors", overlaps)
-        
+
         self.tags = tags
-        for id, lines in tags.items():
-            setattr(self, id, self.Inject(self.file_buffer, lines["start"], lines["end"]))
+        for anchor, lines in tags.items():
+            setattr(
+                self, anchor, self.Inject(self.file_buffer, lines["start"], lines["end"])
+            )
 
 
 class MarkdownDocument:
-    class MarkdownHeading:
+    """Markdown document builder class."""
+    class _MarkdownTable:
+        """Table renderer."""
+        def __init__(self, document: MarkdownDocument, titles: list):
+            self.doc = document
+            self.titles = titles
+            self.rows = []
+
+        def add_row(self, columns: list):
+            """Add row to table helper.
+
+            Args:
+                columns (list): List if elements to add.
+            """
+            self.rows.append(columns)
+
+        def _render(self):
+            buffer = []
+            buffer.append(" | ".join(self.titles))
+            buffer.append(" | ".join(["---" for _ in range(len(self.titles))]))
+            for row in self.rows:
+                buffer.append(" | ".join(row))
+
+            return "\n".join(buffer)
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            self.doc.multiline(self._render())
+            self.doc.text()
+
+    class _MarkdownHeading:
+        """Heading context manager."""
         def __init__(
             self,
             document: MarkdownDocument,
@@ -116,8 +128,13 @@ class MarkdownDocument:
                 self.doc.heading_level -= 1
 
         def __str__(self) -> str:
+            """String representation.
+
+            Returns:
+                str: Representation of class as string.
+            """
             level = self.level or self.doc.heading_level
-            return f"{'#'*level} {self.heading}"
+            return header(level, self.heading)
 
     def __init__(self):
         self.buffer: list[str] = []
@@ -128,13 +145,23 @@ class MarkdownDocument:
         self.newline_character: str = "\n"
 
     @property
-    def _in_list(self):
+    def _in_list(self) -> bool:
+        """Helper method to tell if inside a list context.
+
+        Returns:
+            bool: In list or not.
+        """
         if self.indent_level > -1:
             return True
         return False
 
     @property
-    def _indent(self):
+    def _indent(self) -> str:
+        """Helper method to indent text in document context.
+
+        Returns:
+            str: Indented text.
+        """
         indent_muliplier = self.indent_level * 4
         if self._in_list:
             indent_muliplier += 4
@@ -146,11 +173,30 @@ class MarkdownDocument:
         silent: bool = False,
         level: Optional[int] = None,
     ):
-        return self.MarkdownHeading(self, heading=heading, silent=silent, level=level)
+        """_summary_
+
+        Args:
+            heading (Optional[str], optional): Text to head with. Defaults to None.
+            silent (bool, optional): Increment heading level silently. Defaults to False.
+            level (Optional[int], optional): Override heading level. Defaults to None.
+        """
+        return self._MarkdownHeading(self, heading=heading, silent=silent, level=level)
+
+    def table(self, titles: list) -> _MarkdownTable:
+        """Table rendering helper.
+
+        Args:
+            titles (list): List of titles for the columns.
+
+        Returns:
+            _MarkdownTable: Object with helper methods.
+        """
+        return self._MarkdownTable(self, titles=titles)
 
     @property
     @contextmanager
     def list(self):
+        """List context manager."""
         self.indent_level += 1
         self.list_level += 1
         yield
@@ -158,26 +204,49 @@ class MarkdownDocument:
         self.list_level -= 1
 
     @contextmanager
-    def padding(self, lines=1):
+    def codeblock(self, language: str = ""):
+        """Codeblock context manager."""
+        self.text("```" + language)
         yield
-        self.buffer.extend([self.newline_character for _ in range(lines)])
+        self.text("```")
 
     def unordered_item(self, item):
+        """Unordered list item <ul>"""
         self.buffer.append(f"{' '*self.indent_level*4}{'*'.ljust(4)}{item}  ")
 
     def ordered_item(self, item):
+        """Ordered list item <ol>"""
         self.buffer.append(f"{' '*self.indent_level*4}{'1.'.ljust(4)}{item}  ")
 
     def raw(self, text):
+        """Unmodified text injection into document."""
         self.buffer.append(text)
 
-    def text(self, text):
+    def text(self, text: str = ""):
+        """Add text to document, taking into account indent level."""
         self.buffer.append(f"{self._indent}{text}")
 
+    def multiline(self, text):
+        """Add triplequote python multiline strings to document."""
+        buffer = cleandoc(text).split("\n")
+        for line in buffer:
+            self.text(line)
+
     def paragraph(self, text):
-        with self.padding():
-            self.text(text)
+        """Add text with padding to document."""
+        self.text(text)
+        self.text()
+
+    def horizontal_line(self):
+        """Add horizontal line to document."""
+        self.text()
+        self.text("---")
+        self.text()
 
     def render(self) -> str:
-        return "\n".join(self.buffer) + "\n"
+        """Renders document to string.
 
+        Returns:
+            str: Rendered document.
+        """
+        return "\n".join(self.buffer) + "\n"

@@ -1,3 +1,4 @@
-__version__ = "0.1.0"
+"""Markdown Toolkit."""
 
-from .generator import MarkdownBuilder, MarkdownInjector, from_file
+from .document import MarkdownDocument
+from .utils import *
