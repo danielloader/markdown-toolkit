@@ -1,4 +1,4 @@
-from markdown_toolkit import MarkdownDocument, quote, bold, image, link
+from markdown_toolkit import MarkdownDocument, quote, bold, image, link, from_file
 
 
 def build_doc():
@@ -15,6 +15,8 @@ def build_doc():
             doc.paragraph(
                 "Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam luctus mollis lacus ac luctus. Praesent justo mauris, lacinia ut neque vel, semper viverra ipsum. Nulla facilisi. Proin gravida augue eget blandit tincidunt. Nullam viverra iaculis semper. Nam quis turpis varius, euismod dui ac, rhoncus orci."
             )
+            doc.unordered_item(doc.heading("File snippets"))
+            doc.multiline(from_file("README.md",start=13, end =14))
         with doc.list:
             doc.unordered_item(doc.heading("Other Examples"))
             doc.paragraph(

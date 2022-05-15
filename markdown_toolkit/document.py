@@ -7,7 +7,7 @@ from contextlib import contextmanager
 from pathlib import Path
 import re
 
-from .utils import header
+from .utils import code, from_file, header
 
 class DocumentInjector:
     """Class for injected text into Markdown Documents."""
@@ -209,6 +209,9 @@ class MarkdownDocument:
         self.text("```" + language)
         yield
         self.text("```")
+
+    def file(self, path, start=None, end=None):
+        return self._FileImporter(path, start, end)
 
     def unordered_item(self, item):
         """Unordered list item <ul>"""

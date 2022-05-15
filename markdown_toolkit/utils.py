@@ -1,8 +1,27 @@
 """Utilities for inline manipulating strings."""
 
 from urllib.parse import quote as urlquote
+from pathlib import Path
 
-from typing import Optional
+from typing import Optional, Union
+
+
+def from_file(path: Union[Path, str], start: int = None, end: int = None) -> str:
+    """File reader helper.
+
+    Args:
+        path (Union[Path,str]): File path to open.
+        start (int, optional): Start Line. Defaults to None.
+        end (int, optional): End Line. Defaults to None.
+
+    Returns:
+        str: Text block.
+    """
+    with open(Path(path), "r", encoding="UTF-8") as file:
+        lines = file.readlines()
+    lines_needed = lines[start:end]
+    return "".join(lines_needed)
+
 
 def quote(text: str) -> str:
     """Quotes text."""
