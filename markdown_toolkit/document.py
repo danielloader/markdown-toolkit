@@ -9,10 +9,13 @@ import re
 
 from .utils import code, from_file, header
 
+
 class DocumentInjector:
     """Class for injected text into Markdown Documents."""
+
     class Inject:
         """Inject text between start and end lines."""
+
         def __init__(self, file_buffer, start, end):
             self.file_buffer: list = file_buffer
             self.start = start
@@ -65,14 +68,18 @@ class DocumentInjector:
         self.tags = tags
         for anchor, lines in tags.items():
             setattr(
-                self, anchor, self.Inject(self.file_buffer, lines["start"], lines["end"])
+                self,
+                anchor,
+                self.Inject(self.file_buffer, lines["start"], lines["end"]),
             )
 
 
 class MarkdownDocument:
     """Markdown document builder class."""
+
     class _MarkdownTable:
         """Table renderer."""
+
         def __init__(self, document: MarkdownDocument, titles: list):
             self.doc = document
             self.titles = titles
@@ -104,6 +111,7 @@ class MarkdownDocument:
 
     class _MarkdownHeading:
         """Heading context manager."""
+
         def __init__(
             self,
             document: MarkdownDocument,
@@ -215,13 +223,13 @@ class MarkdownDocument:
 
     def unordered_item(self, item):
         """Unordered list item <ul>"""
-        self.buffer.append(f"{' '*self.indent_level*4}{'*'.ljust(4)}{item}  ")
+        self.buffer.append(f"{' '*self.indent_level*4}{'*'.ljust(4)}{item}")
 
     def ordered_item(self, item):
         """Ordered list item <ol>"""
-        self.buffer.append(f"{' '*self.indent_level*4}{'1.'.ljust(4)}{item}  ")
+        self.buffer.append(f"{' '*self.indent_level*4}{'1.'.ljust(4)}{item}")
 
-    def raw(self, text):
+    def add(self, text):
         """Unmodified text injection into document."""
         self.buffer.append(text)
 

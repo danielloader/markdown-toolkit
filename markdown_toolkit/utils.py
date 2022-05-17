@@ -5,6 +5,19 @@ from pathlib import Path
 
 from typing import Optional, Union
 
+__all__ = [
+    "badge",
+    "bold",
+    "code",
+    "from_file",
+    "header",
+    "image",
+    "italic",
+    "link",
+    "quote",
+    "strikethrough",
+]
+
 
 def from_file(path: Union[Path, str], start: int = None, end: int = None) -> str:
     """File reader helper.
@@ -21,6 +34,24 @@ def from_file(path: Union[Path, str], start: int = None, end: int = None) -> str
         lines = file.readlines()
     lines_needed = lines[start:end]
     return "".join(lines_needed)
+
+
+def badge(label: str, color: str, message: Optional[str] = None, alt: str = "") -> str:
+    """Shields.io badge helper.
+
+    Args:
+        label (str): Badge label.
+        color (str): Badge color.
+        message (Optional[str], optional): Badge message. Defaults to None.
+        alt (str, optional): Alt tag for the badge. Defaults to "".
+
+    Returns:
+        str: _description_
+    """
+    badge_url = f"https://img.shields.io/static/v1?label={urlquote(str(label))}&color={urlquote(str(color))}"
+    if message:
+        badge_url += f"&message={urlquote(str(message))}"
+    return link(uri="https://shields.io/", text=image(uri=badge_url, text=alt))
 
 
 def quote(text: str) -> str:
@@ -60,7 +91,7 @@ def image(uri: str, *, text: Optional[str] = None, title: Optional[str] = None) 
 
 def link(uri: str, *, text: Optional[str] = None, title: Optional[str] = None) -> str:
     """Add an link to the document."""
-    rendered_link = f"[{text or uri}]({urlquote(uri)}"
+    rendered_link = f"[{text or uri}]({uri}"
     if title:
         rendered_link += f' "{title}"'
     return f"{rendered_link})"
