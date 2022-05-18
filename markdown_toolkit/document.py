@@ -6,7 +6,7 @@ from inspect import cleandoc
 from contextlib import contextmanager
 from pathlib import Path
 import re
-
+from re import sub
 from .utils import code, from_file, header, list_item
 
 
@@ -92,7 +92,7 @@ class MarkdownDocument:
             self.doc._indent_level += 1
             self.doc._list_level += 1
 
-        def __exit__(self, *args):
+        def __exit__(self, type, value, traceback):
             self.doc._indent_level -= 1
             self.doc._list_level -= 1
 
@@ -102,21 +102,37 @@ class MarkdownDocument:
         def __init__(self, document: MarkdownDocument, titles: list):
             self.doc = document
             self.titles = titles
+            self.normalized_titles = list(map(self._snake_case, titles))
+            self.column_count = len(self.normalized_titles)
             self.rows = []
 
-        def add_row(self, columns: list):
-            """Add row to table helper.
+        @staticmethod
+        def _snake_case(string):
+            return "_".join(
+                sub(
+                    "([A-Z][a-z]+)",
+                    r" \1",
+                    sub("([A-Z]+)", r" \1", string.replace("-", " ").replace(".", " ")),
+                ).split()
+            ).lower()
 
-            Args:
-                columns (list): List if elements to add.
-            """
-            self.rows.append(columns)
+        def add_row(self, **columns):
+            """Add row to table helper."""
+            if columns is None:
+                raise ValueError("No data submitted.")
+            for column in columns.keys():
+                if column not in self.normalized_titles:
+                    raise ValueError("Column not found in headers.")
+            row_buffer = []
+            for title in self.normalized_titles:
+                row_buffer.append(columns.get(title, ""))
+            self.rows.append(row_buffer)
 
         def _render(self):
             buffer = []
             buffer.append("| " + " | ".join(self.titles) + " |")
             buffer.append(
-                "| " + " | ".join(["---" for _ in range(len(self.titles))]) + " |"
+                "| " + " | ".join(["---" for _ in range(self.column_count)]) + " |"
             )
             for row in self.rows:
                 buffer.append("| " + " | ".join(row) + " |")
@@ -126,7 +142,7 @@ class MarkdownDocument:
         def __enter__(self):
             return self
 
-        def __exit__(self, *args):
+        def __exit__(self, type, value, traceback):
             self.doc.paragraph(self._render())
 
     class _MarkdownHeading:
@@ -152,7 +168,7 @@ class MarkdownDocument:
                 self.doc._heading_level += 1
             return self
 
-        def __exit__(self, *args):
+        def __exit__(self, type, value, traceback):
             if not self.level:
                 self.doc._heading_level -= 1
 

@@ -228,20 +228,20 @@ def test_codeblock():
 
 
 def test_table():
+    """Test the table generator class."""
     expected_lines = cleandoc(
         """
-        | Syntax | Description |
+        | Complex.Title | Description Title |
         | --- | --- |
         | Header | Title |
-        | Paragraph | Text |
+        |  | Text |
 
         EOF
         """
     )
     doc = MarkdownDocument()
-
-    with doc.table(titles=["Syntax", "Description"]) as table:
-        table.add_row(["Header", "Title"])
-        table.add_row(["Paragraph", "Text"])
+    with doc.table(titles=["Complex.Title", "Description Title"]) as table:
+        table.add_row(complex_title="Header", description_title="Title")
+        table.add_row(description_title="Text")
     doc.add("EOF")
     assert doc.render() == expected_lines
