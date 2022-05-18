@@ -179,3 +179,69 @@ def test_headers():
                         with doc.heading("Absolutely Pointless Title"):
                             doc.add("EOF")
     assert doc.render() == expected_lines
+
+
+def test_text():
+    expected_lines = cleandoc(
+        """
+        Example line of text.
+        Without padding between lines.
+        Just newline breaks.
+        """
+    )
+    doc = MarkdownDocument()
+    doc.text("Example line of text.")
+    doc.text("Without padding between lines.")
+    doc.text("Just newline breaks.")
+    assert doc.render() == expected_lines
+
+
+def test_indentblock():
+    expected_lines = cleandoc(
+        """
+        Example line of text.
+            Rendered as code block.
+        Just newline breaks.
+        """
+    )
+    doc = MarkdownDocument()
+    doc.text("Example line of text.")
+    with doc.indentblock():
+        doc.text("Rendered as code block.")
+    doc.text("Just newline breaks.")
+    assert doc.render() == expected_lines
+
+
+def test_codeblock():
+    expected_lines = cleandoc(
+        """
+        ```python
+        print("Hello world!")
+        ```
+        """
+    )
+    doc = MarkdownDocument()
+
+    with doc.codeblock(language="python"):
+        doc.text('print("Hello world!")')
+    assert doc.render() == expected_lines
+
+
+def test_table():
+    expected_lines = cleandoc(
+        """
+        | Syntax | Description |
+        | --- | --- |
+        | Header | Title |
+        | Paragraph | Text |
+
+        EOF
+        """
+    )
+    doc = MarkdownDocument()
+
+    with doc.table(titles=["Syntax", "Description"]) as table:
+        table.add_row(["Header", "Title"])
+        table.add_row(["Paragraph", "Text"])
+    doc.add("EOF")
+    assert doc.render() == expected_lines

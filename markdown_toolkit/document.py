@@ -114,10 +114,12 @@ class MarkdownDocument:
 
         def _render(self):
             buffer = []
-            buffer.append(" | ".join(self.titles))
-            buffer.append(" | ".join(["---" for _ in range(len(self.titles))]))
+            buffer.append("| " + " | ".join(self.titles) + " |")
+            buffer.append(
+                "| " + " | ".join(["---" for _ in range(len(self.titles))]) + " |"
+            )
             for row in self.rows:
-                buffer.append(" | ".join(row))
+                buffer.append("| " + " | ".join(row) + " |")
 
             return "\n".join(buffer)
 
@@ -126,7 +128,6 @@ class MarkdownDocument:
 
         def __exit__(self, *args):
             self.doc.paragraph(self._render())
-            self.doc.text()
 
     class _MarkdownHeading:
         """Heading context manager."""
@@ -221,6 +222,7 @@ class MarkdownDocument:
         return self._MarkdownTable(self, titles=titles)
 
     def list(self, item: str, ordered: bool = False, prefix: Optional[str] = None):
+        """Returns list context manager, can be used directly."""
         return self._MarkdownList(
             item=item, ordered=ordered, document=self, prefix=prefix
         )
@@ -234,6 +236,7 @@ class MarkdownDocument:
 
     @contextmanager
     def indentblock(self):
+        """Returns indented context manager."""
         self._indent_level += 1
         yield
         self._indent_level -= 1
