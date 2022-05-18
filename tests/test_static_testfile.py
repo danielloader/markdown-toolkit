@@ -5,43 +5,41 @@ from markdown_toolkit import MarkdownDocument, bold
 from markdown_toolkit.utils import code, header, italic, link, list_item, quote
 
 
-def test_static_file():
+def test_static_testfile():
     """An end to end test against a known static markdown document."""
     with open(
-        Path(__file__).parent / Path("test_static_file.md"), "r", encoding="UTF-8"
+        Path(__file__).parent / Path("test_static_testfile.md"), "r", encoding="UTF-8"
     ) as file:
         expected = file.read()
 
     doc = MarkdownDocument()
     with doc.heading("Markdown: Syntax"):
-        with doc.list(item=link(uri="#overview", text="Overview")):
-            doc.list(link(uri="#philosophy", text="Philosophy"))
-            doc.list(link(uri="#html", text="Inline HTML"))
+        with doc.list(item=link("#overview", text="Overview")):
+            doc.list(link("#philosophy", text="Philosophy"))
+            doc.list(link("#html", text="Inline HTML"))
             doc.list(
-                link(
-                    uri="#autoescape", text="Automatic Escaping for Special Characters"
-                )
+                link("#autoescape", text="Automatic Escaping for Special Characters")
             )
-        with doc.list(link(uri="#block", text="Block Elements")):
-            doc.list(link(uri="#p", text="Paragraphs and Line Breaks"))
-            doc.list(link(uri="#header", text="Headers"))
-            doc.list(link(uri="#blockquote", text="Blockquotes"))
-            doc.list(link(uri="#list", text="Lists"))
-            doc.list(link(uri="#precode", text="Code Blocks"))
-            doc.list(link(uri="#hr", text="Horizontal Rules"))
-        with doc.list(link(uri="#span", text="Span Elements")):
-            doc.list(link(uri="#link", text="Links"))
-            doc.list(link(uri="#em", text="Emphasis"))
-            doc.list(link(uri="#code", text="Code"))
-            doc.list(link(uri="#img", text="Images"))
-        with doc.list(link(uri="#misc", text="Miscellaneous")):
-            doc.list(link(uri="#backslash", text="Backslash Escapes"))
-            doc.list(link(uri="#autolink", text="Automatic Links"))
+        with doc.list(link("#block", text="Block Elements")):
+            doc.list(link("#p", text="Paragraphs and Line Breaks"))
+            doc.list(link("#header", text="Headers"))
+            doc.list(link("#blockquote", text="Blockquotes"))
+            doc.list(link("#list", text="Lists"))
+            doc.list(link("#precode", text="Code Blocks"))
+            doc.list(link("#hr", text="Horizontal Rules"))
+        with doc.list(link("#span", text="Span Elements")):
+            doc.list(link("#link", text="Links"))
+            doc.list(link("#em", text="Emphasis"))
+            doc.list(link("#code", text="Code"))
+            doc.list(link("#img", text="Images"))
+        with doc.list(link("#misc", text="Miscellaneous")):
+            doc.list(link("#backslash", text="Backslash Escapes"))
+            doc.list(link("#autolink", text="Automatic Links"))
         doc.linebreak()
         doc.linebreak()
         doc.text(bold("Note:") + " This document is itself written using Markdown; you")
         doc.text(
-            f"""can {link(uri='/projects/markdown/syntax.text',text="see the source for it by adding '.text' to the URL")}."""
+            f"""can {link('/projects/markdown/syntax.text',text="see the source for it by adding '.text' to the URL")}."""
         )
         doc.horizontal_line()
         with doc.heading("Overview"):
@@ -356,10 +354,10 @@ def test_static_file():
                     title for the link, surrounded in quotes. For example:"""
                 )
                 doc.paragraph(
-                    f"This is {link(uri='http://example.com/', text='an example')} inline link."
+                    f"This is {link('http://example.com/', text='an example')} inline link."
                 )
                 doc.paragraph(
-                    f"{link(uri='http://example.net/', text='This link')} has no title attribute."
+                    f"{link('http://example.net/', text='This link')} has no title attribute."
                 )
             with doc.heading("Emphasis"):
                 doc.paragraph(
@@ -379,6 +377,5 @@ def test_static_file():
                     normal paragraph. For example:"""
                 )
                 doc.text(f"Use the {code('printf()')} function.")
-    with open("result.md", "w") as file:
-        file.write(doc.render())
-    assert doc.render() == expected
+
+    assert doc.render(trailing_whitespace=True) == expected

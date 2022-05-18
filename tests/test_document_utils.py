@@ -119,7 +119,7 @@ def test_link(inputs, expected):
     [
         (
             {
-                "path": Path(__file__).parent / Path("test_static_file.md"),
+                "path": Path(__file__).parent / Path("test_static_testfile.md"),
                 "start": 0,
                 "end": 3,
             },
@@ -127,7 +127,7 @@ def test_link(inputs, expected):
         ),
         (
             {
-                "path": Path(__file__).parent / Path("test_static_file.md"),
+                "path": Path(__file__).parent / Path("test_static_testfile.md"),
                 "start": 60,
                 "end": 63,
             },
@@ -139,7 +139,7 @@ def test_link(inputs, expected):
         ),
         (
             {
-                "path": Path(__file__).parent / Path("test_static_file.md"),
+                "path": Path(__file__).parent / Path("test_static_testfile.md"),
                 "start": 107,
                 "end": 115,
             },
@@ -156,7 +156,7 @@ def test_link(inputs, expected):
         ),
         (
             {
-                "path": Path(__file__).parent / Path("test_static_file.md"),
+                "path": Path(__file__).parent / Path("test_static_testfile.md"),
                 "start": 121,
                 "end": 131,
             },

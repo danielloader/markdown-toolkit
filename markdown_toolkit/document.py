@@ -1,7 +1,6 @@
 """Markdown Toolkit main classes."""
 from __future__ import annotations
 from collections import defaultdict
-from multiprocessing import context
 from typing import Optional, Union
 from inspect import cleandoc
 from contextlib import contextmanager
@@ -165,12 +164,12 @@ class MarkdownDocument:
             level = self.level or self.doc._heading_level
             return header(self.heading, level)
 
-    def __init__(self):
+    def __init__(self, newline_character: str = "\n"):
         self._buffer: list[str] = []
         self._indent_level: int = -1
         self._list_level: int = -1
         self._heading_level = 1
-        self._newline_character: str = "\n"
+        self._newline_character: str = newline_character
 
     @property
     def _in_list(self) -> bool:
@@ -257,6 +256,7 @@ class MarkdownDocument:
                 self.linebreak()
 
     def linebreak(self):
+        """Adds a linebreak to the document."""
         self.add("")
 
     def horizontal_line(self):
@@ -265,10 +265,13 @@ class MarkdownDocument:
         self.text("----")
         self.text()
 
-    def render(self) -> str:
+    def render(self, trailing_whitespace=False) -> str:
         """Renders document to string.
 
         Returns:
             str: Rendered document.
         """
-        return "\n".join(self._buffer) + "\n"
+        document = "\n".join(self._buffer)
+        if trailing_whitespace:
+            return document + "\n"
+        return document
