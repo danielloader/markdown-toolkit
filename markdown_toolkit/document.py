@@ -1,13 +1,14 @@
 """Markdown Toolkit main classes."""
 from __future__ import annotations
 from collections import defaultdict
+from multiprocessing import context
 from typing import Optional, Union
 from inspect import cleandoc
 from contextlib import contextmanager
 from pathlib import Path
 import re
 
-from .utils import code, from_file, header
+from .utils import code, from_file, header, list_item
 
 
 class DocumentInjector:
@@ -79,21 +80,22 @@ class MarkdownDocument:
 
     class _MarkdownList:
         def __init__(
-            self, item: str, document: MarkdownDocument, ordered: bool = False
+            self,
+            item: str,
+            document: MarkdownDocument,
+            ordered: bool = False,
+            prefix: Optional[str] = None,
         ):
-            self.item_prefix = "1." if ordered else "*"
             self.doc = document
-            self.item = item
-            self.ordered = ordered
-            self.doc.text(f"{self.item_prefix} {item}")
+            self.doc.text(list_item(ordered=ordered, item=item, prefix=prefix))
 
         def __enter__(self):
-            self.doc.indent_level += 1
-            self.doc.list_level += 1
+            self.doc._indent_level += 1
+            self.doc._list_level += 1
 
         def __exit__(self, *args):
-            self.doc.indent_level -= 1
-            self.doc.list_level -= 1
+            self.doc._indent_level -= 1
+            self.doc._list_level -= 1
 
     class _MarkdownTable:
         """Table renderer."""
@@ -124,7 +126,7 @@ class MarkdownDocument:
             return self
 
         def __exit__(self, *args):
-            self.doc.multiline(self._render())
+            self.doc.paragraph(self._render())
             self.doc.text()
 
     class _MarkdownHeading:
@@ -144,14 +146,15 @@ class MarkdownDocument:
 
         def __enter__(self):
             if not self.silent:
-                self.doc.buffer.append(self.__str__())
+                self.doc._buffer.append(self.__str__())
+                self.doc.linebreak()
             if not self.level:
-                self.doc.heading_level += 1
+                self.doc._heading_level += 1
             return self
 
         def __exit__(self, *args):
             if not self.level:
-                self.doc.heading_level -= 1
+                self.doc._heading_level -= 1
 
         def __str__(self) -> str:
             """String representation.
@@ -159,16 +162,15 @@ class MarkdownDocument:
             Returns:
                 str: Representation of class as string.
             """
-            level = self.level or self.doc.heading_level
-            return header(level, self.heading)
+            level = self.level or self.doc._heading_level
+            return header(self.heading, level)
 
     def __init__(self):
-        self.buffer: list[str] = []
-        self.line_buffer: list[str] = []
-        self.indent_level: int = -1
-        self.list_level: int = -1
-        self.heading_level = 1
-        self.newline_character: str = "\n"
+        self._buffer: list[str] = []
+        self._indent_level: int = -1
+        self._list_level: int = -1
+        self._heading_level = 1
+        self._newline_character: str = "\n"
 
     @property
     def _in_list(self) -> bool:
@@ -177,7 +179,7 @@ class MarkdownDocument:
         Returns:
             bool: In list or not.
         """
-        if self.indent_level > -1:
+        if self._indent_level > -1:
             return True
         return False
 
@@ -188,7 +190,7 @@ class MarkdownDocument:
         Returns:
             str: Indented text.
         """
-        indent_muliplier = self.indent_level * 4
+        indent_muliplier = self._indent_level * 4
         if self._in_list:
             indent_muliplier += 4
         return " " * indent_muliplier
@@ -219,8 +221,10 @@ class MarkdownDocument:
         """
         return self._MarkdownTable(self, titles=titles)
 
-    def list(self, item: str, ordered: bool = False):
-        return self._MarkdownList(item=item, ordered=ordered, document=self)
+    def list(self, item: str, ordered: bool = False, prefix: Optional[str] = None):
+        return self._MarkdownList(
+            item=item, ordered=ordered, document=self, prefix=prefix
+        )
 
     @contextmanager
     def codeblock(self, language: str = ""):
@@ -229,37 +233,36 @@ class MarkdownDocument:
         yield
         self.text("```")
 
-    def unordered_item(self, item):
-        """Unordered list item <ul>"""
-        self.buffer.append(f"{' '*self.indent_level*4}{'*'.ljust(4)}{item}")
-
-    def ordered_item(self, item):
-        """Ordered list item <ol>"""
-        self.buffer.append(f"{' '*self.indent_level*4}{'1.'.ljust(4)}{item}")
+    @contextmanager
+    def indentblock(self):
+        self._indent_level += 1
+        yield
+        self._indent_level -= 1
 
     def add(self, text):
         """Unmodified text injection into document."""
-        self.buffer.append(text)
+        self._buffer.append(text)
 
     def text(self, text: str = ""):
         """Add text to document, taking into account indent level."""
-        self.buffer.append(f"{self._indent}{text}")
+        self._buffer.append(f"{self._indent}{text}")
 
-    def multiline(self, text):
+    def paragraph(self, text: str, linebreak: Union[int, bool] = True):
         """Add triplequote python multiline strings to document."""
         buffer = cleandoc(text).split("\n")
         for line in buffer:
             self.text(line)
+        if linebreak:
+            for _ in range(int(linebreak)):
+                self.linebreak()
 
-    def paragraph(self, text):
-        """Add text with padding to document."""
-        self.text(text)
-        self.text()
+    def linebreak(self):
+        self.add("")
 
     def horizontal_line(self):
         """Add horizontal line to document."""
         self.text()
-        self.text("---")
+        self.text("----")
         self.text()
 
     def render(self) -> str:
@@ -268,4 +271,4 @@ class MarkdownDocument:
         Returns:
             str: Rendered document.
         """
-        return "\n".join(self.buffer) + "\n"
+        return "\n".join(self._buffer) + "\n"

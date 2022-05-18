@@ -97,9 +97,9 @@ Blockquotes can be nested (i.e. a blockquote-in-a-blockquote) by
 adding additional levels of `>`:
 
 > This is the first level of quoting.
->
+> 
 > > This is nested blockquote.
->
+> 
 > Back to the first level.
 
 Blockquotes can contain other Markdown elements, including headers, lists,
@@ -107,8 +107,8 @@ and code blocks:
 
 > ## This is a header.
 > 
-> 1.   This is the first list item.
-> 2.   This is the second list item.
+> 1.  This is the first list item.
+> 2.  This is the second list item.
 > 
 > Here's some example code:
 > 
@@ -160,9 +160,9 @@ If you instead wrote the list in Markdown like this:
 
 or even:
 
-3. Bird
-1. McHale
-8. Parish
+3.  Bird
+1.  McHale
+8.  Parish
 
 you'd get the exact same HTML output. The point is, if you want to,
 you can use ordinal numbers in your ordered Markdown lists, so that

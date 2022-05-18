@@ -2,6 +2,7 @@
 
 from urllib.parse import quote as urlquote
 from pathlib import Path
+from inspect import cleandoc
 
 from typing import Optional, Union
 
@@ -54,9 +55,22 @@ def badge(label: str, color: str, message: Optional[str] = None, alt: str = "") 
     return link(uri="https://shields.io/", text=image(uri=badge_url, text=alt))
 
 
-def quote(text: str) -> str:
+def list_item(item: str, ordered=False, prefix=None):
+    if not prefix:
+        prefix = "1." if ordered else "*"
+    return f"{prefix.ljust(4)}{cleandoc(item)}"
+
+
+def quote(text: str, qoute_all_lines=False) -> str:
     """Quotes text."""
-    return f"> {text}"
+    buffer = []
+    multiline_text = iter(cleandoc(text).splitlines(keepends=True))
+    first = next(multiline_text)
+    buffer.append(f"> {first}")
+
+    for line in multiline_text:
+        buffer.append(f'{"> " if qoute_all_lines else ""}{line}')
+    return "".join(buffer)
 
 
 def bold(text: str) -> str:
@@ -79,7 +93,7 @@ def strikethrough(text: str) -> str:
     return f"~~{text}~~"
 
 
-def header(level, heading: str) -> str:
+def header(heading: str, level: int) -> str:
     """Heading wrapper."""
     return f"{'#'*level} {heading}"
 
