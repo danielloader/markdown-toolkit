@@ -77,6 +77,24 @@ class DocumentInjector:
 class MarkdownDocument:
     """Markdown document builder class."""
 
+    class _MarkdownList:
+        def __init__(
+            self, item: str, document: MarkdownDocument, ordered: bool = False
+        ):
+            self.item_prefix = "1." if ordered else "*"
+            self.doc = document
+            self.item = item
+            self.ordered = ordered
+            self.doc.text(f"{self.item_prefix} {item}")
+
+        def __enter__(self):
+            self.doc.indent_level += 1
+            self.doc.list_level += 1
+
+        def __exit__(self, *args):
+            self.doc.indent_level -= 1
+            self.doc.list_level -= 1
+
     class _MarkdownTable:
         """Table renderer."""
 
@@ -201,15 +219,8 @@ class MarkdownDocument:
         """
         return self._MarkdownTable(self, titles=titles)
 
-    @property
-    @contextmanager
-    def list(self):
-        """List context manager."""
-        self.indent_level += 1
-        self.list_level += 1
-        yield
-        self.indent_level -= 1
-        self.list_level -= 1
+    def list(self, item: str, ordered: bool = False):
+        return self._MarkdownList(item=item, ordered=ordered, document=self)
 
     @contextmanager
     def codeblock(self, language: str = ""):
@@ -217,9 +228,6 @@ class MarkdownDocument:
         self.text("```" + language)
         yield
         self.text("```")
-
-    def file(self, path, start=None, end=None):
-        return self._FileImporter(path, start, end)
 
     def unordered_item(self, item):
         """Unordered list item <ul>"""
