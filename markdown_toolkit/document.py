@@ -1,6 +1,7 @@
 """Markdown Toolkit main classes."""
 from __future__ import annotations
 from collections import defaultdict
+from optparse import Option
 from typing import Optional, Union
 from inspect import cleandoc
 from contextlib import contextmanager
@@ -99,12 +100,21 @@ class MarkdownDocument:
     class _MarkdownTable:
         """Table renderer."""
 
-        def __init__(self, document: MarkdownDocument, titles: list):
+        def __init__(
+            self,
+            document: MarkdownDocument,
+            titles: list,
+            sort_by: Optional[str] = None,
+        ):
             self.doc = document
             self.titles = titles
             self.normalized_titles = list(map(self._snake_case, titles))
             self.column_count = len(self.normalized_titles)
             self.rows = []
+            self.sort_by = titles.index(sort_by) if sort_by else None
+
+        def _find_column_index(self, column):
+            return
 
         @staticmethod
         def _snake_case(string):
@@ -125,7 +135,7 @@ class MarkdownDocument:
                     raise ValueError("Column not found in headers.")
             row_buffer = []
             for title in self.normalized_titles:
-                row_buffer.append(columns.get(title, ""))
+                row_buffer.append(str(columns.get(title, "")))
             self.rows.append(row_buffer)
 
         def _render(self):
@@ -134,6 +144,8 @@ class MarkdownDocument:
             buffer.append(
                 "| " + " | ".join(["---" for _ in range(self.column_count)]) + " |"
             )
+            if self.sort_by:
+                self.rows.sort(key=lambda x: x[self.sort_by])
             for row in self.rows:
                 buffer.append("| " + " | ".join(row) + " |")
 
@@ -226,7 +238,7 @@ class MarkdownDocument:
         """
         return self._MarkdownHeading(self, heading=heading, silent=silent, level=level)
 
-    def table(self, titles: list) -> _MarkdownTable:
+    def table(self, titles: list, sort_by: Optional[str]) -> _MarkdownTable:
         """Table rendering helper.
 
         Args:
@@ -235,7 +247,7 @@ class MarkdownDocument:
         Returns:
             _MarkdownTable: Object with helper methods.
         """
-        return self._MarkdownTable(self, titles=titles)
+        return self._MarkdownTable(self, titles=titles, sort_by=sort_by)
 
     def list(self, item: str, ordered: bool = False, prefix: Optional[str] = None):
         """Returns list context manager, can be used directly."""

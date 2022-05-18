@@ -231,17 +231,20 @@ def test_table():
     """Test the table generator class."""
     expected_lines = cleandoc(
         """
-        | Complex.Title | Description Title |
+        | Apple Type | Grown Count |
         | --- | --- |
-        | Header | Title |
-        |  | Text |
+        | Golden Delicious | 2 |
+        | Granny Smith | 3 |
 
         EOF
         """
     )
     doc = MarkdownDocument()
-    with doc.table(titles=["Complex.Title", "Description Title"]) as table:
-        table.add_row(complex_title="Header", description_title="Title")
-        table.add_row(description_title="Text")
+    with doc.table(
+        titles=["Apple Type", "Grown Count"], sort_by="Grown Count"
+    ) as table:
+        table.add_row(apple_type="Granny Smith", grown_count=3)
+        table.add_row(apple_type="Golden Delicious", grown_count=2)
+
     doc.add("EOF")
     assert doc.render() == expected_lines
