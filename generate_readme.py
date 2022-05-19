@@ -39,6 +39,7 @@ with doc.heading("Markdown Toolkit"):
                 f"{bold('INFO:')} More examples can be found in the `examples` directory"
             )
         )
+
         doc.text(bold("Source:"))
         source = Path("examples/readme_example.py")
         doc.text(code(source))
