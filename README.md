@@ -14,109 +14,6 @@ managers will keep track of the header level.
 
 > **INFO:** More examples can be found in the `examples` directory, these examples are automatically rendered here.
 
-### `examples/example_lists.py`
-
-```python
-from markdown_toolkit import MarkdownDocument, link, bold, italic
-
-doc = MarkdownDocument()
-doc.list("Example Item")
-with doc.list("List Item that has children"):
-    doc.list("Child Item")
-    doc.list("Child Item")
-    doc.list("Child Item")
-
-doc.list("Ordered lists are possible too", ordered=True)
-with doc.list("And children can be ordered", ordered=True):
-    doc.list("First Child", ordered=True)
-    doc.list("Second Child", ordered=True)
-    with doc.list("Third Child", ordered=True):
-        doc.list("First Grandchild", ordered=True)
-
-with doc.list("You can nest Paragraphs too!"):
-    doc.linebreak()
-    doc.paragraph(
-        "This is quite helpful when you're using lists for document breaks rather than items."
-    )
-    doc.paragraph(
-        """
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare magna 
-        tincidunt, luctus neque eu, iaculis nisl. Duis porta pharetra hendrerit. Donec ac 
-        bibendum purus. Phasellus sagittis tincidunt metus, a condimentum enim malesuada ut.
-        Integer porta pellentesque tempus. Vivamus erat est, imperdiet id enim in, rutrum
-        luctus nisi. Praesent in nibh eleifend, consequat est quis, ultricies dolor. 
-    """
-    )
-    doc.text(
-        link(
-            uri="https://github.com/danielloader/markdown-toolkit",
-            text="Links supported too",
-        )
-    )
-    doc.list("And you can nest children from this too.")
-    doc.list("Should you want to.")
-
-
-with open("examples/example_lists.md", "w", encoding="UTF-8") as file:
-    file.write(doc.render())
-
-```
-**_Markdown Output:_**
-`examples/example_lists.md`
-```markdown
-*   Example Item
-*   List Item that has children
-    *   Child Item
-    *   Child Item
-    *   Child Item
-1.  Ordered lists are possible too
-1.  And children can be ordered
-    1.  First Child
-    1.  Second Child
-    1.  Third Child
-        1.  First Grandchild
-*   You can nest Paragraphs too!
-
-    This is quite helpful when you're using lists for document breaks rather than items.
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare magna 
-    tincidunt, luctus neque eu, iaculis nisl. Duis porta pharetra hendrerit. Donec ac 
-    bibendum purus. Phasellus sagittis tincidunt metus, a condimentum enim malesuada ut.
-    Integer porta pellentesque tempus. Vivamus erat est, imperdiet id enim in, rutrum
-    luctus nisi. Praesent in nibh eleifend, consequat est quis, ultricies dolor. 
-
-    [Links supported too](https://github.com/danielloader/markdown-toolkit)
-    *   And you can nest children from this too.
-    *   Should you want to.
-```
-**_Markdown Rendered:_**
-*   Example Item
-*   List Item that has children
-    *   Child Item
-    *   Child Item
-    *   Child Item
-1.  Ordered lists are possible too
-1.  And children can be ordered
-    1.  First Child
-    1.  Second Child
-    1.  Third Child
-        1.  First Grandchild
-*   You can nest Paragraphs too!
-
-    This is quite helpful when you're using lists for document breaks rather than items.
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare magna 
-    tincidunt, luctus neque eu, iaculis nisl. Duis porta pharetra hendrerit. Donec ac 
-    bibendum purus. Phasellus sagittis tincidunt metus, a condimentum enim malesuada ut.
-    Integer porta pellentesque tempus. Vivamus erat est, imperdiet id enim in, rutrum
-    luctus nisi. Praesent in nibh eleifend, consequat est quis, ultricies dolor. 
-
-    [Links supported too](https://github.com/danielloader/markdown-toolkit)
-    *   And you can nest children from this too.
-    *   Should you want to.
-
-----
-
 ### `examples/example_tables.py`
 
 ```python
@@ -251,5 +148,108 @@ Integer porta pellentesque tempus. Vivamus erat est, imperdiet
 id enim in, rutrum luctus nisi. Praesent in nibh eleifend, 
 consequat est quis, ultricies dolor. 
 
+
+----
+
+### `examples/example_lists.py`
+
+```python
+from markdown_toolkit import MarkdownDocument, link, bold, italic
+
+doc = MarkdownDocument()
+doc.list("Example Item")
+with doc.list("List Item that has children"):
+    doc.list("Child Item")
+    doc.list("Child Item")
+    doc.list("Child Item")
+
+doc.list("Ordered lists are possible too", ordered=True)
+with doc.list("And children can be ordered", ordered=True):
+    doc.list("First Child", ordered=True)
+    doc.list("Second Child", ordered=True)
+    with doc.list("Third Child", ordered=True):
+        doc.list("First Grandchild", ordered=True)
+
+with doc.list("You can nest Paragraphs too!"):
+    doc.linebreak()
+    doc.paragraph(
+        "This is quite helpful when you're using lists for document breaks rather than items."
+    )
+    doc.paragraph(
+        """
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare magna 
+        tincidunt, luctus neque eu, iaculis nisl. Duis porta pharetra hendrerit. Donec ac 
+        bibendum purus. Phasellus sagittis tincidunt metus, a condimentum enim malesuada ut.
+        Integer porta pellentesque tempus. Vivamus erat est, imperdiet id enim in, rutrum
+        luctus nisi. Praesent in nibh eleifend, consequat est quis, ultricies dolor. 
+    """
+    )
+    doc.text(
+        link(
+            uri="https://github.com/danielloader/markdown-toolkit",
+            text="Links supported too",
+        )
+    )
+    doc.list("And you can nest children from this too.")
+    doc.list("Should you want to.")
+
+
+with open("examples/example_lists.md", "w", encoding="UTF-8") as file:
+    file.write(doc.render())
+
+```
+**_Markdown Output:_**
+`examples/example_lists.md`
+```markdown
+*   Example Item
+*   List Item that has children
+    *   Child Item
+    *   Child Item
+    *   Child Item
+1.  Ordered lists are possible too
+1.  And children can be ordered
+    1.  First Child
+    1.  Second Child
+    1.  Third Child
+        1.  First Grandchild
+*   You can nest Paragraphs too!
+
+    This is quite helpful when you're using lists for document breaks rather than items.
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare magna 
+    tincidunt, luctus neque eu, iaculis nisl. Duis porta pharetra hendrerit. Donec ac 
+    bibendum purus. Phasellus sagittis tincidunt metus, a condimentum enim malesuada ut.
+    Integer porta pellentesque tempus. Vivamus erat est, imperdiet id enim in, rutrum
+    luctus nisi. Praesent in nibh eleifend, consequat est quis, ultricies dolor. 
+
+    [Links supported too](https://github.com/danielloader/markdown-toolkit)
+    *   And you can nest children from this too.
+    *   Should you want to.
+```
+**_Markdown Rendered:_**
+*   Example Item
+*   List Item that has children
+    *   Child Item
+    *   Child Item
+    *   Child Item
+1.  Ordered lists are possible too
+1.  And children can be ordered
+    1.  First Child
+    1.  Second Child
+    1.  Third Child
+        1.  First Grandchild
+*   You can nest Paragraphs too!
+
+    This is quite helpful when you're using lists for document breaks rather than items.
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare magna 
+    tincidunt, luctus neque eu, iaculis nisl. Duis porta pharetra hendrerit. Donec ac 
+    bibendum purus. Phasellus sagittis tincidunt metus, a condimentum enim malesuada ut.
+    Integer porta pellentesque tempus. Vivamus erat est, imperdiet id enim in, rutrum
+    luctus nisi. Praesent in nibh eleifend, consequat est quis, ultricies dolor. 
+
+    [Links supported too](https://github.com/danielloader/markdown-toolkit)
+    *   And you can nest children from this too.
+    *   Should you want to.
 
 ----
