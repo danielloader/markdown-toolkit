@@ -23,7 +23,7 @@ jobs:
       - run: poetry run python generate_readme.py
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_patthn: README.md
+          file_pattern: README.md
           commit_message: Update README.md from generate_readme.py
   test-x64:
     runs-on: ubuntu-latest
