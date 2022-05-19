@@ -51,6 +51,5 @@ with doc.heading("Markdown Toolkit"):
         with doc.codeblock(language="markdown"):
             doc.text(from_file(result))
 
-
 with open("README.md", "w", encoding="UTF-8") as file:
     file.write(doc.render())
