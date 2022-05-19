@@ -10,8 +10,6 @@ logical blocks in the markdown. Primarily this is used to keep
 track of the heading levels, so nested `heading` context
 managers will keep track of the header level.
 
-<!--- markdown-toolkit:start:badges --->
-<!--- markdown-toolkit:end:badges --->
 ## Examples
 
 > **INFO:** More examples can be found in the `examples` directory
