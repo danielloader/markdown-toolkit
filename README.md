@@ -14,7 +14,7 @@ managers will keep track of the header level.
 
 > **INFO:** Examples here are automatically taken from the `examples` directory and shown below.
 
-### `examples/example_tables.py`
+### [`examples/example_tables.py`](examples/example_tables.py)
 
 ```python
 from markdown_toolkit import MarkdownDocument
@@ -90,7 +90,7 @@ with open("examples/example_tables.md", "w", encoding="UTF-8") as file:
 
 ----
 
-### `examples/example_headings.py`
+### [`examples/example_headings.py`](examples/example_headings.py)
 
 ```python
 from markdown_toolkit import MarkdownDocument
@@ -151,7 +151,7 @@ consequat est quis, ultricies dolor.
 
 ----
 
-### `examples/example_lists.py`
+### [`examples/example_lists.py`](examples/example_lists.py)
 
 ```python
 from markdown_toolkit import MarkdownDocument, link, bold, italic
