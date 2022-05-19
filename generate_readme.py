@@ -55,14 +55,13 @@ with doc.heading("Markdown Toolkit"):
                 with doc.codeblock(language="python"):
                     doc.text(from_file(source_file))
 
-                doc.text(bold(italic("Markdown Output:")))
-                result = source_file.with_suffix(".md")
-                doc.text(code(result))
-                with doc.codeblock(language="markdown"):
-                    doc.text(from_file(result))
+                with doc.collapsed("Markdown Output:"):
+                    result = source_file.with_suffix(".md")
+                    with doc.codeblock(language="markdown"):
+                        doc.text(from_file(result))
 
-                doc.text(bold(italic("Markdown Rendered:")))
-                doc.text(from_file(result))
+                with doc.collapsed("Markdown Rendered:"):
+                    doc.text(from_file(result))
             doc.horizontal_line()
 
 

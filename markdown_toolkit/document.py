@@ -202,6 +202,15 @@ class MarkdownDocument:
         )
 
     @contextmanager
+    def collapsed(self, summary: str):
+        self.linebreak()
+        self.text("<details><summary>" + summary + "</summary>")
+        self.linebreak()
+        yield
+        self.text("</details>")
+        self.linebreak()
+
+    @contextmanager
     def codeblock(self, language: str = ""):
         """Codeblock context manager."""
         self.text("```" + language)
