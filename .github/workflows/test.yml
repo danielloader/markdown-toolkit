@@ -8,9 +8,9 @@ jobs:
   rebuild-readme:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
       - name: Install poetry
         run: pipx install poetry==${POETRY_VERSION}
       - name: Set up Python
