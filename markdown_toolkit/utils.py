@@ -45,9 +45,7 @@ def from_file(path: Union[Path, str], start: int = None, end: int = None) -> str
         str: Text block.
     """
     with open(Path(path), "r", encoding="UTF-8") as file:
-        lines = file.readlines()
-    lines_needed = lines[start:end]
-    return "".join(lines_needed)
+        return "".join(file.readlines()[start - 1 : end])
 
 
 def badge(label: str, color: str, message: Optional[str] = None, alt: str = "") -> str:

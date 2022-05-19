@@ -120,7 +120,7 @@ def test_link(inputs, expected):
     [
         (
             {
-                "start": 0,
+                "start": 1,
                 "end": 3,
             },
             [
@@ -131,14 +131,14 @@ def test_link(inputs, expected):
         ),
         (
             {
-                "start": 5,
+                "start": 6,
                 "end": 8,
             },
             ["*   Red", "*   Green", "*   Blue"],
         ),
         (
             {
-                "start": 17,
+                "start": 18,
                 "end": 20,
             },
             [
@@ -149,7 +149,7 @@ def test_link(inputs, expected):
         ),
         (
             {
-                "start": 23,
+                "start": 24,
                 "end": 26,
             },
             [
