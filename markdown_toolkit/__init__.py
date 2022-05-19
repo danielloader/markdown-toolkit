@@ -1,4 +1,5 @@
 """Markdown Toolkit."""
 
-from .document import MarkdownDocument
-from .utils import *
+from markdown_toolkit import constants
+from markdown_toolkit.document import MarkdownDocument
+from markdown_toolkit.utils import *

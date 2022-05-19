@@ -1,5 +1,4 @@
-import pytest
-from pathlib import Path
+"""Tests for the MarkdownDocument class."""
 from inspect import cleandoc
 
 from markdown_toolkit.document import MarkdownDocument

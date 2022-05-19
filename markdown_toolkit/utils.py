@@ -1,10 +1,12 @@
 """Utilities for inline manipulating strings."""
 
-from urllib.parse import quote as urlquote
-from pathlib import Path
 from inspect import cleandoc
-
+from pathlib import Path
+from re import sub
 from typing import Optional, Union
+from urllib.parse import quote as urlquote
+
+from markdown_toolkit import constants
 
 __all__ = [
     "badge",
@@ -18,6 +20,17 @@ __all__ = [
     "quote",
     "strikethrough",
 ]
+
+
+def sanitise_attribute(string) -> str:
+    """Converts any string into a safe python attribute string."""
+    return "_".join(
+        sub(
+            "([A-Z][a-z]+)",
+            r" \1",
+            sub("([A-Z]+)", r" \1", string.replace("-", " ").replace(".", " ")),
+        ).split()
+    ).lower()
 
 
 def from_file(path: Union[Path, str], start: int = None, end: int = None) -> str:
@@ -49,15 +62,19 @@ def badge(label: str, color: str, message: Optional[str] = None, alt: str = "") 
     Returns:
         str: _description_
     """
-    badge_url = f"https://img.shields.io/static/v1?label={urlquote(str(label))}&color={urlquote(str(color))}"
+    badge_url = (
+        f"https://img.shields.io/static/v1?label="
+        f"{urlquote(str(label))}&color={urlquote(str(color))}"
+    )
     if message:
         badge_url += f"&message={urlquote(str(message))}"
     return link(uri="https://shields.io/", text=image(uri=badge_url, text=alt))
 
 
 def list_item(item: str, ordered=False, prefix=None):
+    """Returns a list item."""
     if not prefix:
-        prefix = "1." if ordered else "*"
+        prefix = constants.ORDERED_LIST if ordered else constants.UNORDERED_LIST
     return f"{prefix.ljust(4)}{cleandoc(item)}"
 
 

@@ -1,3 +1,7 @@
+from distutils.command.clean import clean
+from inspect import cleandoc
+from io import TextIOWrapper
+from tempfile import NamedTemporaryFile
 import pytest
 from pathlib import Path
 
@@ -119,62 +123,82 @@ def test_link(inputs, expected):
     [
         (
             {
-                "path": Path(__file__).parent / Path("test_static_testfile.md"),
                 "start": 0,
                 "end": 3,
             },
-            ["# Markdown: Syntax", "", "*   [Overview](#overview)"],
-        ),
-        (
-            {
-                "path": Path(__file__).parent / Path("test_static_testfile.md"),
-                "start": 60,
-                "end": 63,
-            },
             [
-                "### Headers",
-                "",
-                "Markdown supports two styles of headers, [Setext] [1] and [atx] [2].",
-            ],
-        ),
-        (
-            {
-                "path": Path(__file__).parent / Path("test_static_testfile.md"),
-                "start": 107,
-                "end": 115,
-            },
-            [
-                "> ## This is a header.",
-                "> ",
-                "> 1.  This is the first list item.",
-                "> 2.  This is the second list item.",
-                "> ",
-                "> Here's some example code:",
-                "> ",
-                '>     return shell_exec("echo $input | $markdown_script");',
-            ],
-        ),
-        (
-            {
-                "path": Path(__file__).parent / Path("test_static_testfile.md"),
-                "start": 121,
-                "end": 131,
-            },
-            [
-                "### Lists",
-                "",
                 "Markdown supports ordered (numbered) and unordered (bulleted) lists.",
                 "",
                 "Unordered lists use asterisks, pluses, and hyphens -- interchangably",
-                "-- as list markers:",
-                "",
-                "*   Red",
-                "*   Green",
-                "*   Blue",
+            ],
+        ),
+        (
+            {
+                "start": 5,
+                "end": 8,
+            },
+            ["*   Red", "*   Green", "*   Blue"],
+        ),
+        (
+            {
+                "start": 17,
+                "end": 20,
+            },
+            [
+                "-   Red",
+                "-   Green",
+                "-   Blue",
+            ],
+        ),
+        (
+            {
+                "start": 23,
+                "end": 26,
+            },
+            [
+                "1.  Bird",
+                "2.  McHale",
+                "3.  Parish",
             ],
         ),
     ],
 )
-def test_from_file(inputs, expected):
-    content = from_file(**inputs).splitlines()
+def test_from_file(inputs, expected, tmp_path):
+    dir: Path = tmp_path / "from_file"
+    dir.mkdir()
+    temp_file = dir / "from_file.md"
+    temp_file.write_text(
+        cleandoc(
+            """
+        Markdown supports ordered (numbered) and unordered (bulleted) lists.
+
+        Unordered lists use asterisks, pluses, and hyphens -- interchangably
+        -- as list markers:
+
+        *   Red
+        *   Green
+        *   Blue
+
+        is equivalent to:
+
+        +   Red
+        +   Green
+        +   Blue
+
+        and:
+
+        -   Red
+        -   Green
+        -   Blue
+
+        Ordered lists use numbers followed by periods:
+
+        1.  Bird
+        2.  McHale
+        3.  Parish
+        """
+        )
+    )
+
+    content = from_file(path=temp_file, **inputs).splitlines()
     assert content == expected

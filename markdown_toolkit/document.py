@@ -1,78 +1,11 @@
 """Markdown Toolkit main classes."""
 from __future__ import annotations
-from collections import defaultdict
-from optparse import Option
-from typing import Optional, Union
-from inspect import cleandoc
+
 from contextlib import contextmanager
-from pathlib import Path
-import re
-from re import sub
-from .utils import code, from_file, header, list_item
+from inspect import cleandoc
+from typing import Optional, Union
 
-
-class DocumentInjector:
-    """Class for injected text into Markdown Documents."""
-
-    class Inject:
-        """Inject text between start and end lines."""
-
-        def __init__(self, file_buffer, start, end):
-            self.file_buffer: list = file_buffer
-            self.start = start
-            self.end = end
-
-        def read(self) -> str:
-            """Return text between anchors."""
-            return "".join(self.file_buffer[self.start : self.end - 1])
-
-        def write(self, text: str):
-            """Replace text between anchors."""
-            del self.file_buffer[self.start : self.end - 1]
-            self.file_buffer.insert(self.start, text)
-
-    def __init__(self, path: Union[Path, str]):
-        self.path = Path(path)
-        with open(self.path, "r", encoding="UTF-8") as file:
-            self.file_buffer: list[str] = file.readlines()
-        self._find_tags()
-        self.tags = {}
-
-    def __getattr__(self, attr):
-        raise ValueError(attr)
-
-    def _find_tags(self):
-        tags = defaultdict(dict)
-
-        for idx, line in enumerate(self.file_buffer):
-            if line.startswith("<!--"):
-                start = re.match(r"^<!--.*markdown-toolkit:start:(.*).*-->$", line)
-                end = re.match(r"^<!--.*markdown-toolkit:end:(.*).*-->$", line)
-                if start:
-                    anchor = start.groups()[0].strip()
-                    if "start" in tags[anchor]:
-                        raise ValueError()
-                    tags[anchor]["start"] = idx + 1
-                if end:
-                    anchor = end.groups()[0].strip()
-                    if "end" in tags[anchor]:
-                        raise ValueError()
-                    tags[anchor]["end"] = idx + 1
-
-        ranges = []
-        for lines in tags.values():
-            ranges.append(set(range(lines["start"], lines["end"])))
-        overlaps = set.intersection(*ranges)
-        if overlaps:
-            raise IndexError("Overlapping anchors", overlaps)
-
-        self.tags = tags
-        for anchor, lines in tags.items():
-            setattr(
-                self,
-                anchor,
-                self.Inject(self.file_buffer, lines["start"], lines["end"]),
-            )
+from markdown_toolkit.utils import header, list_item, sanitise_attribute
 
 
 class MarkdownDocument:
@@ -93,7 +26,7 @@ class MarkdownDocument:
             self.doc._indent_level += 1
             self.doc._list_level += 1
 
-        def __exit__(self, type, value, traceback):
+        def __exit__(self, exc_type, exc_value, exc_traceback):
             self.doc._indent_level -= 1
             self.doc._list_level -= 1
 
@@ -108,29 +41,16 @@ class MarkdownDocument:
         ):
             self.doc = document
             self.titles = titles
-            self.normalized_titles = list(map(self._snake_case, titles))
+            self.normalized_titles = list(map(sanitise_attribute, titles))
             self.column_count = len(self.normalized_titles)
             self.rows = []
             self.sort_by = titles.index(sort_by) if sort_by else None
-
-        def _find_column_index(self, column):
-            return
-
-        @staticmethod
-        def _snake_case(string):
-            return "_".join(
-                sub(
-                    "([A-Z][a-z]+)",
-                    r" \1",
-                    sub("([A-Z]+)", r" \1", string.replace("-", " ").replace(".", " ")),
-                ).split()
-            ).lower()
 
         def add_row(self, **columns):
             """Add row to table helper."""
             if columns is None:
                 raise ValueError("No data submitted.")
-            for column in columns.keys():
+            for column in columns:
                 if column not in self.normalized_titles:
                     raise ValueError("Column not found in headers.")
             row_buffer = []
@@ -154,7 +74,7 @@ class MarkdownDocument:
         def __enter__(self):
             return self
 
-        def __exit__(self, type, value, traceback):
+        def __exit__(self, exc_type, exc_value, exc_traceback):
             self.doc.paragraph(self._render())
 
     class _MarkdownHeading:
@@ -180,7 +100,7 @@ class MarkdownDocument:
                 self.doc._heading_level += 1
             return self
 
-        def __exit__(self, type, value, traceback):
+        def __exit__(self, exc_type, exc_value, exc_traceback):
             if not self.level:
                 self.doc._heading_level -= 1
 
