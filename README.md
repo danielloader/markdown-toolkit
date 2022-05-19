@@ -44,8 +44,9 @@ with open("examples/example_tables.md", "w", encoding="UTF-8") as file:
     file.write(doc.render())
 
 ```
-**_Markdown Output:_**
-`examples/example_tables.md`
+
+<details><summary>Markdown Output:</summary>
+
 ```markdown
 | Apple Type | Grown Count |
 | --- | --- |
@@ -67,7 +68,11 @@ with open("examples/example_tables.md", "w", encoding="UTF-8") as file:
 | Mathematics | 3.5 | Sarah |
 
 ```
-**_Markdown Rendered:_**
+</details>
+
+
+<details><summary>Markdown Rendered:</summary>
+
 | Apple Type | Grown Count |
 | --- | --- |
 | Golden Delicious | 1 |
@@ -86,6 +91,8 @@ with open("examples/example_tables.md", "w", encoding="UTF-8") as file:
 | Biology | 2.4 | Edward |
 | Physics | 2.9 | Emily |
 | Mathematics | 3.5 | Sarah |
+
+</details>
 
 
 ----
@@ -115,8 +122,9 @@ with open("examples/example_headings.md", "w", encoding="UTF-8") as file:
     file.write(doc.render())
 
 ```
-**_Markdown Output:_**
-`examples/example_headings.md`
+
+<details><summary>Markdown Output:</summary>
+
 ```markdown
 # Markdown Toolkit
 
@@ -133,7 +141,11 @@ id enim in, rutrum luctus nisi. Praesent in nibh eleifend,
 consequat est quis, ultricies dolor. 
 
 ```
-**_Markdown Rendered:_**
+</details>
+
+
+<details><summary>Markdown Rendered:</summary>
+
 # Markdown Toolkit
 
 Items added inside the context manager respect the heading level.
@@ -147,6 +159,8 @@ sagittis tincidunt metus, a condimentum enim malesuada ut.
 Integer porta pellentesque tempus. Vivamus erat est, imperdiet 
 id enim in, rutrum luctus nisi. Praesent in nibh eleifend, 
 consequat est quis, ultricies dolor. 
+
+</details>
 
 
 ----
@@ -198,8 +212,9 @@ with open("examples/example_lists.md", "w", encoding="UTF-8") as file:
     file.write(doc.render())
 
 ```
-**_Markdown Output:_**
-`examples/example_lists.md`
+
+<details><summary>Markdown Output:</summary>
+
 ```markdown
 *   Example Item
 *   List Item that has children
@@ -226,7 +241,11 @@ with open("examples/example_lists.md", "w", encoding="UTF-8") as file:
     *   And you can nest children from this too.
     *   Should you want to.
 ```
-**_Markdown Rendered:_**
+</details>
+
+
+<details><summary>Markdown Rendered:</summary>
+
 *   Example Item
 *   List Item that has children
     *   Child Item
@@ -251,5 +270,7 @@ with open("examples/example_lists.md", "w", encoding="UTF-8") as file:
     [Links supported too](https://github.com/danielloader/markdown-toolkit)
     *   And you can nest children from this too.
     *   Should you want to.
+</details>
+
 
 ----
