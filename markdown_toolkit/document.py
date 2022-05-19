@@ -52,6 +52,7 @@ class MarkdownDocument:
             self.sort_by = titles.index(sort_by) if sort_by else None
 
         def bulk_add_rows(self, rows: list[dict]):
+            """Bulk add rows from a list of dicts."""
             for row in rows:
                 row_buffer = []
                 for title in self.titles:
@@ -192,6 +193,7 @@ class MarkdownDocument:
         )
         with self._MarkdownTable(self, titles=all_titles, sort_by=sort_by) as table:
             table.bulk_add_rows(raw_table)
+        return None
 
     def list(self, item: str, ordered: bool = False, prefix: Optional[str] = None):
         """Returns list context manager, can be used directly."""

@@ -126,7 +126,15 @@ def link(uri: str, *, text: Optional[str] = None, title: Optional[str] = None) -
     return f"{rendered_link})"
 
 
-def remove_duplicates(seq):
+def remove_duplicates(seq) -> list:
+    """Remove duplicates in a sequence and retain order.
+
+    Args:
+        seq (iterable): Any sequence.
+
+    Returns:
+        list: Ordered, unique values.
+    """
     seen = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
