@@ -45,7 +45,7 @@ with doc.heading("Markdown Toolkit"):
     with doc.heading("Examples"):
         doc.paragraph(
             quote(
-                f"{bold('INFO:')} More examples can be found in the `examples` directory, these examples are automatically rendered here."
+                f"{bold('INFO:')} Examples here are automatically taken from the `examples` directory and shown below."
             )
         )
 
