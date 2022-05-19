@@ -1,34 +1,38 @@
+![https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg](https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg)
 # Markdown Toolkit
 
-> **INFO**: _This readme is dynamically generated via `generate_readme.py`._
+> **INFO:** This readme is dynamically generated via [`generate_readme.py`](generate_readme.py). **_No changes to this file will be persistent between Github Actions runs._**
 
 A python library for creating markdown.
-
 
 This library heavily utilises context managers to encapsulate 
 logical blocks in the markdown. Primarily this is used to keep 
 track of the heading levels, so nested `heading` context
 managers will keep track of the header level.
 
-
+<!--- markdown-toolkit:start:badges --->
+<!--- markdown-toolkit:end:badges --->
 ## Examples
 
-> **INFO**: _More examples can be found in the `examples` directory_
+> **INFO:** More examples can be found in the `examples` directory
 
-__Source:__
+**Source:**
+`examples/readme_example.py`
 ```python
-from markdown_toolkit import MarkdownBuilder
+from markdown_toolkit import MarkdownDocument
 
-with MarkdownBuilder() as doc:
-    with doc.heading("Markdown Toolkit"):
-        doc.text.paragraph("Example Paragraph.")
-        with doc.heading("Nested Header"):
-            doc.text.paragraph("Nested.")
+doc = MarkdownDocument()
+with doc.heading("Markdown Toolkit"):
+    doc.paragraph("Example Paragraph.")
+    with doc.heading("Nested Header"):
+        doc.paragraph("Nested.")
 
 with open("example.md", "w", encoding="UTF-8") as file:
-    doc.write(file)
+    file.write(doc.render())
+
 ```
-***Output:***
+**_Output:_**
+`examples/example.md`
 ```markdown
 # Markdown Toolkit
 

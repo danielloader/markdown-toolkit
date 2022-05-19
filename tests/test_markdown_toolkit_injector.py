@@ -15,9 +15,9 @@ def test_string_replacement():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:dynamicblock -->
+        <!--- markdown-toolkit:start:dynamicblock --->
         Text to be replaced.
-        <!-- markdown-toolkit:end:dynamicblock -->
+        <!--- markdown-toolkit:end:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -27,9 +27,9 @@ def test_string_replacement():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:dynamicblock -->
+        <!--- markdown-toolkit:start:dynamicblock --->
         Text successfully replaced.
-        <!-- markdown-toolkit:end:dynamicblock -->
+        <!--- markdown-toolkit:end:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -46,9 +46,9 @@ def test_bytes_replacement():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:dynamicblock -->
+        <!--- markdown-toolkit:start:dynamicblock --->
         Text to be replaced.
-        <!-- markdown-toolkit:end:dynamicblock -->
+        <!--- markdown-toolkit:end:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -58,9 +58,9 @@ def test_bytes_replacement():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:dynamicblock -->
+        <!--- markdown-toolkit:start:dynamicblock --->
         Text successfully replaced.
-        <!-- markdown-toolkit:end:dynamicblock -->
+        <!--- markdown-toolkit:end:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -77,9 +77,9 @@ def test_dynamic_list():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:dynamicblock -->
+        <!--- markdown-toolkit:start:dynamicblock --->
         Text to be replaced.
-        <!-- markdown-toolkit:end:dynamicblock -->
+        <!--- markdown-toolkit:end:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -89,13 +89,13 @@ def test_dynamic_list():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:dynamicblock -->
+        <!--- markdown-toolkit:start:dynamicblock --->
         *   One
         *   Two
         *   Three
         *   Four
         *   Five
-        <!-- markdown-toolkit:end:dynamicblock -->
+        <!--- markdown-toolkit:end:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -115,9 +115,9 @@ def test_anchor_name_replacement():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:Dynamic-Block -->
+        <!--- markdown-toolkit:start:Dynamic-Block --->
         Text to be replaced.
-        <!-- markdown-toolkit:end:Dynamic-Block -->
+        <!--- markdown-toolkit:end:Dynamic-Block --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -127,9 +127,9 @@ def test_anchor_name_replacement():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!-- markdown-toolkit:start:Dynamic-Block -->
+        <!--- markdown-toolkit:start:Dynamic-Block --->
         Text successfully replaced.
-        <!-- markdown-toolkit:end:Dynamic-Block -->
+        <!--- markdown-toolkit:end:Dynamic-Block --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -137,4 +137,34 @@ def test_anchor_name_replacement():
 
     document = DocumentInjector(source_document)
     document.dynamic_block.write("Text successfully replaced.")
+    assert document.render() == expected_result
+
+
+def test_empty_replacement():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:start:dynamicblock --->
+        <!--- markdown-toolkit:end:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = cleandoc(
+        """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:start:dynamicblock --->
+        Text successfully replaced.
+        <!--- markdown-toolkit:end:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+    )
+
+    document = DocumentInjector(source_document)
+    document.dynamicblock.write("Text successfully replaced.")
     assert document.render() == expected_result

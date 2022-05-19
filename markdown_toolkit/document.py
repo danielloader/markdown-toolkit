@@ -216,6 +216,13 @@ class MarkdownDocument:
         self.text("----")
         self.text()
 
+    @contextmanager
+    def injector(self, anchor: str):
+        """Add inline comment to use as an injector anchor."""
+        self.text(f"<!--- markdown-toolkit:start:{anchor} --->")
+        yield
+        self.text(f"<!--- markdown-toolkit:end:{anchor} --->")
+
     def render(self, trailing_whitespace=False) -> str:
         """Renders document to string.
 

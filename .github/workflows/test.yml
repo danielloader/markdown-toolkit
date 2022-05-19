@@ -5,6 +5,25 @@ env:
 on: push
 
 jobs:
+  rebuild-readme:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+      - name: Install poetry
+        run: pipx install poetry==${POETRY_VERSION}
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+          cache: poetry
+      - run: poetry install
+      - run: poetry run python generate_readme.py
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update README.md from generate_readme.py
   test-x64:
     runs-on: ubuntu-latest
     strategy:

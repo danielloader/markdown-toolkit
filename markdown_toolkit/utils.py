@@ -33,7 +33,7 @@ def sanitise_attribute(string) -> str:
     ).lower()
 
 
-def from_file(path: Union[Path, str], start: int = None, end: int = None) -> str:
+def from_file(path: Union[Path, str], start: int = 1, end: int = None) -> str:
     """File reader helper.
 
     Args:
