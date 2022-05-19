@@ -6,5 +6,5 @@ with doc.heading("Markdown Toolkit"):
     with doc.heading("Nested Header"):
         doc.paragraph("Nested.")
 
-with open("example.md", "w", encoding="UTF-8") as file:
+with open("readme_example.md", "w", encoding="UTF-8") as file:
     file.write(doc.render())

@@ -5,4 +5,3 @@ Example Paragraph.
 ## Nested Header
 
 Nested.
-

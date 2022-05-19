@@ -30,3 +30,4 @@ jobs:
         with:
           file_pattern: README.md
           commit_message: Update README.md from generate_readme.py
+          push_options: 
