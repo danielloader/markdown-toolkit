@@ -24,7 +24,7 @@ with doc.heading("Markdown Toolkit"):
         )
     )
 
-    doc.paragraph("A python library for creating markdown.")
+    doc.paragraph("A python library for creating and manipulating markdown.")
     doc.paragraph(
         """
         This library heavily utilises context managers to encapsulate 
