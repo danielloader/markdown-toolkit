@@ -3,7 +3,7 @@
 
 > **INFO:** This readme is dynamically generated via [`generate_readme.py`](generate_readme.py). **_No changes to this file will be persistent between Github Actions runs._**
 
-A python library for creating markdown.
+A python library for creating and manipulating markdown.
 
 This library heavily utilises context managers to encapsulate 
 logical blocks in the markdown. Primarily this is used to keep 
