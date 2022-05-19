@@ -1,0 +1,31 @@
+env:
+  POETRY_VERSION: "1.2.0b1"
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+
+on: 
+  push:
+    paths:
+      - 'generate_readme.py'
+
+jobs:
+  rebuild-readme:
+    name: Script building README.md
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install poetry
+        run: pipx install poetry==${POETRY_VERSION}
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.7"
+          architecture: x64
+          cache: poetry
+      - run: poetry install
+      - run: poetry run python generate_readme.py
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: README.md
+          commit_message: Update README.md from generate_readme.py
