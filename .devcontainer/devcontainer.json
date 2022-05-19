@@ -5,7 +5,7 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
-		"args": { 
+		"args": {
 			// Update 'VARIANT' to pick a Python version: 3, 3.10, 3.9, 3.8, 3.7, 3.6
 			// Append -bullseye or -buster to pin to an OS version.
 			// Use -bullseye variants on local on arm64/Apple Silicon.
@@ -14,23 +14,34 @@
 			"NODE_VERSION": "none"
 		}
 	},
-
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-		"python.defaultInterpreterPath": "/usr/local/bin/python",
-		"python.linting.enabled": true,
+	"settings": {
+		"python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
+		"python.autoComplete.extraPaths": [
+			"${containerWorkspaceFolder}/markdown_toolkit"
+		],
+		"python.formatting.provider": "black",
+		"python.linting.flake8Enabled": false,
 		"python.linting.pylintEnabled": true,
-		"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
 		"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
-		"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
-		"python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
-		"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
 		"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
-		"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
 		"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
-		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
+		"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+		"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+		"markdown-preview-github-styles.colorTheme": "light",
+		"editor.formatOnSave": true,
+		"python.linting.mypyArgs": [
+			"--ignore-missing-imports",
+			"--follow-imports=silent",
+			"--show-column-numbers",
+			"--implicit-reexport"
+		],
+		"autoDocstring.docstringFormat": "google",
+		"python.linting.flake8Args": [
+			"--max-line-length=120"
+		]
 	},
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.python",
@@ -38,13 +49,16 @@
 		"bierner.markdown-preview-github-styles",
 		"njpwerner.autodocstring"
 	],
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
+	"containerEnv": {
+		"POETRY_VIRTUALENVS_IN_PROJECT": "true"
+	},
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "poetry install",
-
+	"postCreateCommand": "poetry install && pre-commit install -t commit-msg",
+	"mounts": [
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached", // mount host .ssh folder in container for ssh keys
+	],
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 	"features": {

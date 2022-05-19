@@ -1,0 +1,49 @@
+name: Run unit tests
+env:
+  POETRY_VERSION: "1.2.0b1"
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+
+on: 
+  push:
+    paths:
+      - 'markdown_toolkit/**'
+      - 'tests/**'
+
+
+jobs:
+  test-x64:
+    name: Python ${{ matrix.python-version }} Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.7', '3.8', '3.9', '3.10', 'pypy-3.7', 'pypy-3.8', 'pypy-3.9' ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry==${POETRY_VERSION}
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+          cache: poetry
+      - run: poetry install
+      - run: poetry run pytest
+  test-arm:
+    name: Python ARM64 Test
+    runs-on: ARM64
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry==${POETRY_VERSION}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        timeout-minutes: 1
+        continue-on-error: true
+        with:
+          path: .venv
+          key: cache-arm64-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            cache-arm64-
+      - run: poetry install
+      - run: poetry run pytest
