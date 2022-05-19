@@ -12,7 +12,7 @@ managers will keep track of the header level.
 
 ## Examples
 
-> **INFO:** More examples can be found in the `examples` directory, these examples are automatically rendered here.
+> **INFO:** Examples here are automatically taken from the `examples` directory and shown below.
 
 ### `examples/example_tables.py`
 
