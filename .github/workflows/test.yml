@@ -3,7 +3,12 @@ env:
   POETRY_VERSION: "1.2.0b1"
   POETRY_VIRTUALENVS_IN_PROJECT: "true"
 
-on: push
+on: 
+  push:
+    paths:
+      - 'markdown_toolkit/**'
+      - 'tests/**'
+
 
 jobs:
   test-x64:
