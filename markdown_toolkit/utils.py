@@ -124,3 +124,9 @@ def link(uri: str, *, text: Optional[str] = None, title: Optional[str] = None) -
     if title:
         rendered_link += f' "{title}"'
     return f"{rendered_link})"
+
+
+def remove_duplicates(seq):
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]

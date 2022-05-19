@@ -4,8 +4,13 @@ from __future__ import annotations
 from contextlib import contextmanager
 from inspect import cleandoc
 from typing import Optional, Union
-
-from markdown_toolkit.utils import header, list_item, sanitise_attribute
+import itertools
+from markdown_toolkit.utils import (
+    header,
+    list_item,
+    sanitise_attribute,
+    remove_duplicates,
+)
 
 
 class MarkdownDocument:
@@ -45,6 +50,13 @@ class MarkdownDocument:
             self.column_count = len(self.normalized_titles)
             self.rows = []
             self.sort_by = titles.index(sort_by) if sort_by else None
+
+        def bulk_add_rows(self, rows: list[dict]):
+            for row in rows:
+                row_buffer = []
+                for title in self.titles:
+                    row_buffer.append(str(row[title]))
+                self.rows.append(row_buffer)
 
         def add_row(self, **columns):
             """Add row to table helper."""
@@ -158,7 +170,13 @@ class MarkdownDocument:
         """
         return self._MarkdownHeading(self, heading=heading, silent=silent, level=level)
 
-    def table(self, titles: list, sort_by: Optional[str]) -> _MarkdownTable:
+    def table(
+        self,
+        raw_table: Optional[list[dict]] = None,
+        *,
+        titles: Optional[list] = None,
+        sort_by: Optional[str] = None,
+    ) -> _MarkdownTable:
         """Table rendering helper.
 
         Args:
@@ -167,7 +185,13 @@ class MarkdownDocument:
         Returns:
             _MarkdownTable: Object with helper methods.
         """
-        return self._MarkdownTable(self, titles=titles, sort_by=sort_by)
+        if not raw_table:
+            return self._MarkdownTable(self, titles=titles, sort_by=sort_by)
+        all_titles = remove_duplicates(
+            itertools.chain(*[dictionary.keys() for dictionary in raw_table])
+        )
+        with self._MarkdownTable(self, titles=all_titles, sort_by=sort_by) as table:
+            table.bulk_add_rows(raw_table)
 
     def list(self, item: str, ordered: bool = False, prefix: Optional[str] = None):
         """Returns list context manager, can be used directly."""

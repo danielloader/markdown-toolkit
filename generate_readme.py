@@ -45,22 +45,26 @@ with doc.heading("Markdown Toolkit"):
     with doc.heading("Examples"):
         doc.paragraph(
             quote(
-                f"{bold('INFO:')} More examples can be found in the `examples` directory"
+                f"{bold('INFO:')} More examples can be found in the `examples` directory, these examples are automatically rendered here."
             )
         )
 
         # Example of loop of files in a directory for templated markdown blocks
         for source_file in [f for f in Path("examples").iterdir() if f.suffix == ".py"]:
-            doc.text(bold("Source:"))
-            doc.text(code(source_file))
-            with doc.codeblock(language="python"):
-                doc.text(from_file(source_file))
+            with doc.heading(code(source_file)):
+                with doc.codeblock(language="python"):
+                    doc.text(from_file(source_file))
 
-            doc.text((bold(italic("Output:"))))
-            result = source_file.with_suffix(".md")
-            doc.text(code(result))
-            with doc.codeblock(language="markdown"):
+                doc.text(bold(italic("Markdown Output:")))
+                result = source_file.with_suffix(".md")
+                doc.text(code(result))
+                with doc.codeblock(language="markdown"):
+                    doc.text(from_file(result))
+
+                doc.text(bold(italic("Markdown Rendered:")))
                 doc.text(from_file(result))
+            doc.horizontal_line()
+
 
 # Save resulting document to file
 with open("README.md", "w", encoding="UTF-8") as file:

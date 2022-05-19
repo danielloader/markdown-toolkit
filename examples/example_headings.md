@@ -1,0 +1,13 @@
+# Markdown Toolkit
+
+Items added inside the context manager respect the heading level.
+
+## Nested Header
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Vestibulum ornare magna tincidunt, luctus neque eu, iaculis nisl. 
+Duis porta pharetra hendrerit. Donec ac bibendum purus. Phasellus 
+sagittis tincidunt metus, a condimentum enim malesuada ut. 
+Integer porta pellentesque tempus. Vivamus erat est, imperdiet 
+id enim in, rutrum luctus nisi. Praesent in nibh eleifend, 
+consequat est quis, ultricies dolor. 
