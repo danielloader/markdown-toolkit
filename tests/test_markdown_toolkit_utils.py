@@ -1,7 +1,4 @@
-from distutils.command.clean import clean
 from inspect import cleandoc
-from io import TextIOWrapper
-from tempfile import NamedTemporaryFile
 import pytest
 from pathlib import Path
 

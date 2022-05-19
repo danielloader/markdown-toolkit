@@ -3,8 +3,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from pathlib import Path
-from typing import Union, TextIO
+from typing import TextIO
 
 from markdown_toolkit.utils import sanitise_attribute
 
