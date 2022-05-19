@@ -33,8 +33,6 @@ with doc.heading("Markdown Toolkit"):
         managers will keep track of the header level.
     """
     )
-    with doc.injector(anchor="badges"):
-        pass
     with doc.heading("Examples"):
         doc.paragraph(
             quote(
