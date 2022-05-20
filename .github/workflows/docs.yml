@@ -8,6 +8,7 @@ on:
     paths:
       - 'generate_documentation.py'
       - 'examples/**'
+  workflow_dispatch:
 
 jobs:
   rebuild-readme:
