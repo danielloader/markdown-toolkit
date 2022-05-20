@@ -8,7 +8,7 @@ from typing import TextIO
 from markdown_toolkit.utils import sanitise_attribute
 
 
-class DocumentInjector:
+class MarkdownInjector:
     """Class for injected text into Markdown Documents."""
 
     class Inject:
@@ -55,21 +55,21 @@ class DocumentInjector:
         tags = defaultdict(dict)
 
         for idx, line in enumerate(self.file_buffer):
-            if line.startswith("<!--"):
-                start = re.match(r"^<!--.*markdown-toolkit:start:(.*).*-->$", line)
-                end = re.match(r"^<!--.*markdown-toolkit:end:(.*).*-->$", line)
-                if start:
-                    anchor = start.groups()[0].strip()
-                    if "start" in tags[anchor]:
-                        raise ValueError()
-                    tags[anchor]["start"] = idx + 1
-                if end:
-                    anchor = end.groups()[0].strip()
-                    if "end" in tags[anchor]:
-                        raise ValueError()
-                    tags[anchor]["end"] = idx + 1
+            start = re.match(r".*<!--.*markdown-toolkit:start:(.*).*-->.*", line)
+            end = re.match(r".*<!--.*markdown-toolkit:end:(.*).*-->.*", line)
+            if start:
+                anchor = start.groups()[0].strip()
+                if "start" in tags[anchor]:
+                    raise ValueError()
+                tags[anchor]["start"] = idx + 1
+            if end:
+                anchor = end.groups()[0].strip()
+                if "end" in tags[anchor]:
+                    raise ValueError()
+                tags[anchor]["end"] = idx + 1
 
         ranges = []
+        print(ranges)
         for lines in tags.values():
             ranges.append(set(range(lines["start"], lines["end"])))
         if len(ranges) > 1:

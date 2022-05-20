@@ -6,6 +6,10 @@
 A python library for creating and manipulating markdown.
 
 _**WARNING**:_ _This project isn't version 1.0.0 yet, API subject to change, pin the version._
+This library has two primary aims:
+* Generation of markdown via python to create documents or fragments of documents.
+* Injection of text into existing documents, for dynamic partial sections of documentation.
+
 
 This library heavily utilises context managers to encapsulate 
 logical blocks in the markdown. Primarily this is used to keep 
@@ -14,62 +18,49 @@ managers will keep track of the header level.
 
 ## Quickstart
 
-1.  Install package
+1.  Install package (Preferably in your python [virtual environment](https://docs.python.org/3/library/venv.html)).
     ```shell
     pip install markdown-toolkit
     ```
-1.  Write a simple test document
+1.  Write a simple test document 
+    <!-- markdown-toolkit:start:readme_example -->
     ```python
+    """README.md Example Code."""
+    import requests
     from markdown_toolkit import MarkdownDocument
     
     doc = MarkdownDocument()
     
-    with doc.heading("Title"):
-        doc.paragraph("Example Paragraph.")
+    quotes = requests.get("http://ron-swanson-quotes.herokuapp.com/v2/quotes/10")
+    with doc.heading("Ron Swanson Quotes"):
+        doc.paragraph("This list is generated from a JSON serving REST API call.")
+        for quote in quotes.json():
+            doc.list(quote)
     
     print(doc.render())
     ```
-    Which yields an output of:
+    <!-- markdown-toolkit:end:readme_example -->
+    Which gives a result of:
+    ```markdown 
+    # Ron Swanson Quotes
 
-    ```markdown
-    # Title
-    
-    Example Paragraph.
+    This list is generated from a JSON serving REST API call.
+
+    *   In my opinion, not enough people have looked their dinner in the eyes and considered the circle of life.
+    *   Barbecues should be about one thing: good shared meat.
+    *   It's an impossible puzzle, and I love puzzles!
+    *   Under my tutelage, you will grow from boys to men. From men into gladiators. And from gladiators into Swansons.
+    *   I love riddles!
+    *   If any of you need anything at all, too bad. Deal with your problems yourselves, like adults.
+    *   I like Tom. He doesn’t do a lot of work around here. He shows zero initiative. He’s not a team player. He’s never wanted to go that extra mile. Tom is exactly what I’m looking for in a government employee.
+    *   When I eat, it is the food that is scared.
+    *   Once a year, every branch of this government meets in a room and announces what they intend to waste taxpayer money on.
+    *   Give 100%. 110% is impossible. Only idiots recommend that.
     ```
-In addition to generating documents, or partial documents, you can inject markdown into existing documents.
+1. Inject it into an existing document
+    
+    > This README.md file itself has injection anchors to put the content of the `readme_example.py`.
 
-Take the following source document example (assumed to be `sourcedocument.md`):
-
-```markdown
-Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
-
-<!--- markdown-toolkit:start:dynamicblock --->
-Text to be replaced.
-<!--- markdown-toolkit:end:dynamicblock --->
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-```
-To adjust this file:
-
-```python
-with open("sourcedocument.md", "r", encoding="UTF-8) as file:
-    doc = DocumentInjector(file)
-doc.dynamicblock.write("Text successfully replaced.")
-with open("sourcedocument.md", "w", encoding="UTF-8") as file:
-    file.write(doc.render())
-
-```
-Should result in:
-
-```markdown
-Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
-
-<!--- markdown-toolkit:start:dynamicblock --->
-Text successfully replaced.
-<!--- markdown-toolkit:end:dynamicblock --->
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-```
 Combining the two is flexible, allowing dynamic generation of markdown partial documents, and injection of those into human edited pages.
 
 ## Examples

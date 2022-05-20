@@ -23,3 +23,4 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 ARG POETRY_VERSION="1.2.0b1"
 RUN su vscode -c "pipx install poetry==${POETRY_VERSION}"
 RUN su vscode -c "pipx install pre-commit"
+RUN su vscode -c "pipx install grip"

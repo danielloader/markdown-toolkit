@@ -3,7 +3,7 @@ from inspect import cleandoc
 from pathlib import Path
 from io import StringIO, BytesIO, TextIOWrapper
 
-from markdown_toolkit.injector import DocumentInjector
+from markdown_toolkit.injector import MarkdownInjector
 from markdown_toolkit.document import MarkdownDocument
 
 RELATIVE_PATH = Path(__file__).parent
@@ -35,7 +35,7 @@ def test_string_replacement():
         """
     )
 
-    document = DocumentInjector(source_document)
+    document = MarkdownInjector(source_document)
     document.dynamicblock.write("Text successfully replaced.")
     assert document.render() == expected_result
 
@@ -66,7 +66,7 @@ def test_bytes_replacement():
         """
     ).encode("UTF-8")
 
-    document = DocumentInjector(TextIOWrapper(source_document, encoding="UTF-8"))
+    document = MarkdownInjector(TextIOWrapper(source_document, encoding="UTF-8"))
     document.dynamicblock.write("Text successfully replaced.")
     assert document.render() == expected_result.decode("UTF-8")
 
@@ -101,7 +101,7 @@ def test_dynamic_list():
         """
     )
 
-    document = DocumentInjector(source_document)
+    document = MarkdownInjector(source_document)
     document_fragement = MarkdownDocument()
     for list_item in ["One", "Two", "Three", "Four", "Five"]:
         document_fragement.list(list_item)
@@ -135,7 +135,7 @@ def test_anchor_name_replacement():
         """
     )
 
-    document = DocumentInjector(source_document)
+    document = MarkdownInjector(source_document)
     document.dynamic_block.write("Text successfully replaced.")
     assert document.render() == expected_result
 
@@ -165,6 +165,6 @@ def test_empty_replacement():
         """
     )
 
-    document = DocumentInjector(source_document)
+    document = MarkdownInjector(source_document)
     document.dynamicblock.write("Text successfully replaced.")
     assert document.render() == expected_result

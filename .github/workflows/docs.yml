@@ -6,7 +6,6 @@ env:
 on: 
   push:
     paths:
-      - 'generate_documentation.py'
       - 'examples/**'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
@@ -28,8 +27,8 @@ jobs:
           architecture: x64
           cache: poetry
       - run: poetry install
-      - run: poetry run python generate_documentation.py
+      - run: poetry run python examples/generate_documentation.py
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Update README.md from generate_readme.py
+          commit_message: Update examples/README.md from generate_documentation.py
           push_options: 
