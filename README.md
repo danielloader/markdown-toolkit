@@ -5,6 +5,8 @@
 
 A python library for creating and manipulating markdown.
 
+_**WARNING**:__ _This project isn't version 1.0.0 yet, API subject to change, pin the version.
+
 This library heavily utilises context managers to encapsulate 
 logical blocks in the markdown. Primarily this is used to keep 
 track of the heading levels, so nested `heading` context
