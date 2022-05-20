@@ -50,7 +50,10 @@ with doc.heading("Markdown Toolkit"):
         )
 
         # Example of loop of files in a directory for templated markdown blocks
-        for source_file in [f for f in Path("examples").iterdir() if f.suffix == ".py"]:
+        for source_file in sorted(
+            [f for f in Path("examples").iterdir() if f.suffix == ".py"]
+        ):
+            print(source_file)
             with doc.heading(link(uri=source_file, text=code(source_file))):
                 with doc.codeblock(language="python"):
                     doc.text(from_file(source_file))

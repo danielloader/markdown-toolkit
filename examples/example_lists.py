@@ -1,11 +1,10 @@
-from markdown_toolkit import MarkdownDocument, link, bold, italic
+from markdown_toolkit import MarkdownDocument, bold, italic, link
 
 doc = MarkdownDocument()
 doc.list("Example Item")
 with doc.list("List Item that has children"):
-    doc.list("Child Item")
-    doc.list("Child Item")
-    doc.list("Child Item")
+    for item in ["First Item", "Second Item", "Third Item"]:
+        doc.list(item)
 
 doc.list("Ordered lists are possible too", ordered=True)
 with doc.list("And children can be ordered", ordered=True):

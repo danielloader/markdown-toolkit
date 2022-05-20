@@ -1,8 +1,8 @@
 *   Example Item
 *   List Item that has children
-    *   Child Item
-    *   Child Item
-    *   Child Item
+    *   First Item
+    *   Second Item
+    *   Third Item
 1.  Ordered lists are possible too
 1.  And children can be ordered
     1.  First Child

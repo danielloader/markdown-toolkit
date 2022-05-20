@@ -18,7 +18,8 @@
 	"settings": {
 		"python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
 		"python.autoComplete.extraPaths": [
-			"${containerWorkspaceFolder}/markdown_toolkit"
+			"${containerWorkspaceFolder}/markdown_toolkit",
+			"${containerWorkspaceFolder}/examples"
 		],
 		"python.formatting.provider": "black",
 		"python.linting.flake8Enabled": false,
