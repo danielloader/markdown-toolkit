@@ -26,9 +26,8 @@ jobs:
           python-version: "3.7"
           architecture: x64
           cache: poetry
-      - run: poetry install
+      - run: poetry install --with dev
       - run: poetry run python examples/generate_documentation.py
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update examples/README.md from generate_documentation.py
-          push_options: 
