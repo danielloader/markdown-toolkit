@@ -32,6 +32,9 @@ with doc.heading("Markdown Toolkit"):
 
     # Example of a single line paragaph
     doc.paragraph("A python library for creating and manipulating markdown.")
+    doc.paragraph(
+        "_**WARNING**:__ _This project isn't version 1.0.0 yet, API subject to change, pin the version."
+    )
     # Example of a multline paragraph
     doc.paragraph(
         """
