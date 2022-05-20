@@ -6,7 +6,7 @@ env:
 on: 
   push:
     paths:
-      - 'generate_readme.py'
+      - 'generate_documentation.py'
       - 'examples/**'
 
 jobs:
