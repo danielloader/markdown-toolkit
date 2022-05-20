@@ -19,12 +19,12 @@ managers will keep track of the header level.
 ```python
 """Example to generate tables of AWS Org Units in Markdown."""
 from collections import defaultdict
-from typing import List
+from typing import List, Tuple
 
 import boto3
 import moto
-
 from markdown_toolkit import MarkdownDocument
+
 from examples.utils.aws_org import setup_accounts
 
 mock = moto.mock_organizations()
@@ -33,7 +33,16 @@ org = boto3.client("organizations")
 setup_accounts(org)
 
 
-def get_all_accounts(parentid, org_client):
+def get_all_accounts(parentid: str, org_client: str) -> Tuple[str, dict]:
+    """Organisation Account Generator.
+
+    Args:
+        parentid (str): Id of Org unit to start at.
+        org_client (boto3.client): Client to iterate with.
+
+    Yields:
+        tuple(str,dict): Organisation Unit Name, Account Information
+    """
     org_units = org_client.list_children(
         ParentId=parentid, ChildType="ORGANIZATIONAL_UNIT"
     )
@@ -52,7 +61,7 @@ def get_all_accounts(parentid, org_client):
 root_id = org.list_roots()["Roots"][0]["Id"]
 collated_accounts = defaultdict(list)
 for name, account in get_all_accounts(root_id, org):
-    collated_accounts[name].append(account)
+    collated_accounts[name.title()].append(account)
 
 doc = MarkdownDocument()
 for org_unit, table in collated_accounts.items():
@@ -69,22 +78,22 @@ mock.stop()
 <details><summary>Markdown Output:</summary>
 
 ```markdown
-### customers
+### Customers
 
 | Id | Arn | Email | Name | Status | JoinedMethod | JoinedTimestamp |
 | --- | --- | --- | --- | --- | --- | --- |
-| 052305242565 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/052305242565 | account+customer1@example.com | customer1 | ACTIVE | CREATED | 2022-05-20 09:19:00.463806+00:00 |
-| 564734818981 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/564734818981 | account+customer2@example.com | customer2 | ACTIVE | CREATED | 2022-05-20 09:19:00.467967+00:00 |
-| 687880000825 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/687880000825 | account+customer3@example.com | customer3 | ACTIVE | CREATED | 2022-05-20 09:19:00.470816+00:00 |
+| 519271310306 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/519271310306 | account+customer1@example.com | customer1 | ACTIVE | CREATED | 2022-05-20 09:29:26.043531+00:00 |
+| 481835384758 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/481835384758 | account+customer2@example.com | customer2 | ACTIVE | CREATED | 2022-05-20 09:29:26.047826+00:00 |
+| 121421799398 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/121421799398 | account+customer3@example.com | customer3 | ACTIVE | CREATED | 2022-05-20 09:29:26.050721+00:00 |
 
-### root
+### Root
 
 | Id | Arn | Email | Name | Status | JoinedMethod | JoinedTimestamp |
 | --- | --- | --- | --- | --- | --- | --- |
-| 123456789012 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/123456789012 | master@example.com | master | ACTIVE | CREATED | 2022-05-20 09:19:00.449350+00:00 |
-| 603903114667 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/603903114667 | account+audit@example.com | cloudtrail | ACTIVE | CREATED | 2022-05-20 09:19:00.455824+00:00 |
-| 285409087291 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/285409087291 | account+cloudwatch@example.com | cloudwatch | ACTIVE | CREATED | 2022-05-20 09:19:00.457859+00:00 |
-| 012647750333 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/012647750333 | account+resources@example.com | resources | ACTIVE | CREATED | 2022-05-20 09:19:00.459381+00:00 |
+| 123456789012 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/123456789012 | master@example.com | master | ACTIVE | CREATED | 2022-05-20 09:29:26.028908+00:00 |
+| 321432293313 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/321432293313 | account+audit@example.com | cloudtrail | ACTIVE | CREATED | 2022-05-20 09:29:26.035425+00:00 |
+| 956167072858 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/956167072858 | account+cloudwatch@example.com | cloudwatch | ACTIVE | CREATED | 2022-05-20 09:29:26.037498+00:00 |
+| 568840745363 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/568840745363 | account+resources@example.com | resources | ACTIVE | CREATED | 2022-05-20 09:29:26.039073+00:00 |
 
 ```
 </details>
@@ -92,22 +101,22 @@ mock.stop()
 
 <details><summary>Markdown Rendered:</summary>
 
-### customers
+### Customers
 
 | Id | Arn | Email | Name | Status | JoinedMethod | JoinedTimestamp |
 | --- | --- | --- | --- | --- | --- | --- |
-| 052305242565 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/052305242565 | account+customer1@example.com | customer1 | ACTIVE | CREATED | 2022-05-20 09:19:00.463806+00:00 |
-| 564734818981 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/564734818981 | account+customer2@example.com | customer2 | ACTIVE | CREATED | 2022-05-20 09:19:00.467967+00:00 |
-| 687880000825 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/687880000825 | account+customer3@example.com | customer3 | ACTIVE | CREATED | 2022-05-20 09:19:00.470816+00:00 |
+| 519271310306 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/519271310306 | account+customer1@example.com | customer1 | ACTIVE | CREATED | 2022-05-20 09:29:26.043531+00:00 |
+| 481835384758 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/481835384758 | account+customer2@example.com | customer2 | ACTIVE | CREATED | 2022-05-20 09:29:26.047826+00:00 |
+| 121421799398 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/121421799398 | account+customer3@example.com | customer3 | ACTIVE | CREATED | 2022-05-20 09:29:26.050721+00:00 |
 
-### root
+### Root
 
 | Id | Arn | Email | Name | Status | JoinedMethod | JoinedTimestamp |
 | --- | --- | --- | --- | --- | --- | --- |
-| 123456789012 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/123456789012 | master@example.com | master | ACTIVE | CREATED | 2022-05-20 09:19:00.449350+00:00 |
-| 603903114667 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/603903114667 | account+audit@example.com | cloudtrail | ACTIVE | CREATED | 2022-05-20 09:19:00.455824+00:00 |
-| 285409087291 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/285409087291 | account+cloudwatch@example.com | cloudwatch | ACTIVE | CREATED | 2022-05-20 09:19:00.457859+00:00 |
-| 012647750333 | arn:aws:organizations::123456789012:account/o-thh2xor2bj/012647750333 | account+resources@example.com | resources | ACTIVE | CREATED | 2022-05-20 09:19:00.459381+00:00 |
+| 123456789012 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/123456789012 | master@example.com | master | ACTIVE | CREATED | 2022-05-20 09:29:26.028908+00:00 |
+| 321432293313 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/321432293313 | account+audit@example.com | cloudtrail | ACTIVE | CREATED | 2022-05-20 09:29:26.035425+00:00 |
+| 956167072858 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/956167072858 | account+cloudwatch@example.com | cloudwatch | ACTIVE | CREATED | 2022-05-20 09:29:26.037498+00:00 |
+| 568840745363 | arn:aws:organizations::123456789012:account/o-kztcujnp4v/568840745363 | account+resources@example.com | resources | ACTIVE | CREATED | 2022-05-20 09:29:26.039073+00:00 |
 
 </details>
 
