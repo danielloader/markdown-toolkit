@@ -8,6 +8,7 @@ on:
     paths:
       - 'generate_documentation.py'
       - 'examples/**'
+      - '.github/workflows/docs.yml'
   workflow_dispatch:
 
 jobs:
@@ -30,6 +31,5 @@ jobs:
       - run: poetry run python generate_documentation.py
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_pattern: README.md
           commit_message: Update README.md from generate_readme.py
           push_options: 
