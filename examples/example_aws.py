@@ -42,7 +42,7 @@ def get_all_accounts(parentid: str, org_client: str) -> Tuple[str, dict]:
 root_id = org.list_roots()["Roots"][0]["Id"]
 collated_accounts = defaultdict(list)
 for name, account in get_all_accounts(root_id, org):
-    collated_accounts[name].append(account)
+    collated_accounts[name.title()].append(account)
 
 doc = MarkdownDocument()
 for org_unit, table in collated_accounts.items():
