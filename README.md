@@ -57,9 +57,6 @@ managers will keep track of the header level.
     *   Once a year, every branch of this government meets in a room and announces what they intend to waste taxpayer money on.
     *   Give 100%. 110% is impossible. Only idiots recommend that.
     ```
-1. Inject it into an existing document
-    
-    > This README.md file itself has injection anchors to put the content of the `readme_example.py`.
 
 Combining the two is flexible, allowing dynamic generation of markdown partial documents, and injection of those into human edited pages.
 
