@@ -20,7 +20,12 @@ with doc.heading("Examples"):
 
     # Example of loop of files in a directory for templated markdown blocks
     for source_file in sorted(
-        [f for f in Path("examples").iterdir() if f.suffix == ".py"]
+        [
+            f
+            for f in Path("examples").iterdir()
+            if f.suffix == ".py"
+            if f.name.startswith("example")
+        ]
     ):
         print(source_file)
         with doc.heading(link(uri=source_file, text=code(source_file))):
