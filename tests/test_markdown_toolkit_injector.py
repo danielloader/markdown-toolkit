@@ -1,10 +1,11 @@
 """Tests for the DocumentInjector class."""
 from inspect import cleandoc
+from io import StringIO
 from pathlib import Path
-from io import StringIO, BytesIO, TextIOWrapper
 
-from markdown_toolkit.injector import MarkdownInjector
 from markdown_toolkit.document import MarkdownDocument
+from markdown_toolkit.injector import MarkdownInjector
+from testfixtures import compare
 
 RELATIVE_PATH = Path(__file__).parent
 
@@ -15,9 +16,8 @@ def test_string_replacement():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:dynamicblock --->
-        Text to be replaced.
-        <!--- markdown-toolkit:end:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -27,48 +27,17 @@ def test_string_replacement():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
         Text successfully replaced.
-        <!--- markdown-toolkit:end:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
     )
 
     document = MarkdownInjector(source_document)
-    document.dynamicblock.write("Text successfully replaced.")
-    assert document.render() == expected_result
-
-
-def test_bytes_replacement():
-    source_document = BytesIO(
-        cleandoc(
-            """
-        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
-
-        <!--- markdown-toolkit:start:dynamicblock --->
-        Text to be replaced.
-        <!--- markdown-toolkit:end:dynamicblock --->
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-        """
-        ).encode("UTF-8")
-    )
-    expected_result = cleandoc(
-        """
-        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
-
-        <!--- markdown-toolkit:start:dynamicblock --->
-        Text successfully replaced.
-        <!--- markdown-toolkit:end:dynamicblock --->
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-        """
-    ).encode("UTF-8")
-
-    document = MarkdownInjector(TextIOWrapper(source_document, encoding="UTF-8"))
-    document.dynamicblock.write("Text successfully replaced.")
-    assert document.render() == expected_result.decode("UTF-8")
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(document.render(), expected_result)
 
 
 def test_dynamic_list():
@@ -77,9 +46,9 @@ def test_dynamic_list():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
         Text to be replaced.
-        <!--- markdown-toolkit:end:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -89,13 +58,13 @@ def test_dynamic_list():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
         *   One
         *   Two
         *   Three
         *   Four
         *   Five
-        <!--- markdown-toolkit:end:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -105,8 +74,8 @@ def test_dynamic_list():
     document_fragement = MarkdownDocument()
     for list_item in ["One", "Two", "Three", "Four", "Five"]:
         document_fragement.list(list_item)
-    document.dynamicblock.write(document_fragement.render())
-    assert document.render() == expected_result
+    document.anchors.dynamicblock.value = document_fragement.render()
+    compare(document.render(), expected_result)
 
 
 def test_anchor_name_replacement():
@@ -115,9 +84,9 @@ def test_anchor_name_replacement():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:Dynamic-Block --->
+        <!--- markdown-toolkit:Dynamic-Block --->
         Text to be replaced.
-        <!--- markdown-toolkit:end:Dynamic-Block --->
+        <!--- markdown-toolkit:Dynamic-Block --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -127,17 +96,17 @@ def test_anchor_name_replacement():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:Dynamic-Block --->
+        <!--- markdown-toolkit:Dynamic-Block --->
         Text successfully replaced.
-        <!--- markdown-toolkit:end:Dynamic-Block --->
+        <!--- markdown-toolkit:Dynamic-Block --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
     )
 
     document = MarkdownInjector(source_document)
-    document.dynamic_block.write("Text successfully replaced.")
-    assert document.render() == expected_result
+    document.anchors.dynamic_block.value = "Text successfully replaced."
+    compare(document.render(), expected_result)
 
 
 def test_empty_replacement():
@@ -146,8 +115,8 @@ def test_empty_replacement():
             """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:dynamicblock --->
-        <!--- markdown-toolkit:end:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
@@ -157,14 +126,56 @@ def test_empty_replacement():
         """
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 
-        <!--- markdown-toolkit:start:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
         Text successfully replaced.
-        <!--- markdown-toolkit:end:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
         """
     )
 
     document = MarkdownInjector(source_document)
-    document.dynamicblock.write("Text successfully replaced.")
-    assert document.render() == expected_result
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(document.render(), expected_result)
+
+
+def test_multiple_replacements():
+    source_document = StringIO(
+        cleandoc(
+            """
+        <!--- markdown-toolkit:blockone --->
+        <!--- markdown-toolkit:blockone --->
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:blocktwo --->
+        <!--- markdown-toolkit:blocktwo --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        <!--- markdown-toolkit:blockthree --->
+        <!--- markdown-toolkit:blockthree --->
+        """
+        )
+    )
+    expected_result = cleandoc(
+        """
+        <!--- markdown-toolkit:blockone --->
+        Text successfully replaced.
+        <!--- markdown-toolkit:blockone --->
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:blocktwo --->
+        More successful replacement.
+        <!--- markdown-toolkit:blocktwo --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        <!--- markdown-toolkit:blockthree --->
+        End of file injection.
+        <!--- markdown-toolkit:blockthree --->
+        """
+    )
+
+    document = MarkdownInjector(source_document)
+    document.anchors.blockone.value = "Text successfully replaced."
+    document.anchors.blocktwo.value = "More successful replacement."
+    document.anchors.blockthree.value = "End of file injection."
+    compare(document.render(), expected_result)

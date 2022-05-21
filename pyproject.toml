@@ -21,6 +21,7 @@ optional = true
 black = "^22.3.0"
 pylint = "^2.13.9"
 pytest = "^5.2"
+testfixtures = "^6.18.5"
 
 [tool.poetry.group.helpers]
 optional = true
@@ -29,6 +30,9 @@ docstring-parser = "^0.14.1"
 
 [tool.poetey.group.examples]
 optional = true
+
+
+
 [tool.poetry.group.examples.dependencies]
 moto = "^3.1.9"
 boto3 = "^1.23.4"
