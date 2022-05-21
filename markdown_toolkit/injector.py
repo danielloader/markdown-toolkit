@@ -87,7 +87,9 @@ class MarkdownAnchor:
     def __init__(self, document: MarkdownInjector, anchor: str):
         self.doc = document
         self.anchor = anchor
-        self.matcher = re.compile(rf".*<!---\s?markdown-toolkit:{self.anchor}\s?--->.*")
+        self.matcher = re.compile(
+            rf"(.*)<!---\s?markdown-toolkit:{self.anchor}\s?--->.*"
+        )
 
     def __repr__(self) -> str:
         _start, _end, _value = self._index_finder()
@@ -102,7 +104,7 @@ class MarkdownAnchor:
         Runs at on every access or mutation as the document may have changed.
 
         Returns:
-            tuple(int, int, str): returns the start index, end index and value of text.
+            tuple(int, int, int, str): returns the start index, end index, indent and value of text.
         """
         start = None
         end = None
@@ -111,9 +113,11 @@ class MarkdownAnchor:
             if match:
                 if start is None:
                     start = idx
+                    indent = match.groups()[0]
                 else:
                     end = idx
-        return (start, end, self.doc.file_buffer[start + 1 : end])
+
+        return (start, end, indent, self.doc.file_buffer[start + 1 : end])
 
     @property
     def value(self) -> str:
@@ -122,17 +126,18 @@ class MarkdownAnchor:
         Returns:
             str: Raw text between the anchors.
         """
-        _, _, value = self._index_finder()
+        _, _, _, value = self._index_finder()
         text = "\n".join(value)
         return text.encode("UTF-8")
 
     @value.setter
     def value(self, text: str):
-        start, end, _ = self._index_finder()
+        start, end, indent, _ = self._index_finder()
         del self.doc.file_buffer[start + 1 : end]
-        self.doc.file_buffer.insert(start + 1, text)
+        text_lines = "\n".join([indent + line for line in text.splitlines()])
+        self.doc.file_buffer.insert(start + 1, text_lines)
 
     @value.deleter
     def value(self):
-        start, end, _ = self._index_finder()
+        start, end, _, _ = self._index_finder()
         del self.doc.file_buffer[start + 1 : end]

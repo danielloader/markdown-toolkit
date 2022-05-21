@@ -127,10 +127,10 @@ class MarkdownDocument:
             level = self.level or self.doc._heading_level
             return header(self.heading, level)
 
-    def __init__(self, newline_character: str = "\n", offset: int = 0):
+    def __init__(self, newline_character: str = "\n"):
         self._buffer: list[str] = []
-        self._indent_level: int = -1 + offset
-        self._list_level: int = -1 + offset
+        self._indent_level: int = -1
+        self._list_level: int = -1
         self._heading_level = 1
         self._newline_character: str = newline_character
 

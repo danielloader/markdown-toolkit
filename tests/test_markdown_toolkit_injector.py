@@ -78,6 +78,45 @@ def test_dynamic_list():
     compare(document.render(), expected_result)
 
 
+def test_dynamic_nested_list():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        * Parent List
+            <!--- markdown-toolkit:dynamicblock --->
+            <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = cleandoc(
+        """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        * Parent List
+            <!--- markdown-toolkit:dynamicblock --->
+            *   One
+            *   Two
+            *   Three
+            *   Four
+            *   Five
+            <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+    )
+
+    document = MarkdownInjector(source_document)
+    document_fragement = MarkdownDocument()
+    for list_item in ["One", "Two", "Three", "Four", "Five"]:
+        document_fragement.list(list_item)
+    document.anchors.dynamicblock.value = document_fragement.render()
+    compare(document.render(), expected_result)
+
+
 def test_anchor_name_replacement():
     source_document = StringIO(
         cleandoc(
@@ -144,6 +183,7 @@ def test_multiple_replacements():
         cleandoc(
             """
         <!--- markdown-toolkit:blockone --->
+        Example of some text.
         <!--- markdown-toolkit:blockone --->
         Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
 

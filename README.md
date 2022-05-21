@@ -1,29 +1,22 @@
-![https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg](https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg)
 # Markdown Toolkit
+![https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg](https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg)
 
-> **INFO:** This readme is dynamically generated via [`generate_documentation.py`](generate_documentation.py). **_No changes to this file will be persistent between Github Actions runs._**
+_A python library for creating and manipulating markdown with an object oriented interface._
 
-A python library for creating and manipulating markdown.
-
-_**WARNING**:_ _This project isn't version 1.0.0 yet, API subject to change, pin the version._
 This library has two primary aims:
-* Generation of markdown via python to create documents or fragments of documents.
-* Injection of text into existing documents, for dynamic partial sections of documentation.
-
-
-This library heavily utilises context managers to encapsulate 
-logical blocks in the markdown. Primarily this is used to keep 
-track of the heading levels, so nested `heading` context
-managers will keep track of the header level.
+* Generation of markdown with python to create documents or fragments of documents.
+* Injection of text; static or generated, into existing documents.
 
 ## Quickstart
 
-1.  Install package (Preferably in your python [virtual environment](https://docs.python.org/3/library/venv.html)).
+_**WARNING**:_ _This project isn't version 1.0.0 yet, API subject to change, pin the version._
+
+1.  Install package (Preferably in your python [virtual environment](https://docs.python.org/3/library/venv.html), or container).
     ```shell
     pip install markdown-toolkit
     ```
 1.  Write a simple test document 
-    <!-- markdown-toolkit:start:readme_example -->
+    <!--- markdown-toolkit:readme_example --->
     ```python
     """README.md Example Code."""
     import requests
@@ -39,7 +32,7 @@ managers will keep track of the header level.
     
     print(doc.render())
     ```
-    <!-- markdown-toolkit:end:readme_example -->
+    <!--- markdown-toolkit:readme_example --->
     Which gives a result of:
     ```markdown 
     # Ron Swanson Quotes
