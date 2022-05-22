@@ -75,6 +75,13 @@ These steps outline a usecase end to end; dynamically generating some content an
         # Replace text between anchor tags with value of file
         source_file.anchors.readme_example.value = doc.render()
     
+    # Open _this_ file to inject into the document
+    with open(__file__, "r", encoding="UTF-8") as this_file:
+        doc = MarkdownDocument()
+        with doc.codeblock(language="python"):
+            doc.paragraph(this_file.read(), linebreak=False)
+        source_file.anchors.pycode.value = doc.render()
+    
     # Always try to render the resulting document before writing,
     # so any failures don't result in an empty or corrupted file
     resulting_document = source_file.render()
