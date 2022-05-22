@@ -117,7 +117,7 @@ These steps outline a usecase end to end; dynamically generating some content an
               python-version: "3.7"
               architecture: x64
               cache: pip
-          - run: pip install markdown-toolkit
+          - run: pip install markdown-toolkit==0.2.1
           - run: python inject_readme.py
           - name: Create Pull Request
             id: cpr
