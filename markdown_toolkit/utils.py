@@ -2,7 +2,7 @@
 
 from inspect import cleandoc
 from pathlib import Path
-from re import sub
+import re
 from typing import Optional, Union
 from urllib.parse import quote as urlquote
 
@@ -24,13 +24,7 @@ __all__ = [
 
 def sanitise_attribute(string) -> str:
     """Converts any string into a safe python attribute string."""
-    return "_".join(
-        sub(
-            "([A-Z][a-z]+)",
-            r" \1",
-            sub("([A-Z]+)", r" \1", string.replace("-", " ").replace(".", " ")),
-        ).split()
-    ).lower()
+    return re.sub(r"\W|^(?=\d)", "_", string.casefold())
 
 
 def from_file(path: Union[Path, str], start: int = 1, end: int = None) -> str:
