@@ -92,7 +92,7 @@ These steps outline a usecase end to end; dynamically generating some content an
 
     In this case the `inject_readme.py` reads itself to inject into this document, as well as the `readme_example.py` file containing some source code.
 
-1.  To finish it off, there's an example of running this code in a Github Actions pipeline to keep the documentation updates.
+1.  To finish it off, there's an example of running this code in a Github Actions pipeline to keep the documentation updated if the underlying files ever change.
 
     ```yaml
     name: Generate documentation
