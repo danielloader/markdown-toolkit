@@ -56,6 +56,20 @@ These steps outline a usecase end to end; dynamically generating some content an
 
 1. Combining the two is flexible, allowing dynamic generation of markdown partial documents, and injection of those into human edited pages.
 
+    Snippets are injected by using html comment blocks as anchors:
+    ```
+    <!--- markdown-toolkit:pycode --->
+    This text will be replaced.
+    <!--- markdown-toolkit:pycode --->
+    ```
+
+    Anchors are referred to by the string after the `markdown-toolkit:` identifier and adhere to python identifier naming convention:
+    * If a string starts with a digit, it's prefixed with an underscore.
+    * All non alphanumeric characters are cast into an underscore.
+    * String is lowercased for naming convention.
+
+    With this in mind, a comment anchor named `<!--- markdown-toolkit:1St-Anchor --->` would be accessible in code via `document.anchors._1st_anchor.value`.
+
     Here is a live example from [inject_readme.py](inject_readme.py) which injects content into this file:
 
     <!--- markdown-toolkit:pycode --->
