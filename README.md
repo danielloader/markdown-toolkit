@@ -58,9 +58,9 @@ These steps outline a usecase end to end; dynamically generating some content an
 
     Snippets are injected by using html comment blocks as anchors:
     ```
-    <!--- markdown-toolkit:pycode --->
+    <!--- markdown-toolkit:abc --->
     This text will be replaced.
-    <!--- markdown-toolkit:pycode --->
+    <!--- markdown-toolkit:abc --->
     ```
 
     Anchors are referred to by the string after the `markdown-toolkit:` identifier and adhere to python identifier naming convention:
@@ -68,7 +68,15 @@ These steps outline a usecase end to end; dynamically generating some content an
     * All non alphanumeric characters are cast into an underscore.
     * String is lowercased for naming convention.
 
-    With this in mind, a comment anchor named `<!--- markdown-toolkit:1St-Anchor --->` would be accessible in code via `document.anchors._1st_anchor.value`.
+    With this in mind, a comment anchor used as follows...
+    ```
+    <!--- markdown-toolkit:1St-Anchor --->
+    Stuff inside here will be replaced or read.
+    <!--- markdown-toolkit:1St-Anchor --->
+    ```
+    ...would be accessible in code via `document.anchors._1st_anchor.value`.
+
+    _Due to this lossy conversion of anchor names to identifiers, best advice is to stick to snake_case from the get go to assure two different anchors aren't cast into the same underlying identifier._
 
     Here is a live example from [inject_readme.py](inject_readme.py) which injects content into this file:
 
