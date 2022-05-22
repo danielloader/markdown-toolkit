@@ -11,6 +11,7 @@ on:
   push:
     paths:
       - 'examples/**'
+      - 'inject_*.py'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 
@@ -31,6 +32,7 @@ jobs:
           architecture: x64
           cache: poetry
       - run: poetry install --with dev
+      - run: poetry run python inject_readme.py
       - run: poetry run python examples/generate_documentation.py
       - name: Create Pull Request
         id: cpr
