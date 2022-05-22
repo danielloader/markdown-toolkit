@@ -182,7 +182,7 @@ consequat est quis, ultricies dolor.
 ## [`examples/example_lists.py`](examples/example_lists.py)
 
 ```python
-from markdown_toolkit import MarkdownDocument, bold, italic, link
+from markdown_toolkit import MarkdownDocument, link
 
 doc = MarkdownDocument()
 doc.list("Example Item")
