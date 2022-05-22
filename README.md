@@ -139,6 +139,12 @@ These steps outline a usecase end to end; dynamically generating some content an
 
     _This action doesn't get triggered in this project, it just serves as an example._
 
+    When this action runs it creates a pull request:
+    ![PullRequest Raised](docs/assets/pr_raised1.png)
+
+    Just merge the changes to update the markdown.
+
+
 ## Examples
 
 Further more detailed examples can be found in the [Examples](./examples) and in the [Unit Tests](./tests) directories.
