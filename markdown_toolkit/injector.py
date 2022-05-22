@@ -3,84 +3,141 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from types import SimpleNamespace
 from typing import TextIO
 
 from markdown_toolkit.utils import sanitise_attribute
 
 
-class DocumentInjector:
-    """Class for injected text into Markdown Documents."""
+class MarkdownInjector:
+    """Finds anchors in a markdown document and exposes
+    the `anchors` attribute, which has sub attributes of all the valid
+    anchors found in the document.
 
-    class Inject:
-        """Inject text between start and end lines."""
+    Raises:
+        ValueError: Document did not have a pair of the same anchor.
 
-        def __init__(self, file_buffer, start, end):
-            self.file_buffer: list = file_buffer
-            self.start = start
-            self.end = end
+    Returns:
+        MarkdownInjector: Initialised class.
+    """
 
-        def read(self) -> str:
-            """Return text between anchors."""
-            return "".join(self.file_buffer[self.start : self.end - 1])
+    matcher = re.compile(r".*<!---\s?markdown-toolkit:(.*)\s?--->.*")
 
-        def write(self, text: str):
-            """Replace text between anchors."""
-            del self.file_buffer[self.start : self.end - 1]
-            self.file_buffer.insert(self.start, text)
+    def __init__(self, file_obj: TextIO):
+        self.file_buffer = file_obj.read().splitlines()
+        self._anchors = self.find_anchors()
 
-    def __init__(
-        self,
-        file_obj: TextIO,
-    ):
+    def find_anchors(self) -> SimpleNamespace:
+        """Finds pairs of anchors and returns a simple object.
 
-        self.file_buffer: list[str] = file_obj.read().splitlines()
-        self._find_tags()
-        self.tags = {}
+        Each attribute of the namedtuple is an anchor, which returns
+        a MarkdownAnchor class for that anchor.
+        """
+        anchors = SimpleNamespace()
+        start_end_checker: dict[list] = defaultdict(list)
+        for idx, line in enumerate(self.file_buffer):
+            match = self.matcher.match(line)
+            if match:
+                anchor = match.groups()[0].strip()
+                start_end_checker[anchor].append(idx)
+        for anchor, line_numbers in start_end_checker.items():
+            if len(line_numbers) != 2:
+                raise ValueError("Failed to find matching tags")
 
-    def render(self, trailing_whitespace=False) -> str:
-        """Renders document to string.
+            setattr(
+                anchors,
+                sanitise_attribute(anchor),
+                MarkdownAnchor(self, anchor),
+            )
+        return anchors
+
+    @property
+    def anchors(self) -> SimpleNamespace:
+        """Returns anchors found as class attributes.
+
+        Returns:
+            SimpleNamespace: Class with anchor manipulation methods.
+        """
+
+        return self._anchors
+
+    def render(self, trailing_whitespace: bool = False) -> str:
+        """Renders the final document with modifications.
+
+        Args:
+            trailing_whitespace (bool, optional): Add whitespace to end of the document.
+                Defaults to False.
 
         Returns:
             str: Rendered document.
         """
+
         document = "\n".join(self.file_buffer)
         if trailing_whitespace:
             return document + "\n"
         return document
 
-    def __getattr__(self, attr):
-        raise ValueError(attr)
 
-    def _find_tags(self):
-        tags = defaultdict(dict)
+class MarkdownAnchor:
+    """Anchor class.
 
-        for idx, line in enumerate(self.file_buffer):
-            if line.startswith("<!--"):
-                start = re.match(r"^<!--.*markdown-toolkit:start:(.*).*-->$", line)
-                end = re.match(r"^<!--.*markdown-toolkit:end:(.*).*-->$", line)
-                if start:
-                    anchor = start.groups()[0].strip()
-                    if "start" in tags[anchor]:
-                        raise ValueError()
-                    tags[anchor]["start"] = idx + 1
-                if end:
-                    anchor = end.groups()[0].strip()
-                    if "end" in tags[anchor]:
-                        raise ValueError()
-                    tags[anchor]["end"] = idx + 1
+    Represents the document object between two anchor points.
+    """
 
-        ranges = []
-        for lines in tags.values():
-            ranges.append(set(range(lines["start"], lines["end"])))
-        if len(ranges) > 1:
-            overlaps = set.intersection(*ranges)
-            if overlaps:
-                raise IndexError("Overlapping anchors", overlaps)
+    def __init__(self, document: MarkdownInjector, anchor: str):
+        self.doc = document
+        self.anchor = anchor
+        self.matcher = re.compile(
+            rf"(.*)<!---\s?markdown-toolkit:{self.anchor}\s?--->.*"
+        )
 
-        self.tags = tags
-        for anchor, lines in tags.items():
-            setattr(
-                self,
-                sanitise_attribute(anchor),
-                self.Inject(self.file_buffer, lines["start"], lines["end"]),
-            )
+    def __repr__(self) -> str:
+        _start, _end, _value = self._index_finder()
+        return (
+            f"({self.__class__.__name__}={self.anchor}) "
+            f"start={_start} end={_end} value={_value}"
+        )
+
+    def _index_finder(self) -> tuple[int, int, str]:
+        """Finds the current line index and value of text between them.
+
+        Runs at on every access or mutation as the document may have changed.
+
+        Returns:
+            tuple(int, int, int, str): returns the start index, end index, indent and value of text.
+        """
+        start = None
+        end = None
+        for idx, line in enumerate(self.doc.file_buffer):
+            match = self.matcher.match(line)
+            if match:
+                if start is None:
+                    start = idx
+                    indent = match.groups()[0]
+                else:
+                    end = idx
+
+        return (start, end, indent, self.doc.file_buffer[start + 1 : end])
+
+    @property
+    def value(self) -> str:
+        """Text between the anchor comments.
+
+        Returns:
+            str: Raw text between the anchors.
+        """
+        _, _, _, value = self._index_finder()
+        text = "\n".join(value)
+        return text.encode("UTF-8")
+
+    @value.setter
+    def value(self, text: str):
+        start, end, indent, _ = self._index_finder()
+        del self.doc.file_buffer[start + 1 : end]
+        text_lines = "\n".join([indent + line for line in text.splitlines()])
+        self.doc.file_buffer.insert(start + 1, text_lines)
+
+    @value.deleter
+    def value(self):
+        start, end, _, _ = self._index_finder()
+        del self.doc.file_buffer[start + 1 : end]

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "markdown-toolkit"
 version = "0.2.0"
-description = "Utility package for programmatically creating markdown documents"
+description = "Utility package for programmatically manipulating markdown documents."
 license = "MIT"
 readme = "README.md"
 keywords = ["markdown"]
@@ -15,20 +15,27 @@ authors = ["Daniel Loader <hello@danielloader.uk>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 
+[tool.poetry.group.dev]
+optional = true
 [tool.poetry.group.dev.dependencies]
 black = "^22.3.0"
 pylint = "^2.13.9"
+pytest = "^5.2"
+testfixtures = "^6.18.5"
 
+[tool.poetry.group.helpers]
+optional = true
 [tool.poetry.group.helpers.dependencies]
 docstring-parser = "^0.14.1"
+
+[tool.poetey.group.examples]
+optional = true
+
 
 
 [tool.poetry.group.examples.dependencies]
 moto = "^3.1.9"
 boto3 = "^1.23.4"
-
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

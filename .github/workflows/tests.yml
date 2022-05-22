@@ -27,7 +27,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
           cache: poetry
-      - run: poetry install
+      - run: poetry install --with dev --with examples
       - run: poetry run pytest
   test-arm:
     name: Python ARM64 Test
@@ -45,5 +45,5 @@ jobs:
           key: cache-arm64-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
             cache-arm64-
-      - run: poetry install
+      - run: poetry install --with dev --with examples
       - run: poetry run pytest

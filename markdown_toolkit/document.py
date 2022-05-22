@@ -1,15 +1,16 @@
 """Markdown Toolkit main classes."""
 from __future__ import annotations
 
+import itertools
 from contextlib import contextmanager
 from inspect import cleandoc
 from typing import Optional, Union
-import itertools
+
 from markdown_toolkit.utils import (
     header,
     list_item,
-    sanitise_attribute,
     remove_duplicates,
+    sanitise_attribute,
 )
 
 
@@ -61,6 +62,7 @@ class MarkdownDocument:
 
         def add_row(self, **columns):
             """Add row to table helper."""
+            print(self.normalized_titles)
             if columns is None:
                 raise ValueError("No data submitted.")
             for column in columns:
@@ -203,6 +205,7 @@ class MarkdownDocument:
 
     @contextmanager
     def collapsed(self, summary: str):
+        """Adds collapsable section to the document."""
         self.linebreak()
         self.text("<details><summary>" + summary + "</summary>")
         self.linebreak()
