@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
+          fetch-depth: 0
       - name: Install poetry
         run: pipx install poetry==${POETRY_VERSION}
       - name: Set up Python
@@ -35,5 +36,6 @@ jobs:
         with:
           commit_message: Bump version in-line with release
           file_pattern: pyproject.toml
+      - uses: fregante/setup-git-user@v1
       - run: poetry run mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest
       - run: poetry run mike set-default --push latest
