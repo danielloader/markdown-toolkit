@@ -1,4 +1,4 @@
-name: Generate documentation for gh-pages
+name: Generate documentation for gh-pages and release package to pypi
 env:
   POETRY_VERSION: "1.2.0b1"
   POETRY_VIRTUALENVS_IN_PROJECT: "true"
@@ -7,11 +7,9 @@ permissions:
   contents: write
   pull-requests: write
 
-on: 
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on:
+  release:
+    types: [published]
 
 jobs:
   build-docs:
@@ -30,4 +28,7 @@ jobs:
           architecture: x64
           cache: poetry
       - run: poetry install --with docs 
-      - run: poetry run mike deploy --push --update-aliases main
+      - run: poetry run mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest
+      - run: poetry run mike set-default --push latest
+      - run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+      - run: poetry publish --build
