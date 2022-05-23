@@ -28,7 +28,12 @@ jobs:
           architecture: x64
           cache: poetry
       - run: poetry install --with docs 
+      - run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+      - run: poetry version ${{ github.event.release.tag_name }}
+      - run: poetry publish --build
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Bump version in-line with release
+          file_pattern: pyproject.toml
       - run: poetry run mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest
       - run: poetry run mike set-default --push latest
-      - run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-      - run: poetry publish --build
