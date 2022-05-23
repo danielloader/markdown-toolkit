@@ -31,12 +31,6 @@ mkdocs-material = "^8.2.15"
 mkdocstrings = "^0.18.1"
 mike = "^1.1.2"
 
-[tool.poetey.group.examples]
-optional = true
-[tool.poetry.group.examples.dependencies]
-moto = "^3.1.9"
-boto3 = "^1.23.4"
-
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

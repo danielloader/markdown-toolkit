@@ -13,7 +13,7 @@ on:
 
 jobs:
   build-docs:
-    name: Build ./docs to ./site
+    name: Build release to gh-pages release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
           python-version: "3.7"
           architecture: x64
           cache: poetry
-      - run: poetry install --with docs 
+      - run: poetry install --with docs
       - run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
       - run: poetry version ${{ github.event.release.tag_name }}
       - run: poetry publish --build
