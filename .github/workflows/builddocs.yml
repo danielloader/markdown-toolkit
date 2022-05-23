@@ -1,0 +1,33 @@
+name: Generate documentation for gh-pages
+env:
+  POETRY_VERSION: "1.2.0b1"
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on: 
+  push:
+    branches:
+      main
+  workflow_dispatch:
+
+jobs:
+  build-docs:
+    name: Build ./docs to ./site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install poetry
+        run: pipx install poetry==${POETRY_VERSION}
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.7"
+          architecture: x64
+          cache: poetry
+      - run: poetry install --with docs 
+      - run: poetry run mkdocs gh-deploy --force
