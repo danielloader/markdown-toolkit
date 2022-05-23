@@ -10,7 +10,7 @@ permissions:
 on: 
   push:
     branches:
-      - main
+      - new-docs
   workflow_dispatch:
 
 jobs:
