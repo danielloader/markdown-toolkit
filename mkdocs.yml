@@ -1,0 +1,18 @@
+site_url: ""
+site_name: Markdown-Toolkit
+use_directory_urls: false
+theme:
+  name: "material"
+
+extra:
+  version:
+    provider: mike
+
+plugins:
+  - mike:
+      # these fields are all optional; the defaults are as below...
+      version_selector: true   # set to false to leave out the version selector
+  - mkdocstrings:
+      watch:
+        - markdown_toolkit
+        - examples

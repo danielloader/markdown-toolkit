@@ -15,7 +15,10 @@ from markdown_toolkit.utils import (
 
 
 class MarkdownDocument:
-    """Markdown document builder class."""
+    """Markdown document builder class.
+
+    Example
+    """
 
     class _MarkdownList:
         def __init__(
