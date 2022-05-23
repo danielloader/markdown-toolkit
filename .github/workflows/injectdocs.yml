@@ -12,7 +12,7 @@ on:
     paths:
       - 'examples/**'
       - 'inject_*.py'
-      - '.github/workflows/docs.yml'
+      - '.github/workflows/injectdocs.yml'
       - '**/README.md'
   workflow_dispatch:
 
