@@ -11,6 +11,7 @@ on:
   push:
     paths:
       - 'examples/**'
+      - 'docs/**'
       - 'inject_*.py'
       - '.github/workflows/docs.yml'
       - '**/README.md'
@@ -32,9 +33,10 @@ jobs:
           python-version: "3.7"
           architecture: x64
           cache: poetry
-      - run: poetry install --with dev
+      - run: poetry install --with docs --with dev
       - run: poetry run python inject_readme.py
       - run: poetry run python examples/generate_documentation.py
+      - run: poetry run mkdocs gh-deploy
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4

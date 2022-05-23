@@ -1,0 +1,8 @@
+site_url: ""
+site_name: Markdown-Toolkit
+use_directory_urls: false
+theme:
+  name: "material"
+
+plugins:
+- mkdocstrings
