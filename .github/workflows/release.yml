@@ -17,9 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
       - name: Install poetry
         run: pipx install poetry==${POETRY_VERSION}
       - name: Set up Python
@@ -32,6 +29,7 @@ jobs:
       - run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
       - run: poetry version ${{ github.event.release.tag_name }}
       - run: poetry publish --build
+        continue-on-error: true
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Bump version in-line with release

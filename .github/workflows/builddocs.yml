@@ -37,3 +37,7 @@ jobs:
           cache: poetry
       - run: poetry install --with docs 
       - run: poetry run mike deploy --push --update-aliases ${{github.event.inputs.docstag}}
+        if: ${{ github.event.inputs.docstag }}
+      - run: poetry run mike deploy --push --update-aliases main
+        if: ${{ github.event_name == 'push' }}
+
