@@ -1,5 +1,4 @@
 ---
-title: Markdown-Toolkit - Python
 description: A python library for creating and manipulating markdown with an object oriented interface.
 hide:
   - toc
