@@ -65,7 +65,6 @@ class MarkdownDocument:
 
         def add_row(self, **columns):
             """Add row to table helper."""
-            print(self.normalized_titles)
             if columns is None:
                 raise ValueError("No data submitted.")
             for column in columns:

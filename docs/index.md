@@ -37,7 +37,7 @@ This library has two primary aims:
         --8<-- "docs/examples/injection_quickstart.py"
         ```
 
-    === "Source"
+    === "examples/injection_source.md"
 
         ```markdown
         --8<-- "docs/examples/injection_source.md"
@@ -54,3 +54,17 @@ This library has two primary aims:
         ```python exec="true"
         --8<-- "docs/examples/injection_quickstart.py"
         ```
+
+## Installation
+
+To install the library directly for use in scripts you can install it directly with `pip`:
+
+```shell
+pip install markdown-toolkit
+```
+
+If you want to include it in a larger `poetry` project:
+```shell
+poetry add markdown-toolkit
+```
+

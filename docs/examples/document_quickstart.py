@@ -2,7 +2,7 @@ from datetime import datetime
 
 import requests
 
-from markdown_toolkit import MarkdownDocument, image
+from markdown_toolkit import MarkdownDocument, image, bold
 
 QUOTES_COUNT = 10
 
@@ -22,8 +22,8 @@ doc = MarkdownDocument()
 with doc.heading("Ron Swanson"):
     with doc.heading("Biography"):
         doc.paragraph(image(uri="img/ron_swanson.jpg"))
-        doc.list(f'Name: Ronald Ulysses "Ron" Swanson')
-        doc.list(f"Age: {calculate_age()}")
+        doc.list(f'{bold("Name")}: Ronald Ulysses "Ron" Swanson')
+        doc.list(f'{bold("Age")}: {calculate_age()}')
     with doc.heading(f"Top {QUOTES_COUNT} Greatest Quotes"):
         doc.paragraph(
             "Ron is known for some insightful quotes, here's some of the best:"
