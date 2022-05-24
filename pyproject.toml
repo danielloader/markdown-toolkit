@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "markdown-toolkit"
-version = "0.2.1"
+version = "0.3.0"
 description = "Utility package for programmatically manipulating markdown documents."
 license = "MIT"
 readme = "README.md"
