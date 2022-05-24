@@ -92,10 +92,10 @@ class MarkdownAnchor:
         )
 
     def __repr__(self) -> str:
-        _start, _end, _value = self._index_finder()
+        _start, _end, _indent, _value = self._index_finder()
         return (
             f"({self.__class__.__name__}={self.anchor}) "
-            f"start={_start} end={_end} value={_value}"
+            f"start={_start} end={_end} indent={_indent} value={_value}"
         )
 
     def _index_finder(self) -> tuple[int, int, str]:

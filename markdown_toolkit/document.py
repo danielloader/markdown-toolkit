@@ -116,11 +116,12 @@ class MarkdownDocument:
                 self.doc.linebreak()
             if not self.level:
                 self.doc._heading_level += 1
+            else:
+                self.doc._heading_level = self.level + 1
             return self
 
         def __exit__(self, exc_type, exc_value, exc_traceback):
-            if not self.level:
-                self.doc._heading_level -= 1
+            self.doc._heading_level -= 1
 
         def __str__(self) -> str:
             """String representation.
