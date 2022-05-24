@@ -1,8 +1,10 @@
 """Utilities for inline manipulating strings."""
 
-from inspect import cleandoc
-from pathlib import Path
 import re
+from contextlib import contextmanager
+from inspect import cleandoc
+from io import StringIO
+from pathlib import Path
 from typing import Optional, Union
 from urllib.parse import quote as urlquote
 
@@ -132,3 +134,29 @@ def remove_duplicates(seq) -> list:
     seen = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
+
+
+@contextmanager
+def fileobj_open(path_or_file: Union[str, StringIO]) -> StringIO:
+    """Fileobject or Path opener.
+
+    Args:
+        path_or_file (Union[str, StringIO]): Fileobject or Path.
+
+    Returns:
+        StringIO: Document fileobject.
+
+    Yields:
+        Iterator[StringIO]: Document fileobject.
+    """
+    if isinstance(path_or_file, str):
+        file = file_to_close = open(path_or_file, "r", encoding="UTF-8")
+    else:
+        file = path_or_file
+        file_to_close = None
+
+    try:
+        yield file
+    finally:
+        if file_to_close:
+            file_to_close.close()

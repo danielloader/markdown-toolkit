@@ -15,19 +15,16 @@ class MarkdownInjector:
     anchors found in the document.
 
     Raises:
-        ValueError: Document did not have a pair of the same anchor.
-
-    Returns:
-        MarkdownInjector: Initialised class.
+        ValueError: Can not find pair of anchors for each anchor defined.
     """
 
     matcher = re.compile(r".*<!---\s?markdown-toolkit:(.*)\s?--->.*")
 
     def __init__(self, file_obj: TextIO):
         self.file_buffer = file_obj.read().splitlines()
-        self._anchors = self.find_anchors()
+        self._anchors = self._find_anchors()
 
-    def find_anchors(self) -> SimpleNamespace:
+    def _find_anchors(self) -> SimpleNamespace:
         """Finds pairs of anchors and returns a simple object.
 
         Each attribute of the namedtuple is an anchor, which returns
@@ -55,8 +52,16 @@ class MarkdownInjector:
     def anchors(self) -> SimpleNamespace:
         """Returns anchors found as class attributes.
 
+        Access to these anchors is done by way of standard dot object notation.
+
+        ```python
+        document.anchors.anchorname
+        ```
+
+        These anchor names are sanitised from strings using `sanitise_attribute` utility.
+
         Returns:
-            SimpleNamespace: Class with anchor manipulation methods.
+            SimpleNamespace: Class with MarkdownAnchor classes as attributes per anchor.
         """
 
         return self._anchors
@@ -79,10 +84,7 @@ class MarkdownInjector:
 
 
 class MarkdownAnchor:
-    """Anchor class.
-
-    Represents the document object between two anchor points.
-    """
+    """This class represents the document object between two anchor points."""
 
     def __init__(self, document: MarkdownInjector, anchor: str):
         self.doc = document
@@ -92,10 +94,10 @@ class MarkdownAnchor:
         )
 
     def __repr__(self) -> str:
-        _start, _end, _value = self._index_finder()
+        _start, _end, _indent, _value = self._index_finder()
         return (
             f"({self.__class__.__name__}={self.anchor}) "
-            f"start={_start} end={_end} value={_value}"
+            f"start={_start} end={_end} indent={_indent} value={_value}"
         )
 
     def _index_finder(self) -> tuple[int, int, str]:
@@ -122,6 +124,17 @@ class MarkdownAnchor:
     @property
     def value(self) -> str:
         """Text between the anchor comments.
+
+        To read the value simply assign the value of this property:
+        ```python
+        text_between_anchors = document.anchors.anchorname.value
+        ```
+
+        To set the value, thereby overwriting the lines in the document
+        between the anchors:
+        ```python
+        document.anchors.anchorname.value = "This text will replace the lines"
+        ```
 
         Returns:
             str: Raw text between the anchors.

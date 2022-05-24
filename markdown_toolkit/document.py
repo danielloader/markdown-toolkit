@@ -4,9 +4,11 @@ from __future__ import annotations
 import itertools
 from contextlib import contextmanager
 from inspect import cleandoc
+from io import StringIO
 from typing import Optional, Union
 
 from markdown_toolkit.utils import (
+    fileobj_open,
     header,
     list_item,
     remove_duplicates,
@@ -17,7 +19,15 @@ from markdown_toolkit.utils import (
 class MarkdownDocument:
     """Markdown document builder class.
 
-    Example
+    The purpose of this class is to generate markdown programatically with an
+    object oriented interface.
+
+    The document is created by initalising this class:
+    ```python
+    doc = MarkdownDocument()
+    ```
+
+    From here the object has methods to manipulate the document.
     """
 
     class _MarkdownList:
@@ -65,7 +75,6 @@ class MarkdownDocument:
 
         def add_row(self, **columns):
             """Add row to table helper."""
-            print(self.normalized_titles)
             if columns is None:
                 raise ValueError("No data submitted.")
             for column in columns:
@@ -116,11 +125,12 @@ class MarkdownDocument:
                 self.doc.linebreak()
             if not self.level:
                 self.doc._heading_level += 1
+            else:
+                self.doc._heading_level = self.level + 1
             return self
 
         def __exit__(self, exc_type, exc_value, exc_traceback):
-            if not self.level:
-                self.doc._heading_level -= 1
+            self.doc._heading_level -= 1
 
         def __str__(self) -> str:
             """String representation.
@@ -166,14 +176,40 @@ class MarkdownDocument:
         heading: Optional[str] = None,
         silent: bool = False,
         level: Optional[int] = None,
-    ):
-        """_summary_
+    ) -> _MarkdownHeading:
+        """Adds a Markdown Heading to the document.
+
+        There's two entrypoints using this method:
+
+        * As a context manager:
+            This is used if you want to use nested headings, in a heading level aware
+            context.
+
+            Repeatedly nesting more headings increases the heading level.
+
+            ```python
+            with doc.heading("Title"):
+                text.paragraph("Blurb under the title heading")
+            ```
+
+        * As a document element:
+            This is used to inject a heading as is, at the current document header level,
+            or if the level argument is used, at a specific level.
+
+            ```python
+            doc.header("Sub Sub Heading", level=3)
+            ```
+
 
         Args:
-            heading (Optional[str], optional): Text to head with. Defaults to None.
-            silent (bool, optional): Increment heading level silently. Defaults to False.
-            level (Optional[int], optional): Override heading level. Defaults to None.
+            heading (Optional[str], optional): Text to be used as a heading. Defaults to None.
+            silent (bool, optional): Skip printing the heading. Defaults to False.
+            level (Optional[int], optional): Static level to assign to the heading. Defaults to None.
+
+        Returns:
+            _MarkdownHeading: Heading object.
         """
+
         return self._MarkdownHeading(self, heading=heading, silent=silent, level=level)
 
     def table(
@@ -183,10 +219,40 @@ class MarkdownDocument:
         titles: Optional[list] = None,
         sort_by: Optional[str] = None,
     ) -> _MarkdownTable:
-        """Table rendering helper.
+        """Adds a Markdown Table to the document.
+
+        This method produces github flavoured markdown tables.
+
+        There's two entrypoints using this method:
+
+        * As a context manager:
+            This is if you do not want to wrangle a large dataset in one go, so
+            you can lazy add to the table row at a time.
+
+            You have to define the table title headings at initialisation time.
+
+            ```python
+            with doc.table(titles=["example","headings]) as table:
+                table.add_row(example="abc", headings="123")
+            ```
+
+        * As a document element:
+            This is if you have a list of dictionaries and you just want to render them
+            using the dictionary key value pairs.
+
+            ```python
+            doc.table(
+                [
+                    {"key": 123, "value": "example"},
+                    {"key": 456, "value": "another field"}
+                ]
+            )
+            ```
 
         Args:
-            titles (list): List of titles for the columns.
+            raw_table (Optional[list[dict]], optional): Raw table to render. Defaults to None.
+            titles (Optional[list], optional): Table titles. Defaults to None.
+            sort_by (Optional[str], optional): Table title to sort by. Defaults to None.
 
         Returns:
             _MarkdownTable: Object with helper methods.
@@ -200,15 +266,55 @@ class MarkdownDocument:
             table.bulk_add_rows(raw_table)
         return None
 
-    def list(self, item: str, ordered: bool = False, prefix: Optional[str] = None):
-        """Returns list context manager, can be used directly."""
+    def list(
+        self, item: str, ordered: bool = False, prefix: Optional[str] = None
+    ) -> _MarkdownList:
+        """Adds a Markdown List to the document.
+
+        This method produces ordered and unordered lists.
+
+        There's two entrypoints using this method:
+
+        * As a context manager:
+            This method creates a nested list context.
+
+            The context manager creates a new list item, but inside the with block
+            any new created lists will be children of this list.
+
+            ```python
+            with doc.list("Parent Item"):
+                doc.list("Child Item")
+            ```
+
+        * As a document element:
+            This method creates a list item as is, at the current document indentation
+            level.
+
+            ```python
+            doc.list("List item", ordered=True)
+            ```
+
+        Args:
+            item (str): List item string to be used.
+            ordered (bool, optional): If the list is ordered or not. Defaults to False.
+            prefix (Optional[str], optional): Custom prefix on list items. Defaults to None.
+
+        Returns:
+            _MarkdownList: _description_
+        """
         return self._MarkdownList(
             item=item, ordered=ordered, document=self, prefix=prefix
         )
 
     @contextmanager
     def collapsed(self, summary: str):
-        """Adds collapsable section to the document."""
+        """Adds collapsable section to the document.
+
+        Uses html tags to add a details block, with summary.
+
+        Args:
+            summary (str): Summary for the collapsed block..
+        """
         self.linebreak()
         self.text("<details><summary>" + summary + "</summary>")
         self.linebreak()
@@ -218,28 +324,72 @@ class MarkdownDocument:
 
     @contextmanager
     def codeblock(self, language: str = ""):
-        """Codeblock context manager."""
+        """Codeblock context manager.
+
+        Wraps paragraphs in codeblock backticks with optional syntax highlighting.
+
+        ```python
+        with doc.codeblock(language="python"):
+            doc.paragraph(
+            \"""
+            for i in range(100):
+                print(i)
+            \"""
+            )
+        ```
+
+        Args:
+            language (str): Syntax highlighting language.
+        """
         self.text("```" + language)
         yield
         self.text("```")
 
     @contextmanager
     def indentblock(self):
-        """Returns indented context manager."""
+        """Returns indented context manager.
+
+        All elements defined in this with section will be indented.
+
+        ```python
+        with doc.indentblock():
+            doc.text("This text will be indented by 4 spaces")
+        ```
+        """
         self._indent_level += 1
         yield
         self._indent_level -= 1
 
-    def add(self, text):
-        """Unmodified text injection into document."""
+    def add(self, text: str):
+        """Unmodified raw string injection into the document.
+
+        Args:
+            text (str): Text to inject.
+        """
         self._buffer.append(text)
 
     def text(self, text: str = ""):
-        """Add text to document, taking into account indent level."""
+        """Add text to document, taking into account indent level.
+
+        Args:
+            text (str, optional): Text to add to the document. Defaults to "".
+        """
+
         self._buffer.append(f"{self._indent}{text}")
 
     def paragraph(self, text: str, linebreak: Union[int, bool] = True):
-        """Add triplequote python multiline strings to document."""
+        """Adds a paragraph to the document.
+
+        This differs from adding `text` to the document in the `text` method in a few ways:
+
+        * By default it adds a linebreak after the text to force a
+        paragraph break in the document.
+        * It uses the cleandoc function to clean multitline indentation whitespace up.
+
+        Args:
+            text (str): Text to add to the document.
+            linebreak (Union[int, bool], optional): Enables the trailing linebreak. Defaults to True.
+        """
         buffer = cleandoc(text).split("\n")
         for line in buffer:
             self.text(line)
@@ -259,13 +409,25 @@ class MarkdownDocument:
 
     @contextmanager
     def injector(self, anchor: str):
-        """Add inline comment to use as an injector anchor."""
-        self.text(f"<!--- markdown-toolkit:start:{anchor} --->")
+        """Add inline comment to use as an injector anchor.
+
+        Using and abusing html comments, as they are not rendered in markdown.
+
+        Renders `<!--- markdown-toolkit:anchor --->` tags into the document.
+
+        Args:
+            anchor (str): Unique identifier string for the anchor.
+        """
+        self.text(f"<!--- markdown-toolkit:{anchor} --->")
         yield
-        self.text(f"<!--- markdown-toolkit:end:{anchor} --->")
+        self.text(f"<!--- markdown-toolkit:{anchor} --->")
 
     def render(self, trailing_whitespace=False) -> str:
-        """Renders document to string.
+        """Renders document to multiline string.
+
+        Args:
+            trailing_whitespace (bool, optional): Add linebreak to the end of the document.
+                Defaults to False.
 
         Returns:
             str: Rendered document.
@@ -274,3 +436,12 @@ class MarkdownDocument:
         if trailing_whitespace:
             return document + "\n"
         return document
+
+    def write(self, file: Union[str, StringIO]):
+        """Helper method to write the document contents to a file or filelike object.
+
+        Args:
+            file (Union[str, StringIO]): Path to file, or filelike object already opened.
+        """
+        with fileobj_open(file) as file_object:
+            file_object.write(self.render())

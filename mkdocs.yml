@@ -1,18 +1,82 @@
 site_url: ""
 site_name: Markdown-Toolkit
 use_directory_urls: false
-theme:
-  name: "material"
+repo_url: https://github.com/danielloader/markdown-toolkit
+repo_name: danielloader/markdown-toolkit
 
-extra:
-  version:
-    provider: mike
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github-alt
+  features:
+    # - navigation.instant
+    - navigation.tracking
+    - navigation.indexes
+    - navigation.top
+    - navigation.expand
+    - toc.follow
+  palette:
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    accent: purple
+    toggle:
+      icon: material/weather-sunny
+      name: Switch to dark mode
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: black
+    toggle:
+      icon: material/weather-night
+      name: Switch to light mode
+
+nav:
+  - Quick Start: index.md
+  - Module API:
+    - reference/makdowndocument.md
+    - reference/markdowninjector.md
+    - reference/utils.md
+markdown_extensions:
+  - admonition
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.keys
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+      - name: python
+        class: python
+        validator: !!python/name:markdown_exec.validator
+        format: !!python/name:markdown_exec.formatter
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - attr_list
 
 plugins:
   - mike:
       # these fields are all optional; the defaults are as below...
       version_selector: true   # set to false to leave out the version selector
+  - markdown-exec
   - mkdocstrings:
+      default_handler: python
+      handlers:
+          python:
+            rendering:
+              show_source: false
+            selection:
+              filters:
+                - "!^_"
+                - "^__init__$"
+                - "!^can_replace$"
+
       watch:
         - markdown_toolkit
         - examples
+
+extra:
+  version:
+    provider: mike
