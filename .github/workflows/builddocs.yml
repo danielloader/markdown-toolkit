@@ -12,7 +12,11 @@ on:
     branches:
       - main
   workflow_dispatch:
-
+    inputs:
+      docstag:
+        description: "Tag for Documentation Building"
+        required: false
+        default: "dev"
 jobs:
   build-docs:
     name: Build github pages
@@ -32,4 +36,4 @@ jobs:
           architecture: x64
           cache: poetry
       - run: poetry install --with docs 
-      - run: poetry run mike deploy --push --update-aliases main
+      - run: poetry run mike deploy --push --update-aliases ${{github.event.inputs.docstag}}
