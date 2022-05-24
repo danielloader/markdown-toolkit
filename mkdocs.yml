@@ -1,9 +1,13 @@
 site_url: ""
 site_name: Markdown-Toolkit
 use_directory_urls: false
+repo_url: https://github.com/danielloader/markdown-toolkit
+repo_name: danielloader/markdown-toolkit
 
 theme:
   name: material
+  icon:
+    repo: fontawesome/brands/github-alt
   features:
     # - navigation.instant
     - navigation.indexes
