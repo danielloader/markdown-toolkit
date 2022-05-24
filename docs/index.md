@@ -30,9 +30,9 @@ This library is split into two goals:
     This example reaches out to a public API, grabs a response and generates a document
     using those dynamic responses using the [MarkdownDocument](reference/makdowndocument.md#markdowndocument) class.
 
-    === "examples/document_quickstart.py"
+    === "Source"
 
-        ```python
+        ```python title="examples/document_quickstart.py"
         --8<-- "docs/examples/document_quickstart.py"
         ```
 
@@ -55,15 +55,15 @@ This library is split into two goals:
     [MarkdownDocument](reference/makdowndocument.md#markdowndocument) and 
     [MarkdownInjector](reference/markdowninjector.md#markdowninjector) classes.
 
-    === "examples/injection_quickstart.py"
+    === "Source"
 
-        ```python
+        ```python title="examples/injection_quickstart.py"
         --8<-- "docs/examples/injection_quickstart.py"
         ```
 
-    === "examples/injection_source.md"
+    === "Source Document"
 
-        ```markdown
+        ```markdown title="examples/injection_source.md"
         --8<-- "docs/examples/injection_source.md"
         ```
 
