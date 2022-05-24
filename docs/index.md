@@ -20,7 +20,10 @@ hide:
 </a>
 </p>
 
-**This library has two primary aims:**
+This library is split into two goals:
+
+* The capacity to generate documents programatically
+* Be able to inject documents, files and text fragments into markdown documents using HTML comments as anchors.
 
 1. ## Generation 
 
