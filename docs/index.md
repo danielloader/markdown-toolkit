@@ -9,7 +9,7 @@ hide:
 <p align="center">
 <img src="img/markdown-mark.svg"><br>
 <em>A python library for creating and manipulating markdown with an object oriented interface.</em><br>
-<a href="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml" target="_blank">
+<a href="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml?query=branch%3Amain" target="_blank">
     <img src="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml/badge.svg?branch=main&event=push" alt="Tests">
 </a>
 <a href="https://pypi.org/project/markdown-toolkit" target="_blank">
