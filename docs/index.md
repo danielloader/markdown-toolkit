@@ -7,7 +7,19 @@ hide:
 
 # Markdown Toolkit 
 
-_A python library for creating and manipulating markdown with an object oriented interface._
+<p align="center">
+<img src="img/markdown-mark.svg"><br>
+<em>A python library for creating and manipulating markdown with an object oriented interface.</em><br>
+<a href="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml" target="_blank">
+    <img src="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml/badge.svg?branch=main&event=push" alt="Tests">
+</a>
+<a href="https://pypi.org/project/markdown-toolkit" target="_blank">
+    <img src="https://img.shields.io/pypi/v/markdown-toolkit?color=%2334D058&label=pypi%20package" alt="Package version">
+</a>
+<a href="https://pypi.org/project/markdown-toolkit" target="_blank">
+    <img src="https://img.shields.io/pypi/pyversions/markdown-toolkit.svg?color=%2334D058" alt="Supported Python versions">
+</a>
+</p>
 
 **This library has two primary aims:**
 
