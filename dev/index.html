@@ -190,9 +190,40 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Quick Start
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="index.html" class="md-nav__link md-nav__link--active">
         Quick Start
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -304,6 +335,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -329,7 +375,7 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">requests</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kn">from</span> <span class="nn">markdown_toolkit</span> <span class="kn">import</span> <span class="n">MarkdownDocument</span><span class="p">,</span> <span class="n">image</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kn">from</span> <span class="nn">markdown_toolkit</span> <span class="kn">import</span> <span class="n">MarkdownDocument</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">bold</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">QUOTES_COUNT</span> <span class="o">=</span> <span class="mi">10</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
@@ -349,8 +395,8 @@
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Ron Swanson&quot;</span><span class="p">):</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Biography&quot;</span><span class="p">):</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>        <span class="n">doc</span><span class="o">.</span><span class="n">paragraph</span><span class="p">(</span><span class="n">image</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="s2">&quot;img/ron_swanson.jpg&quot;</span><span class="p">))</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>        <span class="n">doc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Name: Ronald Ulysses &quot;Ron&quot; Swanson&#39;</span><span class="p">)</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        <span class="n">doc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Age: </span><span class="si">{</span><span class="n">calculate_age</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>        <span class="n">doc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">bold</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Ronald Ulysses &quot;Ron&quot; Swanson&#39;</span><span class="p">)</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        <span class="n">doc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">bold</span><span class="p">(</span><span class="s2">&quot;Age&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">calculate_age</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Top </span><span class="si">{</span><span class="n">QUOTES_COUNT</span><span class="si">}</span><span class="s2"> Greatest Quotes&quot;</span><span class="p">):</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>        <span class="n">doc</span><span class="o">.</span><span class="n">paragraph</span><span class="p">(</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>            <span class="s2">&quot;Ron is known for some insightful quotes, here&#39;s some of the best:&quot;</span>
@@ -368,22 +414,22 @@
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>![<span class="nt">img/ron_swanson.jpg</span>](<span class="na">img/ron_swanson.jpg</span>)
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">*</span>   Name: Ronald Ulysses &quot;Ron&quot; Swanson
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">*</span>   Age: 55
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">*</span>   <span class="gs">**Name**</span>: Ronald Ulysses &quot;Ron&quot; Swanson
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">*</span>   <span class="gs">**Age**</span>: 55
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gu">## Top 10 Greatest Quotes</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Ron is known for some insightful quotes, here&#39;s some of the best:
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">*</span>   I enjoy government functions like I enjoy getting kicked in the nuggets with a steel toed boot.
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">*</span>   Fish, for sport only, not for meat. Fish meat is practically a vegetable.
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">*</span>   When I&#39;m done eating a Mulligan&#39;s meal, for weeks afterwards, there are flecks of meat in my mustache. And I refuse to clean it because every now and then a piece of meat will fall into my mouth.
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">*</span>   Capitalism is the only way … It makes America great, England OK and France terrible.
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">*</span>   When I eat, it is the food that is scared.
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="k">*</span>   One rage every three months is permitted. Try not to hurt anyone who doesn&#39;t deserve it.
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">*</span>   Veganism is the sad result of a morally corrupt mind. Reconsider your life.
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">*</span>   The three most useless jobs in the world in order are: lawyer, congressman, and doctor.
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="k">*</span>   Normally, if given the choice between doing something and nothing, I’d choose to do nothing. But I will do something if it helps someone else do nothing. I’d work all night, if it meant nothing got done.
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">*</span>   Give 100%. 110% is impossible. Only idiots recommend that.
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">*</span>   First rule. No conversation lasts longer than 100 total words.
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">*</span>   Cultivating a manly musk puts opponent on notice.
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">*</span>   The government is a greedy piglet that suckles on a taxpayer&#39;s teat until they have sore, chapped nipples.
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">*</span>   Honor: if you need it defined, you don&#39;t have it.
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">*</span>   There are three acceptable haircuts: high and tight, crew cut, buzz cut.
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="k">*</span>   Children are terrible artists and artists are crooks.
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">*</span>   Tom put all my records into this rectangle!
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">*</span>   I&#39;ve cried twice in my life. Once when I was seven and hit by a school bus. And then again when I heard that Li&#39;l Sebastian has passed.
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="k">*</span>   Standard birth control methods are usually ineffective against a Swanson.
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">*</span>   Capitalism: God&#39;s way of determining who is smart and who is poor.
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -391,22 +437,22 @@
 <h2 id="exec-1--biography">Biography<a class="headerlink" href="#exec-1--biography" title="Permanent link">&para;</a></h2>
 <p><img alt="img/ron_swanson.jpg" src="img/ron_swanson.jpg" /></p>
 <ul>
-<li>Name: Ronald Ulysses "Ron" Swanson</li>
-<li>Age: 55</li>
+<li><strong>Name</strong>: Ronald Ulysses "Ron" Swanson</li>
+<li><strong>Age</strong>: 55</li>
 </ul>
 <h2 id="exec-1--top-10-greatest-quotes">Top 10 Greatest Quotes<a class="headerlink" href="#exec-1--top-10-greatest-quotes" title="Permanent link">&para;</a></h2>
 <p>Ron is known for some insightful quotes, here's some of the best:</p>
 <ul>
-<li>Once a year, every branch of this government meets in a room and announces what they intend to waste taxpayer money on.</li>
-<li>I'll take that steak to go. Please and thank you.</li>
-<li>Put some alcohol in your mouth to block with words from coming out.</li>
-<li>I leave no meat behind. It’s an honor thing.</li>
-<li>I was born ready. I’m Ron F*cking Swanson.</li>
+<li>The three most useless jobs in the world in order are: lawyer, congressman, and doctor.</li>
+<li>Dear frozen yogurt, you are the celery of desserts. Be ice cream or be nothing. Zero stars.</li>
+<li>Normally, if given the choice between doing something and nothing, I’d choose to do nothing. But I will do something if it helps someone else do nothing. I’d work all night, if it meant nothing got done.</li>
+<li>My first ex-wife’s name is Tammy. My second ex-wife’s name is Tammy. My Mom’s name is Tamara…she goes by Tammy.</li>
+<li>I love nothing.</li>
 <li>Creativity is for people with glasses who like to lie.</li>
-<li>First rule. No conversation lasts longer than 100 total words.</li>
-<li>Every time she laughs, an angel dies. Even telemarketers avoid her. Her birth was payback for the sins of man. But you know the worst thing about her? She works for the library.</li>
-<li>Well, I am not usually one for speeches. So, goodbye.</li>
-<li>There are three acceptable haircuts: high and tight, crew cut, buzz cut.</li>
+<li>Barbecues should be about one thing: good shared meat.</li>
+<li>Never half-ass two things. Whole-ass one thing.</li>
+<li>America: The only country that matters. If you want to experience other ‘cultures,’ use an atlas or a ham radio.</li>
+<li>An hour ago a giant fireball consumed my entire face and it was far preferable to spending another second with you.</li>
 </ul>
 </div>
 </div>
@@ -414,7 +460,7 @@
 </li>
 <li>
 <p>Injection of text; static or generated, into existing documents:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">examples/injection_quickstart.py</label><label for="__tabbed_2_2">Source</label><label for="__tabbed_2_3">Result</label><label for="__tabbed_2_4">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">examples/injection_quickstart.py</label><label for="__tabbed_2_2">examples/injection_source.md</label><label for="__tabbed_2_3">Result</label><label for="__tabbed_2_4">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span>
@@ -594,6 +640,13 @@
 </div>
 </li>
 </ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<p>To install the library directly for use in scripts you can install it directly with <code>pip</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip install markdown-toolkit
+</code></pre></div>
+<p>If you want to include it in a larger <code>poetry</code> project:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>poetry add markdown-toolkit
+</code></pre></div></p>
 
               
             </article>
