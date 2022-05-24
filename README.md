@@ -3,8 +3,13 @@
 
 _A python library for creating and manipulating markdown with an object oriented interface._
 
-This library has two primary aims:
+This library is split into two aims:
+
 * Generation of markdown with python to create documents or fragments of documents.
-* Injection of text; static or generated, into existing documents.
+* Injection of static text, file contents, or dynamically generated markdown into existing documents.
 
 Documentation can be found at the [project documentation](https://danielloader.github.io/markdown-toolkit) site.
+
+### License
+
+This project is licenced under the terms of the MIT license.

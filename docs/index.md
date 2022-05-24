@@ -20,10 +20,10 @@ hide:
 </a>
 </p>
 
-This library is split into two goals:
+This library is split into two aims:
 
-* The capacity to generate documents programatically
-* Be able to inject documents, files and text fragments into markdown documents using HTML comments as anchors.
+* Generation of markdown with python to create documents or fragments of documents.
+* Injection of static text, file contents, or dynamically generated markdown into existing documents.
 
 1. ## Generation 
 
