@@ -1,18 +1,18 @@
 """Markdown Toolkit main classes."""
 from __future__ import annotations
-from io import StringIO
 
 import itertools
 from contextlib import contextmanager
 from inspect import cleandoc
+from io import StringIO
 from typing import Optional, Union
 
 from markdown_toolkit.utils import (
+    fileobj_open,
     header,
     list_item,
     remove_duplicates,
     sanitise_attribute,
-    fileobj_open,
 )
 
 

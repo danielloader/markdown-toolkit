@@ -1,12 +1,12 @@
 """Utilities for inline manipulating strings."""
 
+import re
+from contextlib import contextmanager
 from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
-import re
 from typing import Optional, Union
 from urllib.parse import quote as urlquote
-from contextlib import contextmanager
 
 from markdown_toolkit import constants
 

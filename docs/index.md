@@ -22,7 +22,10 @@ hide:
 
 **This library has two primary aims:**
 
-1. _Generation_ of markdown with python to create documents or fragments of documents:
+1. ## Generation 
+
+    This example reaches out to a public API, grabs a response and generates a document
+    using those dynamic responses using the [MarkdownDocument](reference/makdowndocument.md#markdowndocument) class.
 
     === "examples/document_quickstart.py"
 
@@ -42,7 +45,12 @@ hide:
         --8<-- "docs/examples/document_quickstart.py"
         ```
 
-1. _Injection_ of text; static or generated, into existing documents:
+1. ## Injection
+
+    This example takes a source document and uses a script
+    to inject dynamically generated table markdown from an external HTTP request using both the 
+    [MarkdownDocument](reference/makdowndocument.md#markdowndocument) and 
+    [MarkdownInjector](reference/markdowninjector.md#markdowninjector) classes.
 
     === "examples/injection_quickstart.py"
 
