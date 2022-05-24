@@ -13,7 +13,7 @@
     
     
       
-        <title>MarkdownInjector - Markdown-Toolkit</title>
+        <title>Injection Classes - Markdown-Toolkit</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#markdowninjector" class="md-skip">
+        <a href="#injection-classes" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              MarkdownInjector
+              Injection Classes
             
           </span>
         </div>
@@ -278,12 +278,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          MarkdownInjector
+          Injection Classes
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="markdowninjector.html" class="md-nav__link md-nav__link--active">
-        MarkdownInjector
+        Injection Classes
       </a>
       
         
@@ -302,6 +302,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#markdowninjector" class="md-nav__link">
+    MarkdownInjector
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#markdown_toolkit.injector.MarkdownInjector" class="md-nav__link">
     markdown_toolkit.injector.MarkdownInjector
   </a>
@@ -316,15 +323,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#markdown_toolkit.injector.MarkdownInjector.find_anchors" class="md-nav__link">
-    find_anchors()
+  <a href="#markdown_toolkit.injector.MarkdownInjector.render" class="md-nav__link">
+    render()
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#markdown_toolkit.injector.MarkdownInjector.render" class="md-nav__link">
-    render()
+  <a href="#markdownanchor" class="md-nav__link">
+    MarkdownAnchor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor" class="md-nav__link">
+    markdown_toolkit.injector.MarkdownAnchor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.value" class="md-nav__link">
+    value
   </a>
   
 </li>
@@ -385,6 +406,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#markdowninjector" class="md-nav__link">
+    MarkdownInjector
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#markdown_toolkit.injector.MarkdownInjector" class="md-nav__link">
     markdown_toolkit.injector.MarkdownInjector
   </a>
@@ -399,15 +427,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#markdown_toolkit.injector.MarkdownInjector.find_anchors" class="md-nav__link">
-    find_anchors()
+  <a href="#markdown_toolkit.injector.MarkdownInjector.render" class="md-nav__link">
+    render()
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#markdown_toolkit.injector.MarkdownInjector.render" class="md-nav__link">
-    render()
+  <a href="#markdownanchor" class="md-nav__link">
+    MarkdownAnchor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor" class="md-nav__link">
+    markdown_toolkit.injector.MarkdownAnchor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.value" class="md-nav__link">
+    value
   </a>
   
 </li>
@@ -430,7 +472,8 @@
 
 
 
-<h1 id="markdowninjector">MarkdownInjector<a class="headerlink" href="#markdowninjector" title="Permanent link">&para;</a></h1>
+<h1 id="injection-classes">Injection Classes<a class="headerlink" href="#injection-classes" title="Permanent link">&para;</a></h1>
+<h2 id="markdowninjector">MarkdownInjector<a class="headerlink" href="#markdowninjector" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-object doc-class">
@@ -453,23 +496,8 @@ anchors found in the document.</p>
   <tbody>
       <tr>
         <td><code>ValueError</code></td>
-        <td><p>Document did not have a pair of the same anchor.</p></td>
+        <td><p>Can not find pair of anchors for each anchor defined.</p></td>
       </tr>
-  </tbody>
-</table>
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>MarkdownInjector</code></td>
-      <td><p>Initialised class.</p></td>
-    </tr>
   </tbody>
 </table>
 
@@ -499,6 +527,10 @@ anchors found in the document.</p>
     <div class="doc doc-contents ">
 
       <p>Returns anchors found as class attributes.</p>
+<p>Access to these anchors is done by way of standard dot object notation.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">document</span><span class="o">.</span><span class="n">anchors</span><span class="o">.</span><span class="n">anchorname</span>
+</code></pre></div>
+<p>These anchor names are sanitised from strings using <code>sanitise_attribute</code> utility.</p>
 
 <p><strong>Returns:</strong></p>
 <table>
@@ -511,7 +543,7 @@ anchors found in the document.</p>
   <tbody>
     <tr>
       <td><code>SimpleNamespace</code></td>
-      <td><p>Class with anchor manipulation methods.</p></td>
+      <td><p>Class with MarkdownAnchor classes as attributes per anchor.</p></td>
     </tr>
   </tbody>
 </table>    </div>
@@ -522,28 +554,6 @@ anchors found in the document.</p>
 
 
 
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h2 id="markdown_toolkit.injector.MarkdownInjector.find_anchors" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">find_anchors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-
-<a href="#markdown_toolkit.injector.MarkdownInjector.find_anchors" class="headerlink" title="Permanent link">&para;</a></h2>
-
-    <div class="doc doc-contents ">
-
-      <p>Finds pairs of anchors and returns a simple object.</p>
-<p>Each attribute of the namedtuple is an anchor, which returns
-a MarkdownAnchor class for that anchor.</p>
-
-    </div>
-
-  </div>
 
 
 
@@ -599,6 +609,84 @@ Defaults to False.</p></td>
     </div>
 
   </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="markdownanchor">MarkdownAnchor<a class="headerlink" href="#markdownanchor" title="Permanent link">&para;</a></h2>
+<p>This class is only interacted with on the <code>anchors</code> property of the <a href="#markdowninjector">MarkdownInjector</a> class.</p>
+
+
+  <div class="doc doc-object doc-class">
+
+<a id="markdown_toolkit.injector.MarkdownAnchor"></a>
+    <div class="doc doc-contents first">
+
+      <p>This class represents the document object between two anchor points.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="markdown_toolkit.injector.MarkdownAnchor.value" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">value</span><span class="p">:</span> <span class="nb">str</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-writable"><code>writable</code></small>
+  </span>
+
+<a href="#markdown_toolkit.injector.MarkdownAnchor.value" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Text between the anchor comments.</p>
+<p>To read the value simply assign the value of this property:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">text_between_anchors</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">anchors</span><span class="o">.</span><span class="n">anchorname</span><span class="o">.</span><span class="n">value</span>
+</code></pre></div></p>
+<p>To set the value, thereby overwriting the lines in the document
+between the anchors:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">document</span><span class="o">.</span><span class="n">anchors</span><span class="o">.</span><span class="n">anchorname</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;This text will replace the lines&quot;</span>
+</code></pre></div></p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>Raw text between the anchors.</p></td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+  </div>
+
+
+
+
 
 
 

@@ -385,6 +385,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.document.MarkdownDocument.write" class="md-nav__link">
+    write()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -401,7 +408,7 @@
   
     <li class="md-nav__item">
       <a href="markdowninjector.html" class="md-nav__link">
-        MarkdownInjector
+        Injection Classes
       </a>
     </li>
   
@@ -552,6 +559,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.document.MarkdownDocument.write" class="md-nav__link">
+    write()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -579,7 +593,12 @@
     <div class="doc doc-contents first">
 
       <p>Markdown document builder class.</p>
-<p>Example</p>
+<p>The purpose of this class is to generate markdown programatically with an
+object oriented interface.</p>
+<p>The document is created by initalising this class:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">doc</span> <span class="o">=</span> <span class="n">MarkdownDocument</span><span class="p">()</span>
+</code></pre></div></p>
+<p>From here the object has methods to manipulate the document.</p>
 
 
 
@@ -607,8 +626,27 @@
 
     <div class="doc doc-contents ">
 
-      <p>Unmodified text injection into document.</p>
+      <p>Unmodified raw string injection into the document.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>text</code></td>
+        <td><code>str</code></td>
+        <td><p>Text to inject.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -628,7 +666,35 @@
     <div class="doc doc-contents ">
 
       <p>Codeblock context manager.</p>
+<p>Wraps paragraphs in codeblock backticks with optional syntax highlighting.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">codeblock</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">doc</span><span class="o">.</span><span class="n">paragraph</span><span class="p">(</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="sd">    for i in range(100):</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="sd">        print(i)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">)</span>
+</code></pre></div>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>language</code></td>
+        <td><code>str</code></td>
+        <td><p>Syntax highlighting language.</p></td>
+        <td><code>&#39;&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -648,7 +714,27 @@
     <div class="doc doc-contents ">
 
       <p>Adds collapsable section to the document.</p>
+<p>Uses html tags to add a details block, with summary.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>summary</code></td>
+        <td><code>str</code></td>
+        <td><p>Summary for the collapsed block..</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -667,7 +753,26 @@
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Adds a Markdown Heading to the document.</p>
+<p>There's two entrypoints using this method:</p>
+<ul>
+<li>
+<p>As a context manager:
+    This is used if you want to use nested headings, in a heading level aware
+    context.</p>
+<p>Repeatedly nesting more headings increases the heading level.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Title&quot;</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">text</span><span class="o">.</span><span class="n">paragraph</span><span class="p">(</span><span class="s2">&quot;Blurb under the title heading&quot;</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>As a document element:
+    This is used to inject a heading as is, at the current document header level,
+    or if the level argument is used, at a specific level.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">doc</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="s2">&quot;Sub Sub Heading&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ul>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -683,21 +788,36 @@
       <tr>
         <td><code>heading</code></td>
         <td><code>Optional[str]</code></td>
-        <td><p>Text to head with. Defaults to None.</p></td>
+        <td><p>Text to be used as a heading. Defaults to None.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>silent</code></td>
         <td><code>bool</code></td>
-        <td><p>Increment heading level silently. Defaults to False.</p></td>
+        <td><p>Skip printing the heading. Defaults to False.</p></td>
         <td><code>False</code></td>
       </tr>
       <tr>
         <td><code>level</code></td>
         <td><code>Optional[int]</code></td>
-        <td><p>Override heading level. Defaults to None.</p></td>
+        <td><p>Static level to assign to the heading. Defaults to None.</p></td>
         <td><code>None</code></td>
       </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>_MarkdownHeading</code></td>
+      <td><p>Heading object.</p></td>
+    </tr>
   </tbody>
 </table>
     </div>
@@ -739,6 +859,10 @@
     <div class="doc doc-contents ">
 
       <p>Returns indented context manager.</p>
+<p>All elements defined in this with section will be indented.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">indentblock</span><span class="p">():</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;This text will be indented by 4 spaces&quot;</span><span class="p">)</span>
+</code></pre></div>
 
     </div>
 
@@ -759,7 +883,28 @@
     <div class="doc doc-contents ">
 
       <p>Add inline comment to use as an injector anchor.</p>
+<p>Using and abusing html comments, as they are not rendered in markdown.</p>
+<p>Renders <code>&lt;!--- markdown-toolkit:anchor ---&gt;</code> tags into the document.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>anchor</code></td>
+        <td><code>str</code></td>
+        <td><p>Unique identifier string for the anchor.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -798,8 +943,74 @@
 
     <div class="doc doc-contents ">
 
-      <p>Returns list context manager, can be used directly.</p>
+      <p>Adds a Markdown List to the document.</p>
+<p>This method produces ordered and unordered lists.</p>
+<p>There's two entrypoints using this method:</p>
+<ul>
+<li>
+<p>As a context manager:
+    This method creates a nested list context.</p>
+<p>The context manager creates a new list item, but inside the with block
+any new created lists will be children of this list.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s2">&quot;Parent Item&quot;</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">doc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s2">&quot;Child Item&quot;</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>As a document element:
+    This method creates a list item as is, at the current document indentation
+    level.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">doc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s2">&quot;List item&quot;</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>item</code></td>
+        <td><code>str</code></td>
+        <td><p>List item string to be used.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>ordered</code></td>
+        <td><code>bool</code></td>
+        <td><p>If the list is ordered or not. Defaults to False.</p></td>
+        <td><code>False</code></td>
+      </tr>
+      <tr>
+        <td><code>prefix</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>Custom prefix on list items. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>_MarkdownList</code></td>
+      <td><p><em>description</em></p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -818,8 +1029,39 @@
 
     <div class="doc doc-contents ">
 
-      <p>Add triplequote python multiline strings to document.</p>
+      <p>Adds a paragraph to the document.</p>
+<p>This differs from adding <code>text</code> to the document in the <code>text</code> method in a few ways:</p>
+<ul>
+<li>By default it adds a linebreak after the text to force a
+paragraph break in the document.</li>
+<li>It uses the cleandoc function to clean multitline indentation whitespace up.</li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>text</code></td>
+        <td><code>str</code></td>
+        <td><p>Text to add to the document.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>linebreak</code></td>
+        <td><code>Union[int, bool]</code></td>
+        <td><p>Enables the trailing linebreak. Defaults to True.</p></td>
+        <td><code>True</code></td>
+      </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -838,8 +1080,28 @@
 
     <div class="doc doc-contents ">
 
-      <p>Renders document to string.</p>
+      <p>Renders document to multiline string.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>trailing_whitespace</code></td>
+        <td><code>bool</code></td>
+        <td><p>Add linebreak to the end of the document.
+Defaults to False.</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
 <p><strong>Returns:</strong></p>
 <table>
   <thead>
@@ -873,7 +1135,32 @@
 
     <div class="doc doc-contents ">
 
-      <p>Table rendering helper.</p>
+      <p>Adds a Markdown Table to the document.</p>
+<p>This method produces github flavoured markdown tables.</p>
+<p>There's two entrypoints using this method:</p>
+<ul>
+<li>
+<p>As a context manager:
+    This is if you do not want to wrangle a large dataset in one go, so
+    you can lazy add to the table row at a time.</p>
+<p>You have to define the table title headings at initialisation time.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">titles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">,</span><span class="s2">&quot;headings]) as table:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">example</span><span class="o">=</span><span class="s2">&quot;abc&quot;</span><span class="p">,</span> <span class="n">headings</span><span class="o">=</span><span class="s2">&quot;123&quot;</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>As a document element:
+    This is if you have a list of dictionaries and you just want to render them
+    using the dictionary key value pairs.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">doc</span><span class="o">.</span><span class="n">table</span><span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="p">[</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        <span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">},</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="mi">456</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;another field&quot;</span><span class="p">}</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="p">]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">)</span>
+</code></pre></div>
+</li>
+</ul>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -887,9 +1174,21 @@
   </thead>
   <tbody>
       <tr>
+        <td><code>raw_table</code></td>
+        <td><code>Optional[list[dict]]</code></td>
+        <td><p>Raw table to render. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
         <td><code>titles</code></td>
-        <td><code>list</code></td>
-        <td><p>List of titles for the columns.</p></td>
+        <td><code>Optional[list]</code></td>
+        <td><p>Table titles. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>sort_by</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>Table title to sort by. Defaults to None.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -929,6 +1228,64 @@
 
       <p>Add text to document, taking into account indent level.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>text</code></td>
+        <td><code>str</code></td>
+        <td><p>Text to add to the document. Defaults to "".</p></td>
+        <td><code>&#39;&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="markdown_toolkit.document.MarkdownDocument.write" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></code>
+
+
+<a href="#markdown_toolkit.document.MarkdownDocument.write" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Helper method to write the document contents to a file or filelike object.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>file</code></td>
+        <td><code>Union[str, StringIO]</code></td>
+        <td><p>Path to file, or filelike object already opened.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -976,13 +1333,13 @@
       
       
         
-        <a href="markdowninjector.html" class="md-footer__link md-footer__link--next" aria-label="Next: MarkdownInjector" rel="next">
+        <a href="markdowninjector.html" class="md-footer__link md-footer__link--next" aria-label="Next: Injection Classes" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              MarkdownInjector
+              Injection Classes
             </div>
           </div>
           <div class="md-footer__button md-icon">
