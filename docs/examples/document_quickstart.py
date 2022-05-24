@@ -2,7 +2,7 @@ from datetime import datetime
 
 import requests
 
-from markdown_toolkit import MarkdownDocument, image, bold
+from markdown_toolkit import MarkdownDocument, bold, image
 
 QUOTES_COUNT = 10
 

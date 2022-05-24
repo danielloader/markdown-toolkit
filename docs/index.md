@@ -7,9 +7,9 @@ hide:
 
 _A python library for creating and manipulating markdown with an object oriented interface._
 
-This library has two primary aims:
+**This library has two primary aims:**
 
-* Generation of markdown with python to create documents or fragments of documents:
+1. _Generation_ of markdown with python to create documents or fragments of documents:
 
     === "examples/document_quickstart.py"
 
@@ -29,7 +29,7 @@ This library has two primary aims:
         --8<-- "docs/examples/document_quickstart.py"
         ```
 
-* Injection of text; static or generated, into existing documents:
+1. _Injection_ of text; static or generated, into existing documents:
 
     === "examples/injection_quickstart.py"
 
