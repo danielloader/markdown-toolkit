@@ -445,10 +445,10 @@
 <h2 id="generation">Generation<a class="headerlink" href="#generation" title="Permanent link">&para;</a></h2>
 <p>This example reaches out to a public API, grabs a response and generates a document
 using those dynamic responses using the <a href="reference/makdowndocument.html#markdowndocument">MarkdownDocument</a> class.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">examples/document_quickstart.py</label><label for="__tabbed_1_2">Result</label><label for="__tabbed_1_3">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Source</label><label for="__tabbed_1_2">Result</label><label for="__tabbed_1_3">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<div class="highlight"><span class="filename">examples/document_quickstart.py</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">requests</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
@@ -497,16 +497,16 @@ using those dynamic responses using the <a href="reference/makdowndocument.html#
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Ron is known for some insightful quotes, here&#39;s some of the best:
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">*</span>   Give a man a fish and feed him for a day. Don&#39;t teach a man to fish… and feed yourself. He&#39;s a grown man. And fishing&#39;s not that hard.
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">*</span>   My only official recommendations are US Army-issued mustache trimmers, Morton&#39;s Salt, and the C.R. Lawrence Fein two inch axe-style scraper oscillating knife blade.
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">*</span>   There must be a mistake, you&#39;ve accidentally given me the food that my food eats.
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">*</span>   I hate everything.
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">*</span>   Live your life how you want, but don’t confuse drama with happiness.
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="k">*</span>   I love nothing.
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">*</span>   Never half-ass two things. Whole-ass one thing.
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">*</span>   It’s pointless for a human to paint scenes of nature when they can go outside and stand in it.
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="k">*</span>   Normally, if given the choice between doing something and nothing, I’d choose to do nothing. But I will do something if it helps someone else do nothing. I’d work all night, if it meant nothing got done.
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">*</span>   Please and thank you.
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">*</span>   Tom put all my records into this rectangle!
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">*</span>   Son, there is no wrong way to consume alcohol.
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">*</span>   Every two weeks I need to sand down my toe nails. They&#39;re too strong for clippers.
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">*</span>   There&#39;s only one thing I hate more than lying: skim milk. Which is water that&#39;s lying about being milk.
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">*</span>   I don&#39;t want to paint with a broad brush here, but every single contractor in the world is a miserable, incompetent thief.
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="k">*</span>   It&#39;s always a good idea to demonstrate to your coworkers that you are capable of withstanding a tremendous amount of pain.
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">*</span>   An ideal night out, to me, is stepping onto my porch area and grilling up a thick slab of something’s flesh and then popping in a highlight real from the WNBA.
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">*</span>   When I&#39;m done eating a Mulligan&#39;s meal, for weeks afterwards, there are flecks of meat in my mustache. And I refuse to clean it because every now and then a piece of meat will fall into my mouth.
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="k">*</span>   Veganism is the sad result of a morally corrupt mind. Reconsider your life.
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">*</span>   [On bowling] Straight down the middle. No hook, no spin, no fuss. Anything more and this becomes figure skating.
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -520,16 +520,16 @@ using those dynamic responses using the <a href="reference/makdowndocument.html#
 <h2 id="exec-1--top-10-greatest-quotes">Top 10 Greatest Quotes<a class="headerlink" href="#exec-1--top-10-greatest-quotes" title="Permanent link">&para;</a></h2>
 <p>Ron is known for some insightful quotes, here's some of the best:</p>
 <ul>
-<li>Once a year, every branch of this government meets in a room and announces what they intend to waste taxpayer money on.</li>
-<li>I like Tom. He doesn’t do a lot of work around here. He shows zero initiative. He’s not a team player. He’s never wanted to go that extra mile. Tom is exactly what I’m looking for in a government employee.</li>
-<li>Fishing relaxes me. It's like yoga, except I still get to kill something.</li>
-<li>History began July 4th, 1776. Anything before that was a mistake.</li>
-<li>[On bowling] Straight down the middle. No hook, no spin, no fuss. Anything more and this becomes figure skating.</li>
-<li>I love riddles!</li>
-<li>People who buy things are suckers.</li>
-<li>Standard birth control methods are usually ineffective against a Swanson.</li>
-<li>Capitalism: God's way of determining who is smart and who is poor.</li>
-<li>I'm a simple man. I like pretty, dark-haired women, and breakfast food.</li>
+<li>I leave no meat behind. It’s an honor thing.</li>
+<li>Son, there is no wrong way to consume alcohol.</li>
+<li>I've had the same will since I was 8 years old. Upon my death, I will transfer all of my belongings to the man or animal who has killed me.</li>
+<li>We have one activity planned: not getting killed.</li>
+<li>My first ex-wife’s name is Tammy. My second ex-wife’s name is Tammy. My Mom’s name is Tamara…she goes by Tammy.</li>
+<li>Live your life how you want, but don’t confuse drama with happiness.</li>
+<li>The government is a greedy piglet that suckles on a taxpayer's teat until they have sore, chapped nipples.</li>
+<li>On my deathbed, my final wish is to have my ex-wives rush to my side so I can use my dying breath to tell them both to go to hell one last time.</li>
+<li>I like saying ‘No,’ it lowers their enthusiasm.</li>
+<li>Birthdays were invented by Hallmark to sell cards.</li>
 </ul>
 </div>
 </div>
@@ -541,10 +541,10 @@ using those dynamic responses using the <a href="reference/makdowndocument.html#
 to inject dynamically generated table markdown from an external HTTP request using both the 
 <a href="reference/makdowndocument.html#markdowndocument">MarkdownDocument</a> and 
 <a href="reference/markdowninjector.html#markdowninjector">MarkdownInjector</a> classes.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">examples/injection_quickstart.py</label><label for="__tabbed_2_2">examples/injection_source.md</label><label for="__tabbed_2_3">Result</label><label for="__tabbed_2_4">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Source</label><label for="__tabbed_2_2">Source Document</label><label for="__tabbed_2_3">Result</label><label for="__tabbed_2_4">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span>
+<div class="highlight"><span class="filename">examples/injection_quickstart.py</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span> <span class="nn">requests</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
@@ -598,7 +598,7 @@ to inject dynamically generated table markdown from an external HTTP request usi
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gh"># Accounts</span>
+<div class="highlight"><span class="filename">examples/injection_source.md</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gh"># Accounts</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>This page shows the state of the active customers at Example Co.
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
