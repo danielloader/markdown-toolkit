@@ -7,3 +7,4 @@ This library has two primary aims:
 * Generation of markdown with python to create documents or fragments of documents.
 * Injection of text; static or generated, into existing documents.
 
+Documentation can be found at the [project documentation](https://danielloader.github.io/markdown-toolkit) site.
