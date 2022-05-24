@@ -1,6 +1,5 @@
 # pylint: disable=line-too-long
 from inspect import cleandoc
-from pathlib import Path
 
 from markdown_toolkit import MarkdownDocument, bold
 from markdown_toolkit.utils import code, header, italic, link, list_item, quote
