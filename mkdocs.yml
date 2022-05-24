@@ -10,6 +10,7 @@ theme:
     repo: fontawesome/brands/github-alt
   features:
     # - navigation.instant
+    - navigation.tracking
     - navigation.indexes
     - navigation.top
     - navigation.expand
@@ -53,7 +54,7 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.tabbed:
       alternate_style: true 
-  - markdown.extensions.attr_list
+  - attr_list
 
 plugins:
   - mike:
