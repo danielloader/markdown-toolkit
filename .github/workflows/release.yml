@@ -32,7 +32,6 @@ jobs:
       - run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
       - run: poetry version ${{ github.event.release.tag_name }}
       - run: poetry publish --build
-        continue-on-error: true
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
