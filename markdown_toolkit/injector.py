@@ -4,9 +4,14 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from types import SimpleNamespace
-from typing import TextIO
+from typing import TextIO, Optional, List
 
 from markdown_toolkit.utils import sanitise_attribute
+
+
+class Anchors(SimpleNamespace):
+    def __getattr__(self, __name: str) -> MarkdownAnchor:
+        raise ValueError("Anchor '%s' not found", __name)
 
 
 class MarkdownInjector:
@@ -24,28 +29,35 @@ class MarkdownInjector:
         self.file_buffer = file_obj.read().splitlines()
         self._anchors = self._find_anchors()
 
+    @staticmethod
+    def _find_overlaps(ranges: dict):
+        for anchor, range_extents in ranges.items():
+            if len(range_extents) != 2:
+                raise ValueError("Failed to find matching tags")
+            ranges[anchor] = set(range(range_extents[0], range_extents[1] + 1))
+        if len(ranges.values()) < 2:
+            return
+        overlaps = set.intersection(*ranges.values())
+        if overlaps:
+            raise ValueError(f"Overlaps found at lines {[idx+1 for idx in overlaps]}")
+
     def _find_anchors(self) -> SimpleNamespace:
         """Finds pairs of anchors and returns a simple object.
 
         Each attribute of the namedtuple is an anchor, which returns
         a MarkdownAnchor class for that anchor.
         """
-        anchors = SimpleNamespace()
+        anchors = Anchors()
         start_end_checker: dict[list] = defaultdict(list)
         for idx, line in enumerate(self.file_buffer):
             match = self.matcher.match(line)
             if match:
                 anchor = match.groups()[0].strip()
                 start_end_checker[anchor].append(idx)
+        self._find_overlaps(start_end_checker)
         for anchor, line_numbers in start_end_checker.items():
-            if len(line_numbers) != 2:
-                raise ValueError("Failed to find matching tags")
-
-            setattr(
-                anchors,
-                sanitise_attribute(anchor),
-                MarkdownAnchor(self, anchor),
-            )
+            anchor_object = MarkdownAnchor(self, anchor)
+            setattr(anchors, sanitise_attribute(anchor), anchor_object)
         return anchors
 
     @property
@@ -106,20 +118,36 @@ class MarkdownAnchor:
         Runs at on every access or mutation as the document may have changed.
 
         Returns:
-            tuple(int, int, int, str): returns the start index, end index, indent and value of text.
+            tuple(int, int, int, str): Start index, end index, indent and value of text.
         """
-        start = None
-        end = None
+        start: Optional[int] = None
+        end: Optional[int] = None
+        indent: Optional[str] = None
         for idx, line in enumerate(self.doc.file_buffer):
             match = self.matcher.match(line)
             if match:
                 if start is None:
-                    start = idx
-                    indent = match.groups()[0]
+                    start: int = idx
+                    indent: str = match.groups()[0]
                 else:
-                    end = idx
+                    end: int = idx
+                    return (start, end, indent, self.doc.file_buffer[start + 1 : end])
+        raise ValueError("No matching anchor pair found in document")
 
-        return (start, end, indent, self.doc.file_buffer[start + 1 : end])
+    @property
+    def start(self) -> int:
+        start, _, _, _ = self._index_finder()
+        return start
+
+    @property
+    def end(self) -> int:
+        _, end, _, _ = self._index_finder()
+        return end
+
+    @property
+    def indent(self) -> int:
+        _, _, indent, _ = self._index_finder()
+        return len(indent)
 
     @property
     def value(self) -> str:
