@@ -421,6 +421,10 @@
 
 
 <h1 id="markdown-toolkit">Markdown Toolkit<a class="headerlink" href="#markdown-toolkit" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This library hasn't reached API stability, when it does it'll be bumped to version <code>1.0.0</code>. Until then, make sure you pin your library versions.</p>
+</div>
 <p align="center">
 <img src="img/markdown-mark.svg"><br>
 <em>A python library for creating and manipulating markdown with an object oriented interface.</em><br>
@@ -435,11 +439,11 @@
 </a>
 </p>
 
-<p>This library is split into two goals:</p>
+<p>This library is split into two aims:</p>
 <ul>
-<li>The capacity to generate documents programatically</li>
+<li>Generation of markdown with python to create documents or fragments of documents.</li>
 <li>
-<p>Be able to inject documents, files and text fragments into markdown documents using HTML comments as anchors.</p>
+<p>Injection of static text, file contents, or dynamically generated markdown into existing documents.</p>
 </li>
 <li>
 <h2 id="generation">Generation<a class="headerlink" href="#generation" title="Permanent link">&para;</a></h2>
@@ -497,16 +501,16 @@ using those dynamic responses using the <a href="reference/makdowndocument.html#
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Ron is known for some insightful quotes, here&#39;s some of the best:
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">*</span>   Tom put all my records into this rectangle!
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">*</span>   Son, there is no wrong way to consume alcohol.
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">*</span>   Every two weeks I need to sand down my toe nails. They&#39;re too strong for clippers.
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">*</span>   There&#39;s only one thing I hate more than lying: skim milk. Which is water that&#39;s lying about being milk.
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">*</span>   I don&#39;t want to paint with a broad brush here, but every single contractor in the world is a miserable, incompetent thief.
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="k">*</span>   It&#39;s always a good idea to demonstrate to your coworkers that you are capable of withstanding a tremendous amount of pain.
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">*</span>   An ideal night out, to me, is stepping onto my porch area and grilling up a thick slab of something’s flesh and then popping in a highlight real from the WNBA.
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">*</span>   When I&#39;m done eating a Mulligan&#39;s meal, for weeks afterwards, there are flecks of meat in my mustache. And I refuse to clean it because every now and then a piece of meat will fall into my mouth.
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="k">*</span>   Veganism is the sad result of a morally corrupt mind. Reconsider your life.
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">*</span>   [On bowling] Straight down the middle. No hook, no spin, no fuss. Anything more and this becomes figure skating.
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">*</span>   My first ex-wife’s name is Tammy. My second ex-wife’s name is Tammy. My Mom’s name is Tamara…she goes by Tammy.
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">*</span>   When I&#39;m done eating a Mulligan&#39;s meal, for weeks afterwards, there are flecks of meat in my mustache. And I refuse to clean it because every now and then a piece of meat will fall into my mouth.
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">*</span>   Just give me all the bacon and eggs you have. Wait...wait. I worry what you just heard was: Give me a lot of bacon and eggs. What I said was: Give me all the bacon and eggs you have. Do you understand?
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">*</span>   No home is complete without a proper toolbox. Here&#39;s April and Andy&#39;s: A hammer, a half eaten pretzel, a baseball card, some cartridge that says Sonic and Hedgehog, a scissor half, a flashlight filled with jellybeans.
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">*</span>   Never half-ass two things. Whole-ass one thing.
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="k">*</span>   In my opinion, not enough people have looked their dinner in the eyes and considered the circle of life.
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">*</span>   I&#39;m a simple man. I like pretty, dark-haired women, and breakfast food.
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">*</span>   Turkey can never beat cow.
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="k">*</span>   The key to burning an ex-wife effigy is to dip it in paraffin wax and then toss the flaming bottle of isopropyl alcohol from a safe distance. Do not stand too close when you light an ex-wife effigy.
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="k">*</span>   An hour ago a giant fireball consumed my entire face and it was far preferable to spending another second with you.
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -520,16 +524,16 @@ using those dynamic responses using the <a href="reference/makdowndocument.html#
 <h2 id="exec-1--top-10-greatest-quotes">Top 10 Greatest Quotes<a class="headerlink" href="#exec-1--top-10-greatest-quotes" title="Permanent link">&para;</a></h2>
 <p>Ron is known for some insightful quotes, here's some of the best:</p>
 <ul>
-<li>I leave no meat behind. It’s an honor thing.</li>
-<li>Son, there is no wrong way to consume alcohol.</li>
-<li>I've had the same will since I was 8 years old. Upon my death, I will transfer all of my belongings to the man or animal who has killed me.</li>
-<li>We have one activity planned: not getting killed.</li>
-<li>My first ex-wife’s name is Tammy. My second ex-wife’s name is Tammy. My Mom’s name is Tamara…she goes by Tammy.</li>
-<li>Live your life how you want, but don’t confuse drama with happiness.</li>
-<li>The government is a greedy piglet that suckles on a taxpayer's teat until they have sore, chapped nipples.</li>
-<li>On my deathbed, my final wish is to have my ex-wives rush to my side so I can use my dying breath to tell them both to go to hell one last time.</li>
-<li>I like saying ‘No,’ it lowers their enthusiasm.</li>
-<li>Birthdays were invented by Hallmark to sell cards.</li>
+<li>Great job, everyone. The reception will be held in each of our individual houses, alone.</li>
+<li>Creativity is for people with glasses who like to lie.</li>
+<li>[On bowling] Straight down the middle. No hook, no spin, no fuss. Anything more and this becomes figure skating.</li>
+<li>An ideal night out, to me, is stepping onto my porch area and grilling up a thick slab of something’s flesh and then popping in a highlight real from the WNBA.</li>
+<li>Honor: if you need it defined, you don't have it.</li>
+<li>Keep your tears in your eyes where they belong.</li>
+<li>It’s pointless for a human to paint scenes of nature when they can go outside and stand in it.</li>
+<li>Do you have any history of mental illness in your family? I have an uncle who does yoga.</li>
+<li>When I'm done eating a Mulligan's meal, for weeks afterwards, there are flecks of meat in my mustache. And I refuse to clean it because every now and then a piece of meat will fall into my mouth.</li>
+<li>Friends: one to three is sufficient.</li>
 </ul>
 </div>
 </div>
