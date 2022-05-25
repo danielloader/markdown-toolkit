@@ -202,9 +202,12 @@ class MarkdownDocument:
 
 
         Args:
-            heading (Optional[str], optional): Text to be used as a heading. Defaults to None.
-            silent (bool, optional): Skip printing the heading. Defaults to False.
-            level (Optional[int], optional): Static level to assign to the heading. Defaults to None.
+            heading (Optional[str], optional): Text to be used as a heading.
+                Defaults to None.
+            silent (bool, optional): Skip printing the heading.
+                Defaults to False.
+            level (Optional[int], optional): Static level to assign to the heading.
+                Defaults to None.
 
         Returns:
             _MarkdownHeading: Heading object.
@@ -388,7 +391,8 @@ class MarkdownDocument:
 
         Args:
             text (str): Text to add to the document.
-            linebreak (Union[int, bool], optional): Enables the trailing linebreak. Defaults to True.
+            linebreak (Union[int, bool], optional): Enables the trailing linebreak.
+                Defaults to True.
         """
         buffer = cleandoc(text).split("\n")
         for line in buffer:

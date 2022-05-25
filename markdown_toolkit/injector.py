@@ -4,14 +4,16 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from types import SimpleNamespace
-from typing import List, Optional, TextIO
+from typing import Optional, TextIO
 
 from markdown_toolkit.utils import sanitise_attribute
 
 
-class Anchors(SimpleNamespace):
+class Anchors(SimpleNamespace):  # pylint: disable=too-few-public-methods
+    """SimpleNamespace extended to raise ValueError on missing attributes."""
+
     def __getattr__(self, __name: str) -> MarkdownAnchor:
-        raise ValueError("Anchor '%s' not found", __name)
+        raise ValueError(f"Anchor '{__name}' not found")
 
 
 class MarkdownInjector:
