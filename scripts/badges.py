@@ -27,4 +27,4 @@ def pylint(badge_path: str):
     badge.write_badge(str(THIS_FOLDER / ".." / badge_path), overwrite=True)
 
 
-pylint("docs/img/badges/pylint.svg")
+pylint("docs/img/badge-pylint.svg")
