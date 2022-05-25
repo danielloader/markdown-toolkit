@@ -136,16 +136,35 @@ class MarkdownAnchor:
 
     @property
     def start(self) -> int:
+        """Start index of the tags.
+
+        Note: Indexes are zero indexed, so line numbers are indexes + 1.
+
+        Returns:
+            int: List index value of the opening tag.
+        """
         start, _, _, _ = self._index_finder()
         return start
 
     @property
     def end(self) -> int:
+        """End index of the tags.
+
+        Note: Indexes are zero indexed, so line numbers are indexes + 1.
+
+        Returns:
+            int: List index value of the closing tag.
+        """
         _, end, _, _ = self._index_finder()
         return end
 
     @property
     def indent(self) -> int:
+        """Indent level in spaces.
+
+        Returns:
+            int: Count of whitespace before tags.
+        """
         _, _, indent, _ = self._index_finder()
         return len(indent)
 
