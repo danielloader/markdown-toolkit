@@ -1,7 +1,7 @@
 name: Generate documentation for gh-pages
 env:
   POETRY_VERSION: "1.2.0b1"
-  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+  POETRY_VIRTUALENVS_IN_PROJECT: "false"
 
 permissions:
   contents: write
