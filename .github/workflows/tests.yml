@@ -11,26 +11,6 @@ on:
       - '.github/workflows/tests.yml'
 
 jobs:
-  badges:
-    name: Documentation Badges
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install poetry
-        run: pipx install poetry==${POETRY_VERSION}
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.10'
-          architecture: x64
-          cache: poetry
-      - run: poetry install --with dev --with docs
-      - run: poetry run python scripts/badges.py
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Update documentation badges
-          file_pattern: docs/img/*.*
-          push_options: '--force'
   test-x64:
     name: Python ${{ matrix.python-version }} Test
     runs-on: ubuntu-latest
