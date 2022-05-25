@@ -283,7 +283,7 @@ def test_fileobj_str(tmp_path):
     dir.mkdir()
     temp_file = dir / "from_file.md"
     temp_file.write_text(expected)
-    with fileobj_open(str(temp_file)) as file:
+    with fileobj_open(str(temp_file.resolve())) as file:
         assert file.read() == expected
 
 

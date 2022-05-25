@@ -151,13 +151,14 @@ def fileobj_open(path_or_file: Union[str, StringIO]) -> Generator[StringIO, None
     """
     if isinstance(path_or_file, str):
         file = file_to_close = open(path_or_file, "r", encoding="UTF-8")
-    if isinstance(path_or_file, Path):
+    elif isinstance(path_or_file, Path):
         file = file_to_close = open(path_or_file, "r", encoding="UTF-8")
     else:
         file = path_or_file
         file_to_close = None
 
     try:
+        print(type(file))
         yield file
     finally:
         if file_to_close:
