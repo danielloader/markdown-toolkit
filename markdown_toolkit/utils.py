@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
-from typing import Optional, Union
+from typing import Optional, Union, Set, Generator
 from urllib.parse import quote as urlquote
 
 from markdown_toolkit import constants
@@ -131,13 +131,13 @@ def remove_duplicates(seq) -> list:
     Returns:
         list: Ordered, unique values.
     """
-    seen = set()
+    seen: Set[str] = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 
 @contextmanager
-def fileobj_open(path_or_file: Union[str, StringIO]) -> StringIO:
+def fileobj_open(path_or_file: Union[str, StringIO]) -> Generator[StringIO, None, None]:
     """Fileobject or Path opener.
 
     Args:

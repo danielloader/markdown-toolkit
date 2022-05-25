@@ -23,6 +23,7 @@ pylint = "^2.13.9"
 pytest = "^5.2"
 testfixtures = "^6.18.5"
 pyupgrade = "^2.32.1"
+pytest-cov = "^3.0.0"
 
 [tool.poetry.group.docs]
 optional=true

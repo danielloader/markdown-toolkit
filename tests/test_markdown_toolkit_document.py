@@ -180,6 +180,29 @@ def test_headers():
     assert doc.render() == expected_lines
 
 
+def test_partial_headers():
+    expected_lines = cleandoc(
+        """
+        ### Sub Subtitle
+
+        #### Almost Useless Title
+
+        ##### Basically Bold
+
+        ###### Absolutely Pointless Title
+
+        EOF
+        """
+    )
+    doc = MarkdownDocument()
+    with doc.heading("Sub Subtitle", level=3):
+        with doc.heading("Almost Useless Title"):
+            with doc.heading("Basically Bold"):
+                with doc.heading("Absolutely Pointless Title"):
+                    doc.add("EOF")
+    assert doc.render() == expected_lines
+
+
 def test_text():
     expected_lines = cleandoc(
         """

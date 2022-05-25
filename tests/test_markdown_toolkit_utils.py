@@ -1,6 +1,7 @@
 from inspect import cleandoc
-import pytest
 from pathlib import Path
+
+import pytest
 
 from markdown_toolkit.utils import (
     badge,

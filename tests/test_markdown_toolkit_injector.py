@@ -3,9 +3,11 @@ from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
 
+import pytest
+from testfixtures import compare
+
 from markdown_toolkit.document import MarkdownDocument
 from markdown_toolkit.injector import MarkdownInjector
-from testfixtures import compare
 
 RELATIVE_PATH = Path(__file__).parent
 
@@ -219,3 +221,106 @@ def test_multiple_replacements():
     document.anchors.blocktwo.value = "More successful replacement."
     document.anchors.blockthree.value = "End of file injection."
     compare(document.render(), expected_result)
+
+
+def test_missing_anchor():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+
+    with pytest.raises(ValueError):
+        document = MarkdownInjector(source_document)
+        document.anchors.dynamicblock.value = "Text successfully replaced."
+
+
+def test_overlapping_anchors():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        A
+        <!--- markdown-toolkit:broken --->
+        B
+        <!--- markdown-toolkit:dynamicblock --->
+        C
+        <!--- markdown-toolkit:broken --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+
+    with pytest.raises(ValueError):
+        MarkdownInjector(source_document)
+
+
+def test_three_overlapping_anchors_with_mismatch():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        A
+        <!--- markdown-toolkit:broken --->
+        B
+        <!--- markdown-toolkit:onetag --->
+        <!--- markdown-toolkit:dynamicblock --->
+        C
+        <!--- markdown-toolkit:broken --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+
+    with pytest.raises(ValueError):
+        MarkdownInjector(source_document)
+
+
+def test_no_anchors():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = cleandoc(
+        """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+    )
+
+    document = MarkdownInjector(source_document)
+    compare(document.render(), expected_result)
+
+
+def test_missing_anchor():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+
+    document = MarkdownInjector(source_document)
+    with pytest.raises(ValueError):
+        document.anchors.dynamicblock.value = "Text successfully replaced."
