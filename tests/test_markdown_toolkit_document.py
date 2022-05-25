@@ -1,5 +1,9 @@
 """Tests for the MarkdownDocument class."""
 from inspect import cleandoc
+from textwrap import dedent
+
+import pytest
+from testfixtures import compare
 
 from markdown_toolkit.document import MarkdownDocument
 
@@ -249,7 +253,7 @@ def test_codeblock():
     assert doc.render() == expected_lines
 
 
-def test_table():
+def test_table_building():
     """Test the table generator class."""
     expected_lines = cleandoc(
         """
@@ -270,3 +274,54 @@ def test_table():
 
     doc.add("EOF")
     assert doc.render() == expected_lines
+
+
+def test_table_missing_title():
+    """Test the table generator class."""
+    doc = MarkdownDocument()
+    with pytest.raises(ValueError):
+        with doc.table(
+            titles=["Apple Type", "Grown Count"], sort_by="Grown Count"
+        ) as table:
+            table.add_row(missing_title="Granny Smith", grown_count=3)
+
+
+def test_table_bulk_add_rows():
+    """Test adding a list of dicts to a table."""
+    expected_lines = (
+        cleandoc(
+            """
+        | Apple Type | Grown Count |
+        | --- | --- |
+        | Golden Delicious | 2 |
+        | Granny Smith | 3 |
+        """
+        )
+        + "\n"
+    )
+    raw_table = [
+        {"Apple Type": "Golden Delicious", "Grown Count": 2},
+        {"Apple Type": "Granny Smith", "Grown Count": 3},
+    ]
+    doc = MarkdownDocument()
+    doc.table(raw_table)
+    compare(doc.render(), expected_lines)
+
+
+def test_collapsed_section():
+    expected_lines = (
+        "\n"
+        + cleandoc(
+            """
+            <details><summary>Test Section</summary>
+
+            Content to be hidden.
+            </details>
+            """
+        )
+        + "\n"
+    )
+    doc = MarkdownDocument()
+    with doc.collapsed(summary="Test Section"):
+        doc.text("Content to be hidden.")
+    assert doc.render(trailing_whitespace=False) == expected_lines

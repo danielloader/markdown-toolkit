@@ -324,3 +324,166 @@ def test_missing_anchor():
     document = MarkdownInjector(source_document)
     with pytest.raises(ValueError):
         document.anchors.dynamicblock.value = "Text successfully replaced."
+
+
+def test_string_replacement_with_trailing_whitespace():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+        + "\n"
+    )
+    expected_result = (
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        Text successfully replaced.
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+        + "\n"
+    )
+
+    document = MarkdownInjector(source_document)
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(document.render(trailing_whitespace=True), expected_result)
+
+
+def test_anchor_repr():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = "(MarkdownAnchor=dynamicblock) start=2 end=4 indent=0 value=['Text successfully replaced.']"
+
+    document = MarkdownInjector(source_document)
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(str(document.anchors.dynamicblock), expected_result)
+
+
+def test_anchor_start_attribute():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = 2
+
+    document = MarkdownInjector(source_document)
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(document.anchors.dynamicblock.start, expected_result)
+
+
+def test_anchor_end_attribute():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = 4
+
+    document = MarkdownInjector(source_document)
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(document.anchors.dynamicblock.end, expected_result)
+
+
+def test_anchor_indent_attribute():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+            <!--- markdown-toolkit:dynamicblock --->
+            <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = 4
+
+    document = MarkdownInjector(source_document)
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(document.anchors.dynamicblock.indent, expected_result)
+
+
+def test_anchor_value_attribute():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = "Text successfully replaced."
+
+    document = MarkdownInjector(source_document)
+    document.anchors.dynamicblock.value = "Text successfully replaced."
+    compare(document.anchors.dynamicblock.value, expected_result)
+
+
+def test_anchor_delete():
+    source_document = StringIO(
+        cleandoc(
+            """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        Delete me.
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+        )
+    )
+    expected_result = cleandoc(
+        """
+        Vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt.
+
+        <!--- markdown-toolkit:dynamicblock --->
+        <!--- markdown-toolkit:dynamicblock --->
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+        """
+    )
+    document = MarkdownInjector(source_document)
+    del document.anchors.dynamicblock.value
+    compare(document.render(trailing_whitespace=False), expected_result)

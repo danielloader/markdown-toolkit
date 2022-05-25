@@ -109,7 +109,7 @@ class MarkdownAnchor:
         _start, _end, _indent, _value = self._index_finder()
         return (
             f"({self.__class__.__name__}={self.anchor}) "
-            f"start={_start} end={_end} indent={_indent} value={_value}"
+            f"start={_start} end={_end} indent={len(_indent)} value={_value}"
         )
 
     def _index_finder(self) -> tuple[int, int, str]:
@@ -188,7 +188,7 @@ class MarkdownAnchor:
         """
         _, _, _, value = self._index_finder()
         text = "\n".join(value)
-        return text.encode("UTF-8")
+        return text
 
     @value.setter
     def value(self, text: str):
