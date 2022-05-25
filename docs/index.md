@@ -8,7 +8,7 @@ hide:
 
 !!! Warning
 
-    This library hasn't reached API stability, when it does it'll be bumped to version `1.0.0`. Until then, make sure you pin your libary versions.
+    This library hasn't reached API stability, when it does it'll be bumped to version `1.0.0`. Until then, make sure you pin your library versions.
 
 <p align="center">
 <img src="img/markdown-mark.svg"><br>
