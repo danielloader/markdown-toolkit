@@ -1,5 +1,6 @@
 from inspect import cleandoc
 from pathlib import Path
+from io import StringIO
 
 import pytest
 
@@ -7,6 +8,7 @@ from markdown_toolkit.utils import (
     badge,
     bold,
     code,
+    fileobj_open,
     from_file,
     header,
     image,
@@ -37,6 +39,11 @@ def test_badge(inputs, expected):
 @pytest.mark.parametrize("inputs,expected", [({"text": "1"}, "> 1")])
 def test_quote(inputs, expected):
     assert quote(**inputs) == expected
+
+
+@pytest.mark.parametrize("inputs,expected", [({"text": "1"}, "~~1~~")])
+def test_strikethrough(inputs, expected):
+    assert strikethrough(**inputs) == expected
 
 
 @pytest.mark.parametrize("inputs,expected", [({"text": "1"}, "**1**")])
@@ -200,3 +207,82 @@ def test_from_file(inputs, expected, tmp_path):
 
     content = from_file(path=temp_file, **inputs).splitlines()
     assert content == expected
+
+
+def test_fileobj_path(tmp_path):
+    expected = cleandoc(
+        """
+        Markdown supports ordered (numbered) and unordered (bulleted) lists.
+
+        Unordered lists use asterisks, pluses, and hyphens -- interchangably
+        -- as list markers:
+
+        *   Red
+        *   Green
+        *   Blue
+
+        is equivalent to:
+
+        +   Red
+        +   Green
+        +   Blue
+
+        and:
+
+        -   Red
+        -   Green
+        -   Blue
+
+        Ordered lists use numbers followed by periods:
+
+        1.  Bird
+        2.  McHale
+        3.  Parish
+        """
+    )
+    dir: Path = tmp_path / "from_file"
+    dir.mkdir()
+    temp_file = dir / "from_file.md"
+    temp_file.write_text(expected)
+    with fileobj_open(temp_file) as file:
+        assert file.read() == expected
+
+
+def test_fileobj_obj(tmp_path):
+    expected = StringIO(
+        cleandoc(
+            """
+        Markdown supports ordered (numbered) and unordered (bulleted) lists.
+
+        Unordered lists use asterisks, pluses, and hyphens -- interchangably
+        -- as list markers:
+
+        *   Red
+        *   Green
+        *   Blue
+
+        is equivalent to:
+
+        +   Red
+        +   Green
+        +   Blue
+
+        and:
+
+        -   Red
+        -   Green
+        -   Blue
+
+        Ordered lists use numbers followed by periods:
+
+        1.  Bird
+        2.  McHale
+        3.  Parish
+        """
+        )
+    )
+
+    with fileobj_open(expected) as file:
+        content = file.read()
+        expected.seek(0)
+        assert content == expected.read()

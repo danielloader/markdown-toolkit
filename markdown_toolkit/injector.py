@@ -4,7 +4,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from types import SimpleNamespace
-from typing import TextIO, Optional, List
+from typing import List, Optional, TextIO
 
 from markdown_toolkit.utils import sanitise_attribute
 

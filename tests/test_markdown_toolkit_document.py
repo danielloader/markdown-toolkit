@@ -23,6 +23,45 @@ def test_linebreak():
     assert doc.render() == expected_lines
 
 
+def test_without_whitespace():
+    expected_lines = cleandoc(
+        """
+        test
+        """
+    )
+    doc = MarkdownDocument()
+    doc.add("test")
+    assert doc.render(trailing_whitespace=False) == expected_lines
+
+
+def test_with_whitespace():
+    expected_lines = (
+        cleandoc(
+            """
+        test
+        """
+        )
+        + "\n"
+    )
+    doc = MarkdownDocument()
+    doc.add("test")
+    assert doc.render(trailing_whitespace=True) == expected_lines
+
+
+def test_injector():
+    expected_lines = cleandoc(
+        """
+        <!--- markdown-toolkit:anchor --->
+        Baseline.
+        <!--- markdown-toolkit:anchor --->
+        """
+    )
+    doc = MarkdownDocument()
+    with doc.injector("anchor"):
+        doc.text("Baseline.")
+    assert doc.render() == expected_lines
+
+
 def test_ordered_list():
     expected_lines = cleandoc(
         """

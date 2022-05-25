@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
-from typing import Optional, Union, Set, Generator
+from typing import Generator, Optional, Set, Union
 from urllib.parse import quote as urlquote
 
 from markdown_toolkit import constants
@@ -150,6 +150,8 @@ def fileobj_open(path_or_file: Union[str, StringIO]) -> Generator[StringIO, None
         Iterator[StringIO]: Document fileobject.
     """
     if isinstance(path_or_file, str):
+        file = file_to_close = open(path_or_file, "r", encoding="UTF-8")
+    if isinstance(path_or_file, Path):
         file = file_to_close = open(path_or_file, "r", encoding="UTF-8")
     else:
         file = path_or_file
