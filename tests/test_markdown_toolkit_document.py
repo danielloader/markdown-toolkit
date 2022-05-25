@@ -1,5 +1,6 @@
 """Tests for the MarkdownDocument class."""
 from inspect import cleandoc
+from io import StringIO
 from textwrap import dedent
 
 import pytest
@@ -374,3 +375,21 @@ def test_collapsed_section():
     with doc.collapsed(summary="Test Section"):
         doc.text("Content to be hidden.")
     assert doc.render(trailing_whitespace=False) == expected_lines
+
+
+def test_document_write():
+    file_object = StringIO()
+    expected_lines = cleandoc(
+        """
+        *   One
+        *   Two
+        *   Three
+        """
+    )
+    doc = MarkdownDocument()
+    doc.list("One")
+    doc.list("Two")
+    doc.list("Three")
+    doc.write(file_object)
+    file_object.seek(0)
+    assert file_object.read() == expected_lines
