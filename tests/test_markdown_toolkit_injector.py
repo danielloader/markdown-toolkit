@@ -3,10 +3,11 @@ from inspect import cleandoc
 from io import StringIO
 from pathlib import Path
 
+import pytest
+from testfixtures import compare
+
 from markdown_toolkit.document import MarkdownDocument
 from markdown_toolkit.injector import MarkdownInjector
-from testfixtures import compare
-import pytest
 
 RELATIVE_PATH = Path(__file__).parent
 
