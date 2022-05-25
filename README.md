@@ -1,6 +1,5 @@
 # Markdown Toolkit
 
-**WARNING**: _This library hasn't reached API stability, when it does it'll be bumped to version `1.0.0`. Until then, make sure you pin your library versions._
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg"><br>
@@ -23,6 +22,8 @@ This library is split into two aims:
 
 * Generation of markdown with python to create documents or fragments of documents.
 * Injection of static text, file contents, or dynamically generated markdown into existing documents.
+
+**WARNING**: _This library hasn't reached API stability, when it does it'll be bumped to version `1.0.0`. Until then, make sure you pin your library versions._
 
 Documentation can be found at the [project documentation](https://danielloader.github.io/markdown-toolkit) site.
 

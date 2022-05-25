@@ -6,10 +6,6 @@ hide:
 
 # Markdown Toolkit 
 
-!!! Warning
-
-    This library hasn't reached API stability, when it does it'll be bumped to version `1.0.0`. Until then, make sure you pin your library versions.
-
 <p align="center">
 <img src="img/markdown-mark.svg"><br>
 <em>A python library for creating and manipulating markdown with an object oriented interface.</em><br>
@@ -90,6 +86,10 @@ This library is split into two aims:
         ```
 
 ## Installation
+
+!!! Warning
+
+    This library hasn't reached API stability, when it does it'll be bumped to version `1.0.0`. Until then, make sure you pin your library versions.
 
 To install the library directly for use in scripts you can install it directly with `pip`:
 
