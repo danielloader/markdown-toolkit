@@ -286,6 +286,16 @@ def test_table_missing_title():
             table.add_row(missing_title="Granny Smith", grown_count=3)
 
 
+def test_table_add_without_column():
+    """Test the table generator class."""
+    doc = MarkdownDocument()
+    with pytest.raises(ValueError):
+        with doc.table(
+            titles=["Apple Type", "Grown Count"], sort_by="Grown Count"
+        ) as table:
+            table.add_row()
+
+
 def test_table_bulk_add_rows():
     """Test adding a list of dicts to a table."""
     expected_lines = (

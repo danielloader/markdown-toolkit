@@ -16,6 +16,9 @@ hide:
 <a href="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml?query=branch%3Amain" target="_blank">
     <img src="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml/badge.svg?branch=main&event=push" alt="Tests">
 </a>
+<a href="https://pylint.pycqa.org/en/latest/" target="_blank">
+    <img src="img/badges/pylint.svg" alt="Pylint">
+</a>
 <a href="https://codecov.io/gh/danielloader/markdown-toolkit">
     <img src="https://codecov.io/gh/danielloader/markdown-toolkit/branch/main/graph/badge.svg?token=ISLVJD6TDY"/>
 </a>
