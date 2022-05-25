@@ -1,7 +1,7 @@
 name: Tests
 env:
   POETRY_VERSION: "1.2.0b1"
-  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+  POETRY_VIRTUALENVS_IN_PROJECT: "false"
 
 on: 
   push:

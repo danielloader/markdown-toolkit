@@ -16,6 +16,9 @@ hide:
 <a href="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml?query=branch%3Amain" target="_blank">
     <img src="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml/badge.svg?branch=main&event=push" alt="Tests">
 </a>
+<a href="https://codecov.io/gh/danielloader/markdown-toolkit">
+    <img src="https://codecov.io/gh/danielloader/markdown-toolkit/branch/main/graph/badge.svg?token=ISLVJD6TDY"/>
+</a>
 <a href="https://pypi.org/project/markdown-toolkit" target="_blank">
     <img src="https://img.shields.io/pypi/v/markdown-toolkit?color=%2334D058&label=pypi%20package" alt="Package version">
 </a>
