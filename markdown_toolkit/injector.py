@@ -55,13 +55,13 @@ class MarkdownInjector:
                 anchor = match.groups()[0].strip()
                 start_end_checker[anchor].append(idx)
         self._find_overlaps(start_end_checker)
-        for anchor, line_numbers in start_end_checker.items():
+        for anchor, _ in start_end_checker.items():
             anchor_object = MarkdownAnchor(self, anchor)
             setattr(anchors, sanitise_attribute(anchor), anchor_object)
         return anchors
 
     @property
-    def anchors(self) -> SimpleNamespace:
+    def anchors(self) -> Anchors:
         """Returns anchors found as class attributes.
 
         Access to these anchors is done by way of standard dot object notation.
@@ -73,7 +73,7 @@ class MarkdownInjector:
         These anchor names are sanitised from strings using `sanitise_attribute` utility.
 
         Returns:
-            SimpleNamespace: Class with MarkdownAnchor classes as attributes per anchor.
+            Anchors: Class with MarkdownAnchor classes as attributes per anchor.
         """
 
         return self._anchors
