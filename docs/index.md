@@ -7,8 +7,9 @@ hide:
 # Markdown Toolkit 
 
 <p align="center">
-<img src="img/markdown-mark.svg"><br>
+<img src="img/markdown-mark.svg"><br><br>
 <em>A python library for creating and manipulating markdown with an object oriented interface.</em><br>
+<br>
 <a href="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml?query=branch%3Amain" target="_blank">
     <img src="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml/badge.svg?branch=main&event=push" alt="Tests">
 </a>
@@ -16,7 +17,7 @@ hide:
     <img src="img/badge-pylint.svg" alt="Pylint">
 </a>
 <a href="https://codecov.io/gh/danielloader/markdown-toolkit">
-    <img src="https://codecov.io/gh/danielloader/markdown-toolkit/branch/main/graph/badge.svg?token=ISLVJD6TDY"/>
+    <img src="https://img.shields.io/codecov/c/github/danielloader/markdown-toolkit?color=%2334D058" alt="Coverage" />
 </a>
 <a href="https://pypi.org/project/markdown-toolkit" target="_blank">
     <img src="https://img.shields.io/pypi/v/markdown-toolkit?color=%2334D058&label=pypi%20package" alt="Package version">

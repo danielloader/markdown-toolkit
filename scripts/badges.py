@@ -6,7 +6,7 @@ from pylint.lint import Run
 
 THIS_FOLDER = Path(__file__).parent
 
-thresholds = {8: "red", 9: "orange", 9.5: "yellow", 9.8: "green"}
+thresholds = {8: "red", 9: "orange", 9.5: "yellow", 9.8: "#34D058"}
 
 
 def pylint(badge_path: str):
