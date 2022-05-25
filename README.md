@@ -2,8 +2,8 @@
 
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg"><br>
-<em>A python library for creating and manipulating markdown with an object oriented interface.</em><br>
+<img src="https://raw.githubusercontent.com/dcurtis/markdown-mark/99572b4a4f71b4ea2b1186a30f440ff2fcf66d27/svg/markdown-mark.svg"><br><br>
+<em>A python library for creating and manipulating markdown with an object oriented interface.</em><br><br>
 <a href="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml?query=branch%3Amain" target="_blank">
     <img src="https://github.com/danielloader/markdown-toolkit/actions/workflows/tests.yml/badge.svg?branch=main&event=push" alt="Tests">
 </a>
