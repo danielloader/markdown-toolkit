@@ -248,7 +248,46 @@ def test_fileobj_path(tmp_path):
         assert file.read() == expected
 
 
-def test_fileobj_obj(tmp_path):
+def test_fileobj_str(tmp_path):
+    expected = cleandoc(
+        """
+        Markdown supports ordered (numbered) and unordered (bulleted) lists.
+
+        Unordered lists use asterisks, pluses, and hyphens -- interchangably
+        -- as list markers:
+
+        *   Red
+        *   Green
+        *   Blue
+
+        is equivalent to:
+
+        +   Red
+        +   Green
+        +   Blue
+
+        and:
+
+        -   Red
+        -   Green
+        -   Blue
+
+        Ordered lists use numbers followed by periods:
+
+        1.  Bird
+        2.  McHale
+        3.  Parish
+        """
+    )
+    dir: Path = tmp_path / "from_file"
+    dir.mkdir()
+    temp_file = dir / "from_file.md"
+    temp_file.write_text(expected)
+    with fileobj_open(str(temp_file)) as file:
+        assert file.read() == expected
+
+
+def test_fileobj_obj():
     expected = StringIO(
         cleandoc(
             """
