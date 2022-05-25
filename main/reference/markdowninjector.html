@@ -13,7 +13,7 @@
     
     
       
-        <title>Injection Classes - Markdown-Toolkit</title>
+        <title>MarkdownInjector - Markdown-Toolkit</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#injection-classes" class="md-skip">
+        <a href="#markdowninjector" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Injection Classes
+              MarkdownInjector
             
           </span>
         </div>
@@ -278,12 +278,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Injection Classes
+          MarkdownInjector
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="markdowninjector.html" class="md-nav__link md-nav__link--active">
-        Injection Classes
+        MarkdownInjector
       </a>
       
         
@@ -302,7 +302,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#markdowninjector" class="md-nav__link">
+  <a href="#markdowninjector_1" class="md-nav__link">
     MarkdownInjector
   </a>
   
@@ -339,6 +339,27 @@
         <li class="md-nav__item">
   <a href="#markdown_toolkit.injector.MarkdownAnchor" class="md-nav__link">
     markdown_toolkit.injector.MarkdownAnchor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.end" class="md-nav__link">
+    end
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.indent" class="md-nav__link">
+    indent
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.start" class="md-nav__link">
+    start
   </a>
   
 </li>
@@ -406,7 +427,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#markdowninjector" class="md-nav__link">
+  <a href="#markdowninjector_1" class="md-nav__link">
     MarkdownInjector
   </a>
   
@@ -448,6 +469,27 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.end" class="md-nav__link">
+    end
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.indent" class="md-nav__link">
+    indent
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markdown_toolkit.injector.MarkdownAnchor.start" class="md-nav__link">
+    start
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#markdown_toolkit.injector.MarkdownAnchor.value" class="md-nav__link">
     value
   </a>
@@ -472,8 +514,8 @@
 
 
 
-<h1 id="injection-classes">Injection Classes<a class="headerlink" href="#injection-classes" title="Permanent link">&para;</a></h1>
-<h2 id="markdowninjector">MarkdownInjector<a class="headerlink" href="#markdowninjector" title="Permanent link">&para;</a></h2>
+<h1 id="markdowninjector">MarkdownInjector<a class="headerlink" href="#markdowninjector" title="Permanent link">&para;</a></h1>
+<h2 id="markdowninjector_1">MarkdownInjector<a class="headerlink" href="#markdowninjector_1" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-object doc-class">
@@ -515,7 +557,7 @@ anchors found in the document.</p>
 
 
 <h2 id="markdown_toolkit.injector.MarkdownInjector.anchors" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">anchors</span><span class="p">:</span> <span class="n">SimpleNamespace</span></code>
+<code class="highlight language-python"><span class="n">anchors</span><span class="p">:</span> <span class="n">Anchors</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -542,7 +584,7 @@ anchors found in the document.</p>
   </thead>
   <tbody>
     <tr>
-      <td><code>SimpleNamespace</code></td>
+      <td><code>Anchors</code></td>
       <td><p>Class with MarkdownAnchor classes as attributes per anchor.</p></td>
     </tr>
   </tbody>
@@ -638,6 +680,122 @@ Defaults to False.</p></td>
 
 
 
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="markdown_toolkit.injector.MarkdownAnchor.end" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">end</span><span class="p">:</span> <span class="nb">int</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#markdown_toolkit.injector.MarkdownAnchor.end" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>End index of the tags.</p>
+<p>Note: Indexes are zero indexed, so line numbers are indexes + 1.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>List index value of the closing tag.</p></td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="markdown_toolkit.injector.MarkdownAnchor.indent" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">indent</span><span class="p">:</span> <span class="nb">int</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#markdown_toolkit.injector.MarkdownAnchor.indent" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Indent level in spaces.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>Count of whitespace before tags.</p></td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="markdown_toolkit.injector.MarkdownAnchor.start" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">start</span><span class="p">:</span> <span class="nb">int</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#markdown_toolkit.injector.MarkdownAnchor.start" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Start index of the tags.</p>
+<p>Note: Indexes are zero indexed, so line numbers are indexes + 1.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>List index value of the opening tag.</p></td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+  </div>
 
 
 
